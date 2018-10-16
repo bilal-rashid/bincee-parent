@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.findxain.uberparentapp.base.BA;
 import com.findxain.uberparentapp.dialog.LocateMeDialog;
+import com.findxain.uberparentapp.fragment.AlertsFragment;
 import com.findxain.uberparentapp.fragment.StudentSSFragment;
 import com.findxain.uberparentapp.fragment.SummarizedStatusFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -118,6 +119,11 @@ public class HomeActivity extends BA {
                             .commit();
 
                     break;
+                case R.id.bottmnavigation_alerts:
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameLayout, new AlertsFragment())
+                            .commit();
             }
             return true;
         });
