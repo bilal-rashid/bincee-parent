@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.findxain.uberparentapp.HomeActivity;
 import com.findxain.uberparentapp.R;
 import com.findxain.uberparentapp.dialog.DriverInformationDialog;
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
+
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -139,4 +142,12 @@ public class StudentSSFragment extends Fragment {
             container.removeView((View) object);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("SUMMARIZED STATUS");
+
+    }
+
 }

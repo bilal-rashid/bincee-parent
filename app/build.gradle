@@ -39,4 +39,10 @@ dependencies {
     implementation 'com.github.hotchemi:stringpicker:0.0.2'
     implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'
 
+    implementation 'com.github.paradoxie:SignCalender:0.1'
+
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+
+    implementation 'com.savvi.datepicker:rangepicker:1.2.0'
+
 }
