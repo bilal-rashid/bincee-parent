@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="atttandace_red">#fd4560</color>
+    <color name="attendance_green_selected">#10c0ae</color>
+    <color name="sky_blue">#01c4fe</color>
+    <color name="status_vertical_line_color">#d9dfdd</color>
+    <color name="text_black">#3a4447</color>
+
+</resources>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context=".fragment.SummarizedStatusFragment">
+
+
+    <com.findxain.uberparentapp.StatusTextView
+        android:id="@+id/statusTextViewAtLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxAtTheLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxAtTheLocation" />
+
+    <com.findxain.uberparentapp.StatusTextView
+        android:id="@+id/statusTextViewReached"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxReached"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxReached" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/status_vertical_line_color"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRealTimeTracking"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.19" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/bus_icon_size"
+        android:layout_height="@dimen/bus_icon_size"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bus_icon_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/checkBoxTestLeftForSchool"
+        android:layout_width="@dimen/checkbox_width_height"
+        android:layout_height="@dimen/checkbox_width_height"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/checkbox_unchecked"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxAtTheLocation"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <com.findxain.uberparentapp.StatusTextView
+        android:id="@+id/statusTextViewLeftFOrSchool"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxTestLeftForSchool"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxTestLeftForSchool" />
+
+    <com.findxain.uberparentapp.StatusTextView
+        android:id="@+id/statusTextViewOnTheWay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxOnTheWay"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxOnTheWay" />
+
+    <ImageView
+        android:id="@+id/checkBoxAtTheLocation"
+        android:layout_width="@dimen/checkbox_width_height"
+        android:layout_height="@dimen/checkbox_width_height"
+        android:src="@drawable/checkbox_unchecked"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxOnTheWay"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTestLeftForSchool" />
+
+
+    <ImageView
+        android:id="@+id/checkBoxOnTheWay"
+        android:layout_width="@dimen/checkbox_width_height"
+        android:layout_height="@dimen/checkbox_width_height"
+        android:checked="true"
+        android:src="@drawable/checkbox_unchecked"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxReached"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxAtTheLocation" />
+
+    <ImageView
+        android:id="@+id/checkBoxReached"
+        android:layout_width="@dimen/checkbox_width_height"
+        android:layout_height="@dimen/checkbox_width_height"
+
+        android:src="@drawable/checkbox_checked"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxOnTheWay" />
+
+    <ImageView
+        android:id="@+id/imageViewBusStauts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/status3_busstop_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/buttonRealTimeTracking"
+        android:layout_width="@dimen/blue_butoon_width"
+        android:layout_height="@dimen/blue_button_height"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rectangle_rounded_blue_background"
+        android:text="Real Time Tracking"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewBusStauts"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
