@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.findxain.uberparentapp.base.BA;
 import com.findxain.uberparentapp.dialog.LocateMeDialog;
 import com.findxain.uberparentapp.fragment.AlertsFragment;
+import com.findxain.uberparentapp.fragment.CalenderFragment;
 import com.findxain.uberparentapp.fragment.StudentSSFragment;
 import com.findxain.uberparentapp.fragment.SummarizedStatusFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,10 +36,10 @@ public class HomeActivity extends BA {
 
     public static final String MY_PROFILE = "- My Profile";
     public static final String HOME = "- Home";
-    private static final String MY_KIDs_Profile = "My Kids Profile";
-    public static final String ALERTS_AND_ANNOUNCEMENT = "Alerts and Announcement";
+    private static final String MY_KIDs_Profile = "- My Kids Profile";
+    public static final String ALERTS_AND_ANNOUNCEMENT = "- Alerts and Announcement";
     public static final String SETTINGS = "- Settings";
-    public static final String DRIVERS_PROFILE = "Drivers Profile";
+    public static final String DRIVERS_PROFILE = "- Drivers Profile";
     public static final String FAQ = "- FAQ";
     public static final String ABOUT_US = "- About Us";
     @BindView(R.id.imageViewProfilePic)
@@ -73,6 +74,7 @@ public class HomeActivity extends BA {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
         menuItem = new ArrayList<String>();
@@ -119,6 +121,15 @@ public class HomeActivity extends BA {
                             .commit();
 
                     break;
+
+
+                case R.id.bottmnavigation_calender:
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameLayout, new CalenderFragment())
+                            .commit();
+                    break;
+
                 case R.id.bottmnavigation_alerts:
                     getSupportFragmentManager()
                             .beginTransaction()

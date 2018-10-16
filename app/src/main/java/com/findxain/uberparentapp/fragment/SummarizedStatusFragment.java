@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.findxain.uberparentapp.HomeActivity;
 import com.findxain.uberparentapp.R;
 import com.findxain.uberparentapp.StatusTextView;
+
+import java.util.Objects;
 
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -90,5 +93,20 @@ public class SummarizedStatusFragment extends Fragment {
 
     @OnClick(R.id.buttonRealTimeTracking)
     public void onViewClicked() {
+
+        ((HomeActivity)getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameLayout,new RealTimeTrackingFragment())
+                .commit();
+
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("BUS STATUS");
+
     }
 }
