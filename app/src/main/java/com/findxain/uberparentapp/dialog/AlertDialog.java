@@ -2,13 +2,22 @@ package com.findxain.uberparentapp.dialog;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.findxain.uberparentapp.R;
 import com.findxain.uberparentapp.base.BDialog;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AlertDialog extends BDialog {
+    @BindView(R.id.buttonOK)
+    Button buttonOK;
+    @BindView(R.id.imageViewCross)
+    ImageView imageViewCross;
+
     public AlertDialog(Context context) {
         super(context);
 
@@ -16,6 +25,17 @@ public class AlertDialog extends BDialog {
         View view = getLayoutInflater().inflate(layout, null, false);
         setContentView(view);
         ButterKnife.bind(this, view);
+
+    }
+
+    @OnClick(R.id.buttonOK)
+    public void onButtonOKClicked() {
+        dismiss();
+    }
+
+    @OnClick(R.id.imageViewCross)
+    public void onImageViewCrossClicked() {
+        dismiss();
 
     }
 }
