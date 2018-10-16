@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:icon="@drawable/summry_icon_selector"
+        android:id="@+id/bottmnavigation_summarizedsize"
+        android:title="Summarized Status" />
+
+
+    <item
+        android:icon="@drawable/calendar_icon_selector"
+        android:id="@+id/bottmnavigation_calender"
+        android:title="Calendar" />
+
+
+    <item
+        android:icon="@drawable/alert_icon_selector"
+        android:id="@+id/bottmnavigation_alerts"
+        android:title="Announcements/Alerts" />
+
+
+</menu>
