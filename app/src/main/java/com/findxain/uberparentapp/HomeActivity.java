@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findxain.uberparentapp.base.BA;
+import com.findxain.uberparentapp.dialog.FinishRideDialog;
 import com.findxain.uberparentapp.dialog.LocateMeDialog;
 import com.findxain.uberparentapp.fragment.AlertsFragment;
 import com.findxain.uberparentapp.fragment.CalenderFragment;
+import com.findxain.uberparentapp.fragment.ContectUsFragment;
+import com.findxain.uberparentapp.fragment.ParentProfileFragment;
 import com.findxain.uberparentapp.fragment.StudentSSFragment;
-import com.findxain.uberparentapp.fragment.SummarizedStatusFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -42,6 +44,9 @@ public class HomeActivity extends BA {
     public static final String DRIVERS_PROFILE = "- Drivers Profile";
     public static final String FAQ = "- FAQ";
     public static final String ABOUT_US = "- About Us";
+    public static final String CONTACT_US = "- Contact US";
+
+
     @BindView(R.id.imageViewProfilePic)
     ImageView imageViewProfilePic;
     @BindView(R.id.textViewUsername)
@@ -76,7 +81,6 @@ public class HomeActivity extends BA {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
         menuItem = new ArrayList<String>();
 
         menuItem.add(HOME);
@@ -85,6 +89,7 @@ public class HomeActivity extends BA {
         menuItem.add(ALERTS_AND_ANNOUNCEMENT);
         menuItem.add(SETTINGS);
         menuItem.add(DRIVERS_PROFILE);
+        menuItem.add(CONTACT_US);
         menuItem.add(FAQ);
         menuItem.add(ABOUT_US);
 
@@ -144,6 +149,8 @@ public class HomeActivity extends BA {
 
         new LocateMeDialog(this).show();
 
+        new FinishRideDialog(this).show();
+
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -181,14 +188,22 @@ public class HomeActivity extends BA {
             drawerLayout.closeDrawer(Gravity.LEFT);
             if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
 
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.frameLayout, MyPowerFragemnt.getInstance())
-//                        .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, new ParentProfileFragment())
+                        .commit();
 
 //                bottomNavigationView.setSelectedItemId(R.id.bottomNavigationPowerScreen);
             } else if (textView.getText().toString().equalsIgnoreCase(HOME)) {
 //                getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.frameLayout, HomeFragment.getInstance())
+//                        .commit();
+            } else if (textView.getText().toString().equalsIgnoreCase(CONTACT_US)) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, new ContectUsFragment())
+                        .commit();
+            } else if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.frameLayout, new ParentProfileFragment())
 //                        .commit();
             }
 
