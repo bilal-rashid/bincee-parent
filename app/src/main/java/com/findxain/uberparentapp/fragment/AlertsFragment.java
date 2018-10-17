@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.findxain.uberparentapp.HomeActivity;
 import com.findxain.uberparentapp.R;
@@ -12,11 +13,10 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +32,8 @@ public class AlertsFragment extends Fragment {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
+    @BindView(R.id.imageViewBG)
+    ImageView imageViewBG;
 
     public AlertsFragment() {
         // Required empty public constructor
@@ -82,5 +84,32 @@ public class AlertsFragment extends Fragment {
         super.onResume();
         ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("ALERTS AND ANNOUNCEMENT");
 
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    imageViewBG.setImageResource(R.drawable.alerts_bg_a);
+                } else {
+                    imageViewBG.setImageResource(R.drawable.alerts_bg_b);
+
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }
