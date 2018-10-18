@@ -63,7 +63,7 @@ public class HomeActivity extends BA {
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @BindView(R.id.bottomNavigationView)
-    BottomNavigationView bottomNavigationView;
+    public BottomNavigationView bottomNavigationView;
     private List<String> menuItem;
 
     public static void start(Context context) {
