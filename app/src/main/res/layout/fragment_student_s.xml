@@ -22,7 +22,8 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/parent_summarized_bg"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,10 +31,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+
         android:id="@+id/textViewAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_book"
         android:text="City School"
@@ -53,9 +56,9 @@
         android:fontFamily="@font/gotham_medium"
         android:text="In The Bus"
         android:textColor="@color/text_black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewStatus2"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
@@ -65,13 +68,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textSize="16sp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/gotham_medium"
         android:text="ETA:00:45 Minutes"
         android:textColor="@color/text_black"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -80,8 +83,8 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/bus_icon_green"
         app:layout_constraintBottom_toBottomOf="@+id/textViewStatus"
         app:layout_constraintEnd_toStartOf="@+id/textViewStatus"
@@ -102,62 +105,64 @@
         android:fontFamily="@font/gotham_medium"
         android:text="Name"
         android:textColor="@color/text_black"
-        android:textSize="30sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.36"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/buttonFindMe"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        style="@style/dialogButtonBlue"
+        android:layout_width="@dimen/blue_butoon_width"
+        android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/circle_rectangle_blue_selector"
+        android:text="Find Me"
         android:textColor="#fff"
+        android:translationZ="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:text="Find Me"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCalender"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCalender" />
 
     <Button
         android:id="@+id/buttonCalender"
-        android:layout_width="200dp"
-        android:layout_height="49dp"
+        style="@style/dialogButtonBlue"
+        android:layout_width="@dimen/blue_butoon_width"
+        android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/circle_rectangle_green"
+        android:text="Calender"
         android:textColor="#fff"
+        android:translationZ="2dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonFindMe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:text="Calender" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.74" />
+        app:layout_constraintGuide_percent="0.61" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
+        app:layout_constraintGuide_percent="0.27" />
 
 
     <LinearLayout
@@ -175,14 +180,15 @@
             android:id="@+id/textViewSwipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="1dp"
             android:fontFamily="@font/gotham_book"
             android:text="Swipe"
-            android:textColor="#242424" />
+            android:textColor="#242424"
+            android:textSize="12sp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30sp"
+            android:layout_height="12dp"
             android:src="@drawable/arrow" />
 
     </LinearLayout>
