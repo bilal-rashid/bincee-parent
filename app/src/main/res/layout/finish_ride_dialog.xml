@@ -2,14 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_margn"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
             <ImageView
                 android:id="@+id/imageView12"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
                 android:src="@drawable/driver_logout_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,12 +36,11 @@
 
             <TextView
                 android:id="@+id/textView10"
+                style="@style/dialogTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/gotham_bold"
+                android:layout_marginTop="24dp"
                 android:text="Finish Ride"
-                android:textColor="@color/text_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView12" />
@@ -47,6 +48,7 @@
 
             <TextView
                 android:id="@+id/textView9"
+                style="@style/dialogText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -54,6 +56,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="You've finished your ride.\n
 Do you want to Logout?"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -61,11 +64,12 @@ Do you want to Logout?"
 
             <Button
                 android:id="@+id/buttonStartNewShift"
+                style="@style/dialogButtonBlue"
                 android:layout_width="@dimen/blue_butoon_width"
                 android:layout_height="@dimen/blue_button_height"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/rectangle_rounded_blue_background"
-                android:fontFamily="@font/gotham_medium"
+                android:fontFamily="@font/gotham_bold"
                 android:text="START NEW SHIFT"
                 android:textColor="#fff"
                 android:textSize="11sp"
@@ -75,16 +79,14 @@ Do you want to Logout?"
 
 
             <TextView
+                style="@style/dialogButtonWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="30dp"
-                android:fontFamily="@font/gotham_medium"
                 android:text="LOGOUT?"
-                android:textColor="@color/sky_blue"
-                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

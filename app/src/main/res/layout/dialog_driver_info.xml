@@ -24,23 +24,22 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/driver_dialog_bg" />
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/parent_driver_alert_bg" />
 
             <TextView
+                style="@style/dialogTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
-                android:fontFamily="@font/gotham_medium"
                 android:text="Driver Information"
-                android:textColor="#000"
-                android:textSize="20dp"
                 android:textStyle="bold" />
 
 
             <TextView
+                style="@style/dialogText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -49,37 +48,39 @@
                 android:text="Driver Name: Rizwan " />
 
             <TextView
+                style="@style/dialogText"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/gotham_book"
-                android:text="021212121212" />
+                android:text="021212121212"
+                android:textSize="15sp" />
 
 
             <Button
                 android:id="@+id/buttonLogout"
+                style="@style/dialogButtonBlue"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/blue_button_height"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="45dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
-                android:background="@drawable/circle_rectangle_blue"
-                android:fontFamily="@font/gotham_bold"
-                android:text="CALL"
-                android:textAllCaps="true"
-                android:textColor="#fff" />
+                android:layout_marginEnd="45dp"
+                android:text="CALL" />
 
-            <Button
+            <TextView
+
                 android:id="@+id/buttonCancel"
+                style="@style/dialogButtonWhite"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/blue_button_height"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
-
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/rectangle_white_border"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
                 android:fontFamily="@font/gotham_bold"
                 android:text="Message"
                 android:textAllCaps="true"

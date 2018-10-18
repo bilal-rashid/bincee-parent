@@ -82,7 +82,6 @@
         android:hint="Enter Password"
         android:paddingStart="20dp"
         android:textSize="12sp"
-
         app:layout_constraintBottom_toTopOf="@+id/textViewPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextUsername"
         app:layout_constraintStart_toStartOf="@+id/editTextUsername"
@@ -95,10 +94,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:checked="false"
-
         android:fontFamily="@font/gotham_book"
         android:text="Remember Me "
         android:textSize="10sp"
+        android:textColor="@color/black_474747"
         app:layout_constraintBottom_toBottomOf="@+id/textViewPassword"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toTopOf="@+id/textViewPassword" />
