@@ -12,8 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
-
-        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,16 +20,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20sp">
+            android:padding="20sp">
 
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/gotham_bold"
                 android:text="Provide Feedback"
+                android:textSize="20sp"
                 android:textColor="@color/text_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +89,7 @@
                     android:gravity="top"
                     android:hint="Write review about the app.."
                     android:padding="5dp"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
 
                     />
 
@@ -120,7 +119,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/gotham_medium"
                 android:text="NO, THANKS"
                 android:textColor="@color/sky_blue"
