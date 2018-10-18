@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ratingbar" parent="Widget.MaterialRatingBar.RatingBar.Small">
+        <item name="android:minHeight">16dp</item>
+        <item name="android:maxHeight">16dp</item>
+
+        <item name="colorPrimary">#ffd600</item>
+        <item name="colorPrimaryDark">#ffd600</item>
+        <item name="colorAccent">#ffd600</item>
+
+    </style>
+
 </resources>

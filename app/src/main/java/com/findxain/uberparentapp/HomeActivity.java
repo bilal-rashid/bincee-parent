@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findxain.uberparentapp.base.BA;
+import com.findxain.uberparentapp.dialog.FeedbackDialog;
 import com.findxain.uberparentapp.dialog.FinishRideDialog;
 import com.findxain.uberparentapp.dialog.LocateMeDialog;
 import com.findxain.uberparentapp.fragment.AlertsFragment;
@@ -150,6 +151,8 @@ public class HomeActivity extends BA {
         new LocateMeDialog(this).show();
 
         new FinishRideDialog(this).show();
+
+        new FeedbackDialog(this).show();
 
 
         getSupportFragmentManager()

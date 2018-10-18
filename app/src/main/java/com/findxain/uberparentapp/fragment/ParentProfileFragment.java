@@ -63,12 +63,6 @@ public class ParentProfileFragment extends BFragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setActivityTitle("MY PROFILE");
-    }
-
     private class MyAdapter extends RecyclerView.Adapter<VH> {
         @NonNull
         @Override
@@ -91,6 +85,13 @@ public class ParentProfileFragment extends BFragment {
         public VH(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setActivityTitle("MY PROFILE");
     }
 
 }
