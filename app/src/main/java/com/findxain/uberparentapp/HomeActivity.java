@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.findxain.uberparentapp.activity.ContectUsActivity;
+import com.findxain.uberparentapp.activity.ProfileActivity;
 import com.findxain.uberparentapp.base.BA;
 import com.findxain.uberparentapp.dialog.FeedbackDialog;
 import com.findxain.uberparentapp.dialog.FinishRideDialog;
 import com.findxain.uberparentapp.dialog.LocateMeDialog;
 import com.findxain.uberparentapp.fragment.AlertsFragment;
 import com.findxain.uberparentapp.fragment.CalenderFragment;
-import com.findxain.uberparentapp.fragment.ContectUsFragment;
-import com.findxain.uberparentapp.fragment.ParentProfileFragment;
 import com.findxain.uberparentapp.fragment.StudentSSFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -58,8 +58,7 @@ public class HomeActivity extends BA {
     NavigationView navigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.textViewTitle)
-    public TextView textViewTitle;
+
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @BindView(R.id.bottomNavigationView)
@@ -80,19 +79,20 @@ public class HomeActivity extends BA {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.threee_line);
 
 
         menuItem = new ArrayList<String>();
 
         menuItem.add(HOME);
         menuItem.add(MY_PROFILE);
-        menuItem.add(MY_KIDs_Profile);
+//        menuItem.add(MY_KIDs_Profile);
         menuItem.add(ALERTS_AND_ANNOUNCEMENT);
-        menuItem.add(SETTINGS);
-        menuItem.add(DRIVERS_PROFILE);
+//        menuItem.add(SETTINGS);
+//        menuItem.add(DRIVERS_PROFILE);
         menuItem.add(CONTACT_US);
-        menuItem.add(FAQ);
-        menuItem.add(ABOUT_US);
+//        menuItem.add(FAQ);
+//        menuItem.add(ABOUT_US);
 
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.setLayoutFrozen(true);
@@ -191,23 +191,17 @@ public class HomeActivity extends BA {
             drawerLayout.closeDrawer(Gravity.LEFT);
             if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, new ParentProfileFragment())
-                        .commit();
+                ProfileActivity.start(HomeActivity.this);
 
-//                bottomNavigationView.setSelectedItemId(R.id.bottomNavigationPowerScreen);
             } else if (textView.getText().toString().equalsIgnoreCase(HOME)) {
 //                getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.frameLayout, HomeFragment.getInstance())
 //                        .commit();
             } else if (textView.getText().toString().equalsIgnoreCase(CONTACT_US)) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, new ContectUsFragment())
-                        .commit();
-            } else if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.frameLayout, new ParentProfileFragment())
-//                        .commit();
+                ContectUsActivity.start(HomeActivity.this);
+
+            } else if (textView.getText().toString().equalsIgnoreCase(ALERTS_AND_ANNOUNCEMENT)) {
+                bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
             }
 
         }

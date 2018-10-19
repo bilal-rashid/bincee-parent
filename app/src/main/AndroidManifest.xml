@@ -17,9 +17,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="portrait"
-
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait">
@@ -42,9 +40,7 @@
         </activity>
         <activity
             android:name=".activity.MyLocationActivity"
-            android:screenOrientation="portrait"
-
-            />
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -60,9 +56,9 @@
         <activity
             android:name=".activity.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:screenOrientation="portrait"
-
-            ></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ProfileActivity" />
+        <activity android:name=".activity.ContectUsActivity"></activity>
     </application>
 
 </manifest>
