@@ -19,7 +19,8 @@
         <ImageView
             android:id="@+id/imageView7"
             android:layout_width="0dp"
-            android:layout_height="190dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/calendar_popup_bg"
             android:visibility="visible"
@@ -104,6 +105,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
+            style="@style/dialogButtonBlue"
             android:background="@drawable/circle_rectangle_blue"
             android:fontFamily="@font/gotham_bold"
             android:text="@string/continue_text"
