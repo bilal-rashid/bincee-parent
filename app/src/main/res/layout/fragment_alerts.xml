@@ -11,26 +11,38 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:background="#00ffffff"
+        android:foreground="#00ffffff"
+        app:tabBackground="@drawable/tab_background_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tabMaxWidth="170dp"
+        app:tabMinWidth="130dp"
+
+        app:tabSelectedTextColor="#fff"
+        app:tabTextAppearance="@style/tab_text_apeerance"
+        app:tabTextColor="#000"
         app:tabIndicatorColor="@color/sky_blue"
         app:tabIndicatorHeight="0dp">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="sadsad" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:text="sadsad" />
 
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
+        android:layout_marginTop="15dp"
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"

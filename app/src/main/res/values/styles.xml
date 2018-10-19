@@ -72,4 +72,9 @@
 
     </style>
 
+    <style name="tab_text_apeerance" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/gotham_bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
