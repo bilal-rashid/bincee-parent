@@ -121,10 +121,7 @@ public class HomeActivity extends BA {
             switch (menuItem.getItemId()) {
                 case R.id.bottmnavigation_summarizedsize:
 
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frameLayout, new StudentSSFragment())
-                            .commit();
+                    goHomeUrDrunk();
 
                     break;
 
@@ -155,12 +152,16 @@ public class HomeActivity extends BA {
         new FeedbackDialog(this).show();
 
 
+        goHomeUrDrunk();
+
+
+    }
+
+    private void goHomeUrDrunk() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frameLayout, new StudentSSFragment())
                 .commit();
-
-
     }
 
     @Override
@@ -189,7 +190,11 @@ public class HomeActivity extends BA {
         public void onMenuItemClicked() {
 
             drawerLayout.closeDrawer(Gravity.LEFT);
-            if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
+            if (textView.getText().toString().equalsIgnoreCase(HOME)) {
+
+                goHomeUrDrunk();
+
+            } else if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
 
                 ProfileActivity.start(HomeActivity.this);
 
