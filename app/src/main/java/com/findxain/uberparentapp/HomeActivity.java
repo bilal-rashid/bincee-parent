@@ -58,7 +58,6 @@ public class HomeActivity extends BA {
     NavigationView navigationView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
     @BindView(R.id.bottomNavigationView)
@@ -84,14 +83,14 @@ public class HomeActivity extends BA {
 
         menuItem = new ArrayList<String>();
 
-        menuItem.add(HOME);
+//        menuItem.add(HOME);
         menuItem.add(MY_PROFILE);
 //        menuItem.add(MY_KIDs_Profile);
-        menuItem.add(ALERTS_AND_ANNOUNCEMENT);
+//        menuItem.add(ALERTS_AND_ANNOUNCEMENT);
 //        menuItem.add(SETTINGS);
-//        menuItem.add(DRIVERS_PROFILE);
+        menuItem.add(DRIVERS_PROFILE);
+        menuItem.add(FAQ);
         menuItem.add(CONTACT_US);
-//        menuItem.add(FAQ);
 //        menuItem.add(ABOUT_US);
 
         recycleView.setLayoutManager(new LinearLayoutManager(this));

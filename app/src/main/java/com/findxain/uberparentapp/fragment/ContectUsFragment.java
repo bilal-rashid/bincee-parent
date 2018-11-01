@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.findxain.uberparentapp.HomeActivity;
 import com.findxain.uberparentapp.R;
+import com.findxain.uberparentapp.base.BA;
 
 import java.util.Objects;
 
@@ -48,7 +48,7 @@ public class ContectUsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("Contact Us");
+        ((BA) Objects.requireNonNull(getActivity())).textViewTitle.setText("Contact Us");
 
     }
 

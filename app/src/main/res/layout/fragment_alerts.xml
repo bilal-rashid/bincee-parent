@@ -16,6 +16,7 @@
         android:foreground="#00ffffff"
         app:tabBackground="@drawable/tab_background_selector"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabMaxWidth="170dp"

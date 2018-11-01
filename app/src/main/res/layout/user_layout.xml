@@ -21,8 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="15dp"
+        android:fontFamily="@font/gotham_bold"
         android:text="Name"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/_4f4f4f"
+        android:textSize="14sp" />
 
 </LinearLayout>
