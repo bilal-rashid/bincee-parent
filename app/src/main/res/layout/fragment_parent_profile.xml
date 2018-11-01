@@ -27,7 +27,7 @@
 
         android:drawablePadding="10dp"
         android:fontFamily="@font/gotham_bold"
-        android:text="Name"
+        android:text="@string/name"
         android:textColor="@color/text_black"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView13"
