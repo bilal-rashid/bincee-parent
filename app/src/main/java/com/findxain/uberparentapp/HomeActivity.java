@@ -8,24 +8,25 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findxain.uberparentapp.activity.ContectUsActivity;
 import com.findxain.uberparentapp.activity.ProfileActivity;
+import com.findxain.uberparentapp.api.model.LoginResponse;
 import com.findxain.uberparentapp.base.BA;
+import com.findxain.uberparentapp.databinding.ActivityHomeBinding;
 import com.findxain.uberparentapp.fragment.AlertsFragment;
 import com.findxain.uberparentapp.fragment.CalenderFragment;
 import com.findxain.uberparentapp.fragment.StudentSSFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -44,22 +45,10 @@ public class HomeActivity extends BA {
     public static final String ABOUT_US = "- About Us";
     public static final String CONTACT_US = "- Contact US";
 
+    public ActivityHomeBinding binding;
 
-    @BindView(R.id.imageViewProfilePic)
-    ImageView imageViewProfilePic;
-    @BindView(R.id.textViewUsername)
-    TextView textViewUsername;
-    @BindView(R.id.recycleView)
-    RecyclerView recycleView;
-    @BindView(R.id.navigationView)
-    NavigationView navigationView;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
-    @BindView(R.id.bottomNavigationView)
-    public BottomNavigationView bottomNavigationView;
     private List<String> menuItem;
+    MutableLiveData<LoginResponse.User> liveUse = new MutableLiveData<>();
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, HomeActivity.class));
@@ -69,10 +58,21 @@ public class HomeActivity extends BA {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        binding.toolbarLayout.textViewTitle.setText("Home");
 
-        textViewTitle.setText("Home");
-        setSupportActionBar(toolbar);
+        liveUse.setValue(MyApp.instance.user);
+        liveUse.observe(this, new Observer<LoginResponse.User>() {
+            @Override
+            public void onChanged(LoginResponse.User user) {
+                binding.userLayout.textViewUsername.setText(user.username);
+            }
+        });
+
+
+        setSupportActionBar(binding.toolbarLayout.toolbar);
+
+
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.threee_line);
@@ -90,9 +90,9 @@ public class HomeActivity extends BA {
         menuItem.add(CONTACT_US);
 //        menuItem.add(ABOUT_US);
 
-        recycleView.setLayoutManager(new LinearLayoutManager(this));
-        recycleView.setLayoutFrozen(true);
-        recycleView.setAdapter(new RecyclerView.Adapter<NavigationVH>() {
+        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recycleView.setLayoutFrozen(true);
+        binding.recycleView.setAdapter(new RecyclerView.Adapter<NavigationVH>() {
             @NonNull
             @Override
             public NavigationVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -111,8 +111,7 @@ public class HomeActivity extends BA {
             }
         });
 
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
 //
             switch (menuItem.getItemId()) {
                 case R.id.bottmnavigation_summarizedsize:
@@ -138,7 +137,7 @@ public class HomeActivity extends BA {
             return true;
         });
 
-        bottomNavigationView.setItemIconTintList(null);
+        binding.bottomNavigationView.setItemIconTintList(null);
 
 
         goHomeUrDrunk();
@@ -156,10 +155,15 @@ public class HomeActivity extends BA {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(Gravity.LEFT, true);
+            binding.drawerLayout.openDrawer(Gravity.LEFT, true);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class VM extends ViewModel {
+
+
     }
 
     public class NavigationVH extends RecyclerView.ViewHolder {
@@ -178,7 +182,7 @@ public class HomeActivity extends BA {
         @OnClick(R.id.textView)
         public void onMenuItemClicked() {
 
-            drawerLayout.closeDrawer(Gravity.LEFT);
+            binding.drawerLayout.closeDrawer(Gravity.LEFT);
             if (textView.getText().toString().equalsIgnoreCase(HOME)) {
 
                 goHomeUrDrunk();
@@ -195,9 +199,10 @@ public class HomeActivity extends BA {
                 ContectUsActivity.start(HomeActivity.this);
 
             } else if (textView.getText().toString().equalsIgnoreCase(ALERTS_AND_ANNOUNCEMENT)) {
-                bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
+                binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
             }
 
         }
     }
+
 }
