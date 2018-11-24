@@ -106,7 +106,7 @@ public class StudentSSFragment extends Fragment {
 
     @OnClick(R.id.buttonCalender)
     public void onButtonCalenderClicked() {
-        ((HomeActivity) Objects.requireNonNull(getActivity())).bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_calender);
+        ((HomeActivity) Objects.requireNonNull(getActivity())).binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_calender);
     }
 
 

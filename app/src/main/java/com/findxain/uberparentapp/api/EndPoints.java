@@ -31,5 +31,10 @@ public interface EndPoints {
     @GET("school/parent/{parentId}")
     Observable<MyResponse<ProfileResponse>> getParent(@Path("parentId") String parentId);
 
+    @GET("school/student/leaves/{student}")
+    Observable<MyResponse<ProfileResponse>> getStudentLeaves(@Path("parentId") String parentId);
+
+
+
 
 }

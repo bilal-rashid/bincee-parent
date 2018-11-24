@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="30dp"
-    android:layout_marginLeft="30dp"
-    android:gravity="start"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    android:orientation="vertical">
+    <data>
 
+    </data>
 
-    <ImageView
-        android:id="@+id/imageViewProfilePic"
+    <LinearLayout
+        android:id="@+id/userInfoLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/profile_avatar" />
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
 
-    <TextView
-        android:id="@+id/textViewUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/gotham_bold"
-        android:text="Salman Khan"
-        android:textColor="@color/_4f4f4f"
-        android:textSize="14sp" />
+        android:gravity="start"
+        android:orientation="vertical">
 
-</LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewProfilePic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/profile_avatar" />
+
+        <TextView
+            android:id="@+id/textViewUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/gotham_bold"
+            android:text="Salman Khan"
+            android:textColor="@color/_4f4f4f"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</layout>
