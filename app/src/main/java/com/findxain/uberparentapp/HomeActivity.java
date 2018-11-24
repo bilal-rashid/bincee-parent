@@ -14,9 +14,6 @@ import android.widget.TextView;
 import com.findxain.uberparentapp.activity.ContectUsActivity;
 import com.findxain.uberparentapp.activity.ProfileActivity;
 import com.findxain.uberparentapp.base.BA;
-import com.findxain.uberparentapp.dialog.FeedbackDialog;
-import com.findxain.uberparentapp.dialog.FinishRideDialog;
-import com.findxain.uberparentapp.dialog.LocateMeDialog;
 import com.findxain.uberparentapp.fragment.AlertsFragment;
 import com.findxain.uberparentapp.fragment.CalenderFragment;
 import com.findxain.uberparentapp.fragment.StudentSSFragment;
@@ -142,13 +139,6 @@ public class HomeActivity extends BA {
         });
 
         bottomNavigationView.setItemIconTintList(null);
-
-
-        new LocateMeDialog(this).show();
-
-        new FinishRideDialog(this).show();
-
-        new FeedbackDialog(this).show();
 
 
         goHomeUrDrunk();
