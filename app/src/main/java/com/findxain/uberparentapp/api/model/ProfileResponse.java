@@ -33,5 +33,7 @@ public class ProfileResponse {
     @SerializedName("parent_id")
     public int parentId;
 
+    public String photo;
+
     public String message;
 }
