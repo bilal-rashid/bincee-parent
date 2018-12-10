@@ -1,18 +1,23 @@
 package com.findxain.uberparentapp.api;
 
 
+import com.findxain.uberparentapp.api.model.GetParentDataResponse;
 import com.findxain.uberparentapp.api.model.LoginResponse;
 import com.findxain.uberparentapp.api.model.MyResponse;
 import com.findxain.uberparentapp.api.model.ProfileResponse;
 import com.findxain.uberparentapp.api.model.Student;
+import com.findxain.uberparentapp.api.model.UploadImageResponce;
 
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface EndPoints {
@@ -34,7 +39,16 @@ public interface EndPoints {
     @GET("school/student/leaves/{student}")
     Observable<MyResponse<ProfileResponse>> getStudentLeaves(@Path("parentId") String parentId);
 
+    @Multipart
+    @POST("avatar/upload")
+    Observable<MyResponse<UploadImageResponce>> uploadImage(@Part MultipartBody.Part image);
 
+    @FormUrlEncoded
+    @POST("school/parent/{parentId}")
+    Observable<MyResponse> updateProfile(@Path("parentId") String driverId, @Field("photo") String imageUrl);
+
+    @GET("parent/getData/parentId")
+    Observable<MyResponse<GetParentDataResponse>> getParentData(@Path("parentId") String paretnId);
 
 
 }

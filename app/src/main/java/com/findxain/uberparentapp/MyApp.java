@@ -7,6 +7,8 @@ import com.findxain.uberparentapp.api.EndPoints;
 import com.findxain.uberparentapp.api.model.LoginResponse;
 import com.google.gson.Gson;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,14 +37,27 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//            @Override
+//            public void uncaughtException(Thread thread, Throwable throwable) {
+//                new AlertDialog.Builder(MyApp.this)
+//                        .setMessage(throwable.getMessage() + throwable.getCause())
+//                        .create()
+//                        .show();
+//            }
+//        });
         instance = this;
         setupRetrofit();
+
 
     }
 
     private void setupRetrofit() {
         OkHttpClient client = new OkHttpClient
                 .Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
