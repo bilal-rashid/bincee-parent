@@ -8,9 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.findxain.uberparentapp.HomeActivity;
+import com.findxain.uberparentapp.MyApp;
 import com.findxain.uberparentapp.R;
+import com.findxain.uberparentapp.api.model.AlertsAndAnnoucementModel;
+import com.findxain.uberparentapp.customview.MyProgress;
+import com.findxain.uberparentapp.observer.EndpointObserver;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -20,13 +26,17 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AlertsFragment extends Fragment {
 
-
+    @BindView(R.id.progressBar)
+    MyProgress progressBar;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.viewPager)
@@ -34,6 +44,11 @@ public class AlertsFragment extends Fragment {
     private FragmentStatePagerAdapter adapter;
     @BindView(R.id.imageViewBG)
     ImageView imageViewBG;
+    protected CompositeDisposable compositeDisposable;
+    List<AlertsAndAnnoucementModel.AlertModel> alertListModel = new ArrayList<>();
+    List<AlertsAndAnnoucementModel.AnnouncementModel> announcementList = new ArrayList<>();
+    int currentPage = 0;
+
 
     public AlertsFragment() {
         // Required empty public constructor
@@ -42,6 +57,7 @@ public class AlertsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        compositeDisposable = new CompositeDisposable();
         adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -50,7 +66,13 @@ public class AlertsFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return 2;
+                if (currentPage == 0) {
+                    return announcementList.size();
+                }
+                else
+                {
+                    return alertListModel.size();
+                }
             }
 
             @Nullable
@@ -64,8 +86,40 @@ public class AlertsFragment extends Fragment {
                 }
             }
         };
+        callApiForAlertsAndAnnoucements();
     }
+    public void callApiForAlertsAndAnnoucements()
+    {
+//        progressBar.setVisibility(View.VISIBLE);
+        compositeDisposable.add(MyApp.endPoints
+                .getAlertsAndAnnouncements(String.valueOf(MyApp.instance.user.id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new EndpointObserver<AlertsAndAnnoucementModel>() {
 
+                    @Override
+                    public void onComplete() {
+//                    progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onData(AlertsAndAnnoucementModel o) throws Exception {
+                        if(o.status == 200)
+                        {
+                            alertListModel = o.data.emergencyAlerts;
+                            announcementList = o.data.schoolAnnouncements;
+                            MyApp.instance.announcementList = announcementList;
+                            MyApp.instance.alertList = alertListModel;
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onHandledError(Throwable e) {
+
+                    }
+                }));
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +128,6 @@ public class AlertsFragment extends Fragment {
         ButterKnife.bind(this, view);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
         return view;
     }
 

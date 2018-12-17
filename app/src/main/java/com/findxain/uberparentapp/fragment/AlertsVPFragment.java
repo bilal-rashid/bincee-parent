@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.findxain.uberparentapp.MyApp;
 import com.findxain.uberparentapp.R;
 import com.findxain.uberparentapp.dialog.AlertDialog;
 
@@ -64,7 +65,7 @@ public class AlertsVPFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 10;
+            return MyApp.instance.alertList.size();
         }
     }
 
