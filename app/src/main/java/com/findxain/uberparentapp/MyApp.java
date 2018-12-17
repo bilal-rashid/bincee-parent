@@ -4,10 +4,12 @@ import android.app.Application;
 import android.widget.Toast;
 
 import com.findxain.uberparentapp.api.EndPoints;
+import com.findxain.uberparentapp.api.model.AlertsAndAnnoucementModel;
 import com.findxain.uberparentapp.api.model.LoginResponse;
 import com.findxain.uberparentapp.api.model.ParentCompleteData;
 import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -27,7 +29,8 @@ public class MyApp extends Application {
     public Gson gson;
     public LoginResponse.User user;
     public ParentCompleteData parentCompleteInfo;
-
+    public List<AlertsAndAnnoucementModel.AnnouncementModel> announcementList;
+    public List<AlertsAndAnnoucementModel.AlertModel> alertList;
     public static void showToast(String message) {
         if (toast != null) {
             toast.cancel();
