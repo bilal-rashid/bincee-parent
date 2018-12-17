@@ -3,6 +3,7 @@ package com.findxain.uberparentapp.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.findxain.uberparentapp.HomeActivity;
+import com.findxain.uberparentapp.MyApp;
 import com.findxain.uberparentapp.R;
+import com.findxain.uberparentapp.activity.LoginActivity;
+import com.findxain.uberparentapp.api.model.MyResponse;
+import com.findxain.uberparentapp.api.model.ParentCompleteData;
+import com.findxain.uberparentapp.api.model.StudentLeavesModel;
+import com.findxain.uberparentapp.customview.MyProgress;
+import com.findxain.uberparentapp.observer.EndpointObserver;
 import com.savvi.rangedatepicker.CalendarPickerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -26,11 +36,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CalenderFragment extends Fragment {
+    protected CompositeDisposable compositeDisposable;
 
 
     @BindView(R.id.imageView7)
@@ -50,10 +64,11 @@ public class CalenderFragment extends Fragment {
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
     private MyAdapter adapter;
-
+    @BindView(R.id.progressBar)
+    MyProgress progressBar;
     @BindView(R.id.linearLayoutLeaveAppplication)
     LinearLayout linearLayoutLeaveAppplication;
-
+    List<StudentLeavesModel.OneLeaveRecord> studentLeaves = new ArrayList<>();
     public CalenderFragment() {
         // Required empty public constructor
     }
@@ -62,6 +77,8 @@ public class CalenderFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new MyAdapter();
+        compositeDisposable = new CompositeDisposable();
+
     }
 
     @Override
@@ -129,10 +146,41 @@ public class CalenderFragment extends Fragment {
         calendarView.setVisibility(View.GONE);
         textViewFaltuText.setVisibility(View.GONE);
         linearLayoutLeaveAppplication.setVisibility(View.GONE);
+        callApiForHistory("1");
 
 
     }
+    public void callApiForHistory(String currentKidId)
+    {
+            progressBar.setVisibility(View.VISIBLE);
+            compositeDisposable.add(MyApp.endPoints
+                    .getStudentLeaves(currentKidId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new EndpointObserver<StudentLeavesModel>() {
 
+
+                        @Override
+                        public void onComplete() {
+                        progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onData(StudentLeavesModel o) throws Exception {
+                            if(o.status == 200)
+                            {
+                                studentLeaves = o.data;
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onHandledError(Throwable e) {
+
+                        }
+                    }));
+
+    }
     @OnClick(R.id.buttonContinue)
     public void onButtonContinueClicked() {
 
@@ -165,7 +213,7 @@ public class CalenderFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 3;
+            return studentLeaves.size();
         }
     }
 

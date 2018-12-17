@@ -1,12 +1,14 @@
 package com.findxain.uberparentapp.api;
 
 
+import com.findxain.uberparentapp.api.model.AlertsAndAnnoucementModel;
 import com.findxain.uberparentapp.api.model.GetParentDataResponse;
 import com.findxain.uberparentapp.api.model.LoginResponse;
 import com.findxain.uberparentapp.api.model.MyResponse;
 import com.findxain.uberparentapp.api.model.ParentCompleteData;
 import com.findxain.uberparentapp.api.model.ProfileResponse;
 import com.findxain.uberparentapp.api.model.Student;
+import com.findxain.uberparentapp.api.model.StudentLeavesModel;
 import com.findxain.uberparentapp.api.model.UploadImageResponce;
 
 import java.util.ArrayList;
@@ -37,8 +39,8 @@ public interface EndPoints {
     @GET("school/parent/{parentId}")
     Observable<MyResponse<ProfileResponse>> getParent(@Path("parentId") String parentId);
 
-    @GET("school/student/leaves/{student}")
-    Observable<MyResponse<ProfileResponse>> getStudentLeaves(@Path("parentId") String parentId);
+    @GET("school/student/leaves/{studentId}")
+    Observable<StudentLeavesModel> getStudentLeaves(@Path("studentId") String parentId);
 
     @Multipart
     @POST("avatar/upload")
@@ -50,6 +52,9 @@ public interface EndPoints {
 
     @GET("parent/getData/parentId")
     Observable<MyResponse<GetParentDataResponse>> getParentData(@Path("parentId") String paretnId);
+
+    @GET("school/notification/parent/{parentId}")
+    Observable<AlertsAndAnnoucementModel> getAlertsAndAnnouncements(@Path("parentId") String paretnId);
 
     @GET("parent/getData/{parentId}")
     Observable<MyResponse<ParentCompleteData>> getParentCompleteData(@Path("parentId") String parentId);

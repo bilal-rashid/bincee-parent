@@ -40,6 +40,7 @@
 
             <TextView
                 style="@style/dialogText"
+                android:id="@+id/textViewDriverName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -50,7 +51,7 @@
             <TextView
                 style="@style/dialogText"
                 android:layout_width="wrap_content"
-
+                android:id="@+id/driverNumber"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
