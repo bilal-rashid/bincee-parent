@@ -4,6 +4,7 @@ package com.findxain.uberparentapp.api;
 import com.findxain.uberparentapp.api.model.GetParentDataResponse;
 import com.findxain.uberparentapp.api.model.LoginResponse;
 import com.findxain.uberparentapp.api.model.MyResponse;
+import com.findxain.uberparentapp.api.model.ParentCompleteData;
 import com.findxain.uberparentapp.api.model.ProfileResponse;
 import com.findxain.uberparentapp.api.model.Student;
 import com.findxain.uberparentapp.api.model.UploadImageResponce;
@@ -50,5 +51,7 @@ public interface EndPoints {
     @GET("parent/getData/parentId")
     Observable<MyResponse<GetParentDataResponse>> getParentData(@Path("parentId") String paretnId);
 
+    @GET("parent/getData/{parentId}")
+    Observable<MyResponse<ParentCompleteData>> getParentCompleteData(@Path("parentId") String parentId);
 
 }

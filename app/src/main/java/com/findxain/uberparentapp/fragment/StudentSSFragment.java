@@ -2,6 +2,7 @@ package com.findxain.uberparentapp.fragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findxain.uberparentapp.HomeActivity;
+import com.findxain.uberparentapp.MyApp;
 import com.findxain.uberparentapp.R;
+import com.findxain.uberparentapp.api.model.ParentCompleteData;
 import com.findxain.uberparentapp.dialog.DriverInformationDialog;
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
+import com.gigamole.infinitecycleviewpager.OnInfiniteCyclePageTransformListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -21,6 +27,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -52,7 +60,7 @@ public class StudentSSFragment extends Fragment {
     @BindView(R.id.textViewSwipe)
     TextView textViewSwipe;
     private MyAdapter adpater;
-
+    private List<ParentCompleteData.KidModel> kidsArray ;
     int[] images = {R.drawable.checkbox_checked, R.drawable.checkbox_checked};
 
 
@@ -74,7 +82,8 @@ public class StudentSSFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         adpater = new MyAdapter();
-
+        kidsArray = new ArrayList<>();
+        kidsArray = MyApp.instance.parentCompleteInfo.kids;
 
     }
 
@@ -86,6 +95,38 @@ public class StudentSSFragment extends Fragment {
         ButterKnife.bind(this, view);
         infiniteCycleView.setAdapter(adpater);
         infiniteCycleView.stopAutoScroll();
+
+        infiniteCycleView.setOnInfiniteCyclePageTransformListener(new OnInfiniteCyclePageTransformListener() {
+            @Override
+            public void onPreTransform(View page, float position) {
+
+            }
+
+            @Override
+            public void onPostTransform(View page, float position) {
+
+            }
+        });
+        infiniteCycleView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.e("Page Change",String.valueOf(position));
+                ParentCompleteData.KidModel currentKid = kidsArray.get(position);
+                textView5.setText(currentKid.fullname);
+                textViewAddress.setText(MyApp.instance.parentCompleteInfo.address.toString());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 //        infiniteCycleView.setMinPageScale(0.8f);
 //        infiniteCycleView.setMaxPageScale(0.8f);
 
@@ -115,7 +156,7 @@ public class StudentSSFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return kidsArray.size();
         }
 
 
