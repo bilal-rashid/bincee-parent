@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.findxain.uberparentapp.api.EndPoints;
 import com.findxain.uberparentapp.api.model.LoginResponse;
+import com.findxain.uberparentapp.api.model.ParentCompleteData;
 import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,7 @@ public class MyApp extends Application {
     private static Toast toast;
     public Gson gson;
     public LoginResponse.User user;
+    public ParentCompleteData parentCompleteInfo;
 
     public static void showToast(String message) {
         if (toast != null) {
