@@ -7,29 +7,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.findxain.uberparentapp.R;
+import com.findxain.uberparentapp.api.model.ParentCompleteData;
 import com.findxain.uberparentapp.base.BDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class DriverInformationDialog extends BDialog {
 
+    @BindView(R.id.textViewDriverName)
+    TextView driverName;
+    @BindView(R.id.driverNumber)
+    TextView driverNumber;
     @BindView(R.id.buttonLogout)
     Button buttonLogout;
     @BindView(R.id.buttonCancel)
     TextView buttonCancel;
     @BindView(R.id.imageViewCross)
     ImageView imageViewCross;
-
-    public DriverInformationDialog(Context context) {
+    CompositeDisposable compositeDisposable;
+    public DriverInformationDialog(Context context, ParentCompleteData.DriverModel currentDriver) {
         super(context);
+        compositeDisposable = new CompositeDisposable();
+
         int layout = R.layout.dialog_driver_info;
         View view = getLayoutInflater().inflate(layout, null, false);
+
         setContentView(view);
         ButterKnife.bind(this, view);
+        updateViews(currentDriver);
     }
-
+    public void updateViews(ParentCompleteData.DriverModel currentDriver)
+    {
+        driverName.setText(currentDriver.fullname.toString());
+        driverNumber.setText(currentDriver.phoneNo.toString());
+    }
     @OnClick(R.id.buttonLogout)
     public void onButtonLogoutClicked() {
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.findxain.uberparentapp.HomeActivity;
 import com.findxain.uberparentapp.MyApp;
@@ -32,6 +33,7 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +62,8 @@ public class StudentSSFragment extends Fragment {
     @BindView(R.id.textViewSwipe)
     TextView textViewSwipe;
     private MyAdapter adpater;
+    ParentCompleteData.KidModel currentKid;
+    String driverId;
     private List<ParentCompleteData.KidModel> kidsArray ;
     int[] images = {R.drawable.checkbox_checked, R.drawable.checkbox_checked};
 
@@ -69,7 +73,16 @@ public class StudentSSFragment extends Fragment {
 
     @OnClick(R.id.imageViewCall)
     public void onCAllClicked() {
-        new DriverInformationDialog(getContext()).show();
+        if (kidsArray.size() != 0) {
+            if (currentKid == null && kidsArray.size() != 0) {
+                currentKid = kidsArray.get(0);
+            }
+            new DriverInformationDialog(getContext(), currentKid.driver).show();
+        }
+        else
+        {
+            Toast.makeText(getActivity().getApplicationContext(),"No drivers present",Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -96,17 +109,7 @@ public class StudentSSFragment extends Fragment {
         infiniteCycleView.setAdapter(adpater);
         infiniteCycleView.stopAutoScroll();
 
-        infiniteCycleView.setOnInfiniteCyclePageTransformListener(new OnInfiniteCyclePageTransformListener() {
-            @Override
-            public void onPreTransform(View page, float position) {
 
-            }
-
-            @Override
-            public void onPostTransform(View page, float position) {
-
-            }
-        });
         infiniteCycleView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -116,9 +119,10 @@ public class StudentSSFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 Log.e("Page Change",String.valueOf(position));
-                ParentCompleteData.KidModel currentKid = kidsArray.get(position);
+                currentKid = kidsArray.get(position);
                 textView5.setText(currentKid.fullname);
                 textViewAddress.setText(MyApp.instance.parentCompleteInfo.address.toString());
+                driverId = currentKid.driverId.toString();
             }
 
             @Override
