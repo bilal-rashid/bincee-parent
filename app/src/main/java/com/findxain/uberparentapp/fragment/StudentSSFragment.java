@@ -131,6 +131,7 @@ public class StudentSSFragment extends Fragment {
             }
         });
 
+
 //        infiniteCycleView.setMinPageScale(0.8f);
 //        infiniteCycleView.setMaxPageScale(0.8f);
 
@@ -172,7 +173,9 @@ public class StudentSSFragment extends Fragment {
             imageView.setLayoutParams(new ViewGroup.LayoutParams(100, 100));
             imageView.setImageResource(R.drawable.girl_profile_icon);
             container.addView(imageView);
-
+            currentKid = kidsArray.get(0);
+            textView5.setText(currentKid.fullname.toString());
+            textViewAddress.setText(MyApp.instance.parentCompleteInfo.address.toString());
             return imageView;
         }
 
@@ -195,5 +198,6 @@ public class StudentSSFragment extends Fragment {
         ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("SUMMARIZED STATUS");
 
     }
+
 
 }

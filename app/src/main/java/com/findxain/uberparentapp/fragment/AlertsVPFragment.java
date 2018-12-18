@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.findxain.uberparentapp.MyApp;
 import com.findxain.uberparentapp.R;
@@ -15,6 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,8 +31,10 @@ public class AlertsVPFragment extends Fragment {
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
     private MyAdapter adapter;
-
-    public AlertsVPFragment() {
+    int currentSelectedPage;
+    View viewGeneral;
+    public AlertsVPFragment(int currentPage) {
+        currentSelectedPage = currentPage;
         // Required empty public constructor
     }
 
@@ -55,23 +61,48 @@ public class AlertsVPFragment extends Fragment {
         @NonNull
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new VH(getLayoutInflater().inflate(R.layout.alert_row, parent, false));
+
+             viewGeneral = getLayoutInflater().inflate(R.layout.alert_row, parent, false);
+//            TextView textViewMessage = view.findViewById(R.id.textViewMessage);
+//            TextView textViewAlert = view.findViewById(R.id.textViewAlert);
+//            if(currentSelectedPage == 0) {
+//
+//                textViewMessage.setText("abcddfsdfsf");
+//                textViewAlert.setText("Announcement");
+//            }
+            return new VH(viewGeneral);
         }
 
         @Override
         public void onBindViewHolder(@NonNull VH holder, int position) {
-
+            if(currentSelectedPage == 0) {
+                holder.textView3.setText(MyApp.instance.alertList.get(position).description);
+                holder.textView3.setText("Alerts");
+            }
+            else
+            {
+                holder.textView3.setText(MyApp.instance.announcementList.get(position).description);
+                holder.textView3.setText("Announcements");
+            }
         }
 
         @Override
         public int getItemCount() {
-            return MyApp.instance.alertList.size();
+            if (currentSelectedPage == 0) {
+                return MyApp.instance.alertList.size();
+            }
+            else{
+                return MyApp.instance.announcementList.size();
+            }
         }
     }
 
     private class VH extends RecyclerView.ViewHolder {
+        TextView textView3 = viewGeneral.findViewById(R.id.textViewMessage);
+        TextView textView2 = viewGeneral.findViewById(R.id.textViewAlert);
         public VH(@NonNull View itemView) {
             super(itemView);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
