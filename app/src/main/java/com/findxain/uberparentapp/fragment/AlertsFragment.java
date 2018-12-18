@@ -61,17 +61,17 @@ public class AlertsFragment extends Fragment {
         adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return new AlertsVPFragment();
+                return new AlertsVPFragment(currentPage);
             }
 
             @Override
             public int getCount() {
                 if (currentPage == 0) {
-                    return announcementList.size();
+                    return alertListModel.size();
                 }
                 else
                 {
-                    return alertListModel.size();
+                    return announcementList.size();
                 }
             }
 
@@ -82,7 +82,7 @@ public class AlertsFragment extends Fragment {
                     case 0:
                         return "Emergency Alerts";
                     default:
-                        return "School Alerts";
+                        return "School Announcements";
                 }
             }
         };
@@ -150,12 +150,17 @@ public class AlertsFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
+                currentPage = position;
+
                 if (position == 0) {
+
                     imageViewBG.setImageResource(R.drawable.alerts_bg_a);
+
                 } else {
                     imageViewBG.setImageResource(R.drawable.alerts_bg_b);
 
                 }
+                adapter.notifyDataSetChanged();
 
             }
 
