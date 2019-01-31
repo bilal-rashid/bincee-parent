@@ -8,7 +8,7 @@
     tools:context=".fragment.StudentSSFragment">
 
 
-    <com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/infiniteCycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -39,7 +39,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_book"
-        android:text="City School, Bahrain"
+        android:text=""
         android:textColor="@color/text_black"
         app:layout_constraintBottom_toTopOf="@+id/textViewStatus"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_medium"
-        android:text="In The Bus"
+        android:text=""
         android:textColor="@color/text_black"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewStatus2"
@@ -72,7 +72,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/gotham_medium"
-        android:text="ETA:00:45 Minutes"
+        android:text=""
         android:textColor="@color/text_black"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -103,7 +103,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_medium"
-        android:text="Sarah Wilsom"
+        android:text=""
         android:textColor="@color/text_black"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewAddress"

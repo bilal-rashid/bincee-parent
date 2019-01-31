@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "1065866520875",
+    "firebase_url": "https://bincee-67ec6.firebaseio.com",
+    "project_id": "bincee-67ec6",
+    "storage_bucket": "bincee-67ec6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065866520875:android:d4d6eb7d0007989a",
+        "android_client_info": {
+          "package_name": "com.bincee.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065866520875-ji8issk21l7fbdnjlvgjv8trc6hteeej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bincee.driver",
+            "certificate_hash": "744216a45892a0733a65cefce8c589367c4c8f00"
+          }
+        },
+        {
+          "client_id": "1065866520875-phso7cg183559i76nglot78q683aarkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvnsJtBBgrSEmsAsmnblvOcr-k6Kp-MvY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065866520875-phso7cg183559i76nglot78q683aarkq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1065866520875-esacs7lpu0p5f0rtmnpjq0c2gunr8kl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bincee.parent"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065866520875:android:11f71ab7be53bd87",
+        "android_client_info": {
+          "package_name": "com.bincee.parent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065866520875-6soe00139rsr8rdrp3td7gk0tqogjenj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bincee.parent",
+            "certificate_hash": "744216a45892a0733a65cefce8c589367c4c8f00"
+          }
+        },
+        {
+          "client_id": "1065866520875-phso7cg183559i76nglot78q683aarkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvnsJtBBgrSEmsAsmnblvOcr-k6Kp-MvY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065866520875-phso7cg183559i76nglot78q683aarkq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1065866520875-esacs7lpu0p5f0rtmnpjq0c2gunr8kl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bincee.parent"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

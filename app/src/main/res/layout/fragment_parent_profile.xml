@@ -7,11 +7,11 @@
 
         <variable
             name="modal"
-            type="com.findxain.uberparentapp.fragment.ParentProfileFragment.VM" />
+            type="com.bincee.parent.fragment.ParentProfileFragment.VM" />
 
         <variable
             name="handlers"
-            type="com.findxain.uberparentapp.fragment.ParentProfileFragment.MyListners" />
+            type="com.bincee.parent.fragment.ParentProfileFragment.MyListners" />
 
     </data>
 

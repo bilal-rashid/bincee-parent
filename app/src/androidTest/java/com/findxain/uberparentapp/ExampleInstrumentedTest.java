@@ -1,4 +1,4 @@
-package com.findxain.uberparentapp;
+package com.bincee.parent;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.findxain.uberparentapp", appContext.getPackageName());
+        assertEquals("com.bincee.parent", appContext.getPackageName());
     }
 }
