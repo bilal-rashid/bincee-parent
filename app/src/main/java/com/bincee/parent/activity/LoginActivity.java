@@ -64,8 +64,8 @@ public class LoginActivity extends BA {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        editTextUsername.setText("parent_2p3");
-        editTextPassword.setText("ChangeMe@4");
+        editTextUsername.setText("test_parentp1");
+        editTextPassword.setText("Changeme.1");
 
         checkBox.setTypeface(ResourcesCompat.getFont(this, R.font.gotham_book));
     }
