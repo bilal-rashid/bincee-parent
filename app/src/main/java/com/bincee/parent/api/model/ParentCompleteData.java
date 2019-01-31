@@ -92,10 +92,13 @@ public class ParentCompleteData {
         public GradeModel grade;
         @SerializedName("photo")
         @Expose
-        public Object photo;
-        @SerializedName("shift")
+        public String photo;
+        @SerializedName("shift_morning")
         @Expose
-        public ShiftModel shift;
+        public Integer shiftMorning;
+        @SerializedName("shift_evening")
+        @Expose
+        public Integer shiftEvening;
         @SerializedName("parent_id")
         @Expose
         public Integer parentId;
@@ -111,6 +114,7 @@ public class ParentCompleteData {
 
     }
     public   class SchoolModel{
+
         @SerializedName("school_id")
         @Expose
         public Integer schoolId;
@@ -123,6 +127,9 @@ public class ParentCompleteData {
         @SerializedName("phone_no")
         @Expose
         public String phoneNo;
+        @SerializedName("email")
+        @Expose
+        public String email;
         @SerializedName("lat")
         @Expose
         public Double lat;
