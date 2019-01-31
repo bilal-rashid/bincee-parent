@@ -1,4 +1,4 @@
-package com.findxain.uberparentapp;
+package com.bincee.parent;
 
 import org.junit.Test;
 

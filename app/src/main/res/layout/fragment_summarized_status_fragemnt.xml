@@ -10,7 +10,7 @@
     tools:context=".fragment.SummarizedStatusFragment">
 
 
-    <com.findxain.uberparentapp.StatusTextView
+    <com.bincee.parent.StatusTextView
         android:id="@+id/statusTextViewAtLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/checkBoxAtTheLocation" />
 
-    <com.findxain.uberparentapp.StatusTextView
+    <com.bincee.parent.StatusTextView
         android:id="@+id/statusTextViewReached"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_chainStyle="spread_inside" />
 
-    <com.findxain.uberparentapp.StatusTextView
+    <com.bincee.parent.StatusTextView
         android:id="@+id/statusTextViewLeftFOrSchool"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
         app:layout_constraintStart_toEndOf="@+id/checkBoxTestLeftForSchool"
         app:layout_constraintTop_toTopOf="@+id/checkBoxTestLeftForSchool" />
 
-    <com.findxain.uberparentapp.StatusTextView
+    <com.bincee.parent.StatusTextView
         android:id="@+id/statusTextViewOnTheWay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

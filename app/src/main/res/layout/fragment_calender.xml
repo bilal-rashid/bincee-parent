@@ -7,8 +7,8 @@
     android:layout_marginLeft="20dp"
     android:layout_marginTop="?attr/actionBarSize"
     android:layout_marginRight="20dp"
-    app:cardCornerRadius="15dp"
     android:layout_marginBottom="20dp"
+    app:cardCornerRadius="15dp"
     tools:context=".fragment.CalenderFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,15 +54,14 @@
         <Button
             android:id="@+id/buttonCalendar"
             android:layout_width="wrap_content"
-
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/circle_rectangle_blue"
+            android:fontFamily="@font/gotham_bold"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:text="CALENDAR"
-            android:fontFamily="@font/gotham_bold"
             android:textColor="#fff"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@+id/buttonHistory"
@@ -78,9 +77,9 @@
             android:layout_height="30dp"
 
             android:background="@null"
+            android:fontFamily="@font/gotham_bold"
             android:text="History"
             android:textSize="10sp"
-            android:fontFamily="@font/gotham_bold"
             app:layout_constraintBottom_toBottomOf="@+id/buttonCalendar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -102,12 +101,12 @@
 
         <Button
             android:id="@+id/buttonContinue"
+            style="@style/dialogButtonBlue"
             android:layout_width="@dimen/blue_butoon_width"
             android:layout_height="@dimen/blue_button_height"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
-            style="@style/dialogButtonBlue"
             android:background="@drawable/circle_rectangle_blue"
             android:fontFamily="@font/gotham_bold"
             android:text="@string/continue_text"
@@ -148,7 +147,7 @@
             android:layout_marginBottom="30dp"
             android:background="#fff"
             android:orientation="vertical"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/buttonContinue"
             app:layout_constraintEnd_toEndOf="@+id/imageView7"
             app:layout_constraintStart_toStartOf="parent"
@@ -182,21 +181,27 @@
                     android:fontFamily="@font/gotham_book"
                     android:text="No Bus Ride for " />
 
-                <CheckBox
-
+                <RadioGroup
+                    android:id="@+id/radioButt"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
+                    android:layout_height="wrap_content">
 
-                    android:text="Morning Shift" />
 
-                <CheckBox
+                    <RadioButton
+                        android:id="@+id/radioButtonMorning"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="Morning Shift" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-
-                    android:text="Morning Shift" />
+                    <RadioButton
+                        android:id="@+id/radioButtonEvening"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="Morning Shift" />
+                </RadioGroup>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -209,17 +214,19 @@
                     />
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextComment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:padding="10dp"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/black_border_transparent_rectangle"
                     android:fontFamily="@font/gotham_book"
-                    android:lines="3" />
+                    android:lines="3"
+                    android:padding="10dp" />
 
             </LinearLayout>
         </LinearLayout>
+
         <include
             layout="@layout/progress"
             app:layout_constraintBottom_toBottomOf="parent"

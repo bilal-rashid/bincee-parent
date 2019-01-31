@@ -6,7 +6,7 @@
 
         <variable
             name="student"
-            type="com.findxain.uberparentapp.api.model.Student" />
+            type="com.bincee.parent.api.model.Student" />
 
 
     </data>
