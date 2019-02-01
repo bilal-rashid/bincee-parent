@@ -8,9 +8,15 @@ import java.util.List;
 public class AnnouncementModel {
 
 //    public List<SingleAnnouncement> annoucements = null;
+        @SerializedName("status")
+        @Expose
+        public Integer status;
+        @SerializedName("data")
+        @Expose
+        public  List<SingleAnnouncement> data = null;
 
-//    public class SingleAnnouncement
-//    {
+    public class SingleAnnouncement
+    {
         @SerializedName("id")
         @Expose
         public Integer id;
@@ -29,6 +35,6 @@ public class AnnouncementModel {
         @SerializedName("school_id")
         @Expose
         public Integer schoolId;
-//    }
+    }
 }
 

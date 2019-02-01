@@ -23,8 +23,10 @@ import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.dialog.DriverInformationDialog;
+import com.bumptech.glide.Glide;
 import com.littlemango.stacklayoutmanager.StackLayoutManager;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -182,6 +184,7 @@ public class StudentSSFragment extends Fragment {
             imageView.setImageResource(R.drawable.girl_profile_icon);
             container.addView(imageView);
             currentKid = kidsArray.get(0);
+
             textView5.setText(currentKid.fullname.toString());
             textViewAddress.setText(MyApp.instance.parentCompleteInfo.address.toString());
             return imageView;

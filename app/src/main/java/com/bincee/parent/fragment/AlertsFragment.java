@@ -48,7 +48,7 @@ public class AlertsFragment extends BFragment {
     @BindView(R.id.imageViewBG)
     ImageView imageViewBG;
     List<AlertsModel.EnclosingData> alertListModel = new ArrayList<>();
-    List<AnnouncementModel> announcementList = new ArrayList<>();
+    List<AnnouncementModel.SingleAnnouncement> announcementList = new ArrayList<>();
     int currentPage = 0;
 
 
@@ -91,7 +91,7 @@ public class AlertsFragment extends BFragment {
 
     {
         compositeDisposable.add(MyApp.endPoints
-                .getAlerts(String.valueOf(MyApp.instance.user.id))
+                .getAlerts(String.valueOf(MyApp.instance.parentCompleteInfo.schoolId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new EndpointObserver<AlertsModel>() {
@@ -108,7 +108,8 @@ public class AlertsFragment extends BFragment {
                     {
                         alertListModel = o.data ;
                         MyApp.instance.alertList = alertListModel;
-                        adapter.notifyDataSetChanged();
+                        callApiForAnnoucements();
+//                        adapter.notifyDataSetChanged();
                     }
                     }
 
@@ -118,39 +119,68 @@ public class AlertsFragment extends BFragment {
                     }
                 }));
     }
-    public void callApiForAlertsAndAnnoucements()
+    public void callApiForAnnoucements()
     {
-        callApiForAlerts();
-//        progressBar.setVisibility(View.VISIBLE);
-//        compositeDisposable.add(MyApp.endPoints
-//                .getAlertsAndAnnouncements(String.valueOf(MyApp.instance.user.id))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(new EndpointObserver<AlertsAndAnnoucementModel>() {
-//
-//                    @Override
-//                    public void onComplete() {
-////                    progressBar.setVisibility(View.GONE);
-//                    }
-//
-//                    @Override
-//                    public void onData(AlertsAndAnnoucementModel o) throws Exception {
-//                        if(o.status == 200)
-//                        {
-//                            alertListModel = o.data.emergencyAlerts;
-//                            announcementList = o.data.schoolAnnouncements;
-//                            MyApp.instance.announcementList = announcementList;
-//                            MyApp.instance.alertList = alertListModel;
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onHandledError(Throwable e) {
-//
-//                    }
-//                }));
+        compositeDisposable.add(MyApp.endPoints
+                .getAnnouncements(String.valueOf(MyApp.instance.parentCompleteInfo.parentId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new EndpointObserver<AnnouncementModel>() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onData(AnnouncementModel o) throws Exception {
+                        if(o.status == 200)
+                        {
+                            announcementList = o.data ;
+                            MyApp.instance.announcementList = announcementList;
+//                            callApiForAnnoucements();
+                        adapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onHandledError(Throwable e) {
+
+                    }
+                }));
     }
+//    public void callApiForAlertsAndAnnoucements()
+//    {
+//        callApiForAlerts();
+////        progressBar.setVisibility(View.VISIBLE);
+////        compositeDisposable.add(MyApp.endPoints
+////                .getAlertsAndAnnouncements(String.valueOf(MyApp.instance.user.id))
+////                .subscribeOn(Schedulers.io())
+////                .observeOn(AndroidSchedulers.mainThread())
+////                .subscribeWith(new EndpointObserver<AlertsAndAnnoucementModel>() {
+////
+////                    @Override
+////                    public void onComplete() {
+//////                    progressBar.setVisibility(View.GONE);
+////                    }
+////
+////                    @Override
+////                    public void onData(AlertsAndAnnoucementModel o) throws Exception {
+////                        if(o.status == 200)
+////                        {
+////                            alertListModel = o.data.emergencyAlerts;
+////                            announcementList = o.data.schoolAnnouncements;
+////                            MyApp.instance.announcementList = announcementList;
+////                            MyApp.instance.alertList = alertListModel;
+////                            adapter.notifyDataSetChanged();
+////                        }
+////                    }
+////
+////                    @Override
+////                    public void onHandledError(Throwable e) {
+////
+////                    }
+////                }));
+//    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
