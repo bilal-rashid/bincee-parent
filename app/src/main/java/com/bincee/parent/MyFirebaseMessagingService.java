@@ -17,6 +17,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.protobuf.Any;
 
 import java.util.HashMap;
 
@@ -35,8 +36,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         createNotificationChannel();
-
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(remoteMessage.getNotification().getTitle())
@@ -82,5 +81,71 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+
+/* this function was written to check user notification type and perform action accordingly
+
+    func checkNotificationType(userInfo : [AnyHashable : Any])
+    {
+        let userInfo = userInfo
+        print("user info here \(userInfo)")
+        if let type = userInfo[gcmMessageType]
+        {
+
+
+            if(type as! String == "3")
+            {
+                //Ride
+                print(type as! String)
+                return
+            }
+            else if(type as! String == "2" || type as! String == "1")
+            {
+                //attendance // update status
+                if let data = userInfo[gcmMessageData]
+                {
+                    var studentData = data as! String
+//                    var studentId = studentData.value(forKey: "studentId") as! Int
+
+                    studentData.removeFirst(13)
+                    studentData.removeLast(1)
+                    print("Student id sent \(studentData)")
+                    CurrentKidDataFirebase.shared.notificationForKidId = Int(studentData)!
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "launchTrackMyKid"), object: nil, userInfo: nil)
+                }
+            }
+            else if(type as! String == "Evening1")
+            {
+                if let data = userInfo["studentId"]
+                {
+                    var studentData = data as! String
+                    //                    var studentId = studentData.value(forKey: "studentId") as! Int
+                    print("Student id sent \(studentData)")
+                    CurrentKidDataFirebase.shared.notificationForKidId = Int(studentData)!
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "EveningStatusReceived"), object: nil, userInfo: nil)
+                }
+            }
+
+            else if(type as! String == "notification")
+            {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "AnnouncementReceived"), object: nil, userInfo: nil)
+            }
+            else if(type as! String == "alert")
+            {
+///Local Notification was issued
+
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "AlertReceived"), object: nil, userInfo: nil)
+            }
+            else
+            {
+
+            }
+
+        }
+
+//        call commented section only when user status is changed
+
+    }
+    */
 
 }
