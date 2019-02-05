@@ -78,4 +78,10 @@ dependencies {
     implementation 'com.littlemango:stacklayoutmanager:1.0.5'
 
 
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.8.1'
+
+    implementation('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.26.0') {
+        transitive = true
+    }
+
 }

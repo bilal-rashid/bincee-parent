@@ -3,6 +3,8 @@ package com.bincee.parent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +25,7 @@ import com.bincee.parent.activity.ContectUsActivity;
 import com.bincee.parent.activity.ProfileActivity;
 import com.bincee.parent.activity.SplashActivity;
 import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
 import com.bincee.parent.databinding.ActivityHomeBinding;
 import com.bincee.parent.dialog.DriverInformationDialog;
@@ -55,17 +59,31 @@ public class HomeActivity extends BA {
 
     private List<String> menuItem;
     MutableLiveData<LoginResponse.User> liveUse = new MutableLiveData<>();
+    private String TAG = HomeActivity.class.getSimpleName();
+    private VM liveData;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, HomeActivity.class));
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent: ");
+        checkNotificationForStudent(intent);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         binding.toolbarLayout.textViewTitle.setText("Home");
+
+        liveData = ViewModelProviders.of(this).get(VM.class);
 
         liveUse.setValue(MyApp.instance.user);
         liveUse.observe(this, new Observer<LoginResponse.User>() {
@@ -157,6 +175,27 @@ public class HomeActivity extends BA {
         goHomeUrDrunk();
 
 
+        checkNotificationForStudent(getIntent());
+
+
+    }
+
+    private void checkNotificationForStudent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras == null) return;
+
+
+        int studenId = extras.getInt(Student.STUDENT_ID, -1);
+        if (studenId != -1) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    StudentSSFragment.getInstance().setCurrentStudent(studenId);
+
+                }
+            }, 1000);
+        }
     }
 
     private void logout() {
@@ -202,6 +241,10 @@ public class HomeActivity extends BA {
     public static class VM extends ViewModel {
 
 
+        public VM() {
+
+
+        }
     }
 
     public class NavigationVH extends RecyclerView.ViewHolder {

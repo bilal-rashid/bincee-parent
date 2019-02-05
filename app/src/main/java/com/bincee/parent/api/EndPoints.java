@@ -1,7 +1,6 @@
 package com.bincee.parent.api;
 
 
-import com.bincee.parent.api.model.AlertsAndAnnoucementModel;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
 import com.bincee.parent.api.model.CreateLeaveResponce;
@@ -15,7 +14,6 @@ import com.bincee.parent.api.model.StudentLeavesModel;
 import com.bincee.parent.api.model.UploadImageResponce;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -65,12 +63,8 @@ public interface EndPoints {
     @GET("parent/getData/parentId")
     Observable<MyResponse<GetParentDataResponse>> getParentData(@Path("parentId") String paretnId);
 
+
     @GET("school/notification/parent/{parentId}")
-    Observable<AlertsAndAnnoucementModel> getAlertsAndAnnouncements(@Path("parentId") String paretnId);
-
-
-
-    @GET("school/notification/list/{schoolId}")
     Observable<AnnouncementModel> getAnnouncements(@Path("parentId") String parentId);
 
     @GET("school/notification/list/{schoolId}")

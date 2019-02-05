@@ -1,6 +1,5 @@
 package com.bincee.parent.fragment;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +8,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bincee.parent.R;
-import com.bincee.parent.api.model.AlertsModel;
+import com.bincee.parent.api.model.AnnouncementModel;
+import com.bincee.parent.base.BFragment;
 import com.bincee.parent.dialog.AlertDialog;
 
 import java.util.ArrayList;
@@ -23,27 +22,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AlertsVPFragment extends Fragment {
+public class AnouncemetFragment extends BFragment {
 
 
-    private List<AlertsModel.EnclosingData> alertList = new ArrayList<>();
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
     private MyAdapter adapter;
+    private List<AnnouncementModel.SingleAnnouncement> data = new ArrayList<>();
 
-    public AlertsVPFragment() {
+    public AnouncemetFragment() {
     }
-
-    public AlertsVPFragment setAlerts(List<AlertsModel.EnclosingData> alertList) {
-        this.alertList = alertList;
-        adapter.notifyDataSetChanged();
-
-        return this;
-    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,19 +52,18 @@ public class AlertsVPFragment extends Fragment {
         return view;
     }
 
+    public AnouncemetFragment setData(List<AnnouncementModel.SingleAnnouncement> data) {
+        this.data = data;
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
     private class MyAdapter extends RecyclerView.Adapter<VH> {
         @NonNull
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
             View viewGeneral = getLayoutInflater().inflate(R.layout.alert_row, parent, false);
-//            TextView textViewMessage = view.findViewById(R.id.textViewMessage);
-//            TextView textViewAlert = view.findViewById(R.id.textViewAlert);
-//            if(currentSelectedPage == 0) {
-//
-//                textViewMessage.setText("abcddfsdfsf");
-//                textViewAlert.setText("Announcement");
-//            }
             return new VH(viewGeneral);
         }
 
@@ -90,25 +77,30 @@ public class AlertsVPFragment extends Fragment {
 //                holder.message.setText("Announcements");
 //            }
 
+
             holder.bind();
 
         }
 
         @Override
         public int getItemCount() {
-            return alertList.size();
+
+            return data.size();
         }
     }
 
     private class VH extends RecyclerView.ViewHolder {
-        TextView message;
-        TextView alert;
+
+        TextView textView3;
+        TextView textView2;
 
         public VH(@NonNull View itemView) {
             super(itemView);
 
-            message = itemView.findViewById(R.id.textViewMessage);
-            alert = itemView.findViewById(R.id.textViewAlert);
+
+            textView3 = itemView.findViewById(R.id.textViewMessage);
+            textView2 = itemView.findViewById(R.id.textViewAlert);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,12 +110,12 @@ public class AlertsVPFragment extends Fragment {
         }
 
         public void bind() {
-            AlertsModel.EnclosingData enclosingData = alertList.get(getAdapterPosition());
 
-
-            alert.setText(enclosingData.title);
-            message.setText(enclosingData.description);
+            AnnouncementModel.SingleAnnouncement singleAnnouncement = data.get(getAdapterPosition());
+            textView2.setText(singleAnnouncement.title);
+            textView3.setText(singleAnnouncement.description);
 
         }
     }
+
 }

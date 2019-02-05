@@ -19,5 +19,9 @@
     <color name="_1b1b1b">#1b1b1b</color>
     <color name="_232323">#232323</color>
     <color name="_545454">#545454</color>
+    <color name="status_selected_subtext">#383838</color>
+    <color name="status_selected_title">#2D3639</color>
+    <color name="status_unselected_title">#99FFFFFF</color>
+    <color name="status_unselected_subtext">#99FFFFFF</color>
 
 </resources>

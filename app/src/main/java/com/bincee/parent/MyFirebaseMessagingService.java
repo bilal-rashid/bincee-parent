@@ -2,24 +2,23 @@ package com.bincee.parent;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.api.model.Student;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.protobuf.Any;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -36,12 +35,45 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         createNotificationChannel();
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setContentText(remoteMessage.getNotification().getTitle())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+
+        String body = remoteMessage.getNotification().getBody();
+        String title = remoteMessage.getNotification().getTitle();
+        String tag = remoteMessage.getNotification().getTag();
+        String bodyLocalizationKey = remoteMessage.getNotification().getBodyLocalizationKey();
+        String[] bodyLocalizationArgs = remoteMessage.getNotification().getBodyLocalizationArgs();
+
+        Map<String, String> data = remoteMessage.getData();
+
+        String type = "";
+        int studentId = -1;
+
+        if (remoteMessage.getData().containsKey("studentId")) {
+            studentId = Integer.parseInt(remoteMessage.getData().get("studentId"));
+
+        }
+
+        if (remoteMessage.getData().containsKey("type")) {
+            type = (remoteMessage.getData().get("type"));
+        }
+
+
+        if (type.equalsIgnoreCase("2") || type.equalsIgnoreCase("1")) {
+            //Atandnace or update status
+
+            if (studentId != -1) {
+
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra(Student.STUDENT_ID, studentId);
+                startActivity(intent);
+
+            }
+
+
+        } else {
+
+
+        }
 
     }
 
