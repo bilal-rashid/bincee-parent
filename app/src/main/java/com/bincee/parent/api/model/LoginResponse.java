@@ -1,8 +1,5 @@
 package com.bincee.parent.api.model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.bincee.parent.MyApp;
 
 
@@ -18,12 +15,8 @@ public class LoginResponse {
         public String username;
         public int id;
         public String message;
+        public ParentCompleteData parentCompleteInfo = new ParentCompleteData();
 
-        public void save(Context context) {
-            SharedPreferences pref = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
-            pref.edit().putString(User.class.getSimpleName(), toString()).apply();
-
-        }
 
         @Override
         public String toString() {

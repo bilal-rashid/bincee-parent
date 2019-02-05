@@ -3,7 +3,6 @@ package com.bincee.parent.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -103,7 +102,7 @@ public class StudentSSFragment extends Fragment {
 
         adpater = new MyAdapter();
         kidsArray = new ArrayList<>();
-        kidsArray = MyApp.instance.parentCompleteInfo.kids;
+        kidsArray = MyApp.instance.user.parentCompleteInfo.kids;
         stackViewAdapter = new StackViewAdapter(kidsArray);
 
         layout = new StackLayoutManager();
@@ -123,7 +122,7 @@ public class StudentSSFragment extends Fragment {
     private void changeCurrentStudent(int position) {
         currentKid = kidsArray.get(position);
         textView5.setText(currentKid.fullname);
-        textViewAddress.setText(MyApp.instance.parentCompleteInfo.address.toString());
+        textViewAddress.setText(MyApp.instance.user.parentCompleteInfo.address.toString());
         driverId = currentKid.driverId.toString();
     }
 
@@ -183,7 +182,7 @@ public class StudentSSFragment extends Fragment {
             container.addView(imageView);
             currentKid = kidsArray.get(0);
             textView5.setText(currentKid.fullname.toString());
-            textViewAddress.setText(MyApp.instance.parentCompleteInfo.address.toString());
+            textViewAddress.setText(MyApp.instance.user.parentCompleteInfo.address.toString());
             return imageView;
         }
 

@@ -6,15 +6,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.core.content.res.ResourcesCompat;
+
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.api.model.ParentCompleteData;
-import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
 import com.bincee.parent.customview.MyProgress;
+import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,13 +27,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.provider.FirebaseInitProvider;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.core.content.res.ResourcesCompat;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -64,8 +62,8 @@ public class LoginActivity extends BA {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        editTextUsername.setText("parent_2p3");
-        editTextPassword.setText("ChangeMe@4");
+        editTextUsername.setText("test_parentp1");
+        editTextPassword.setText("Changeme.1");
 
         checkBox.setTypeface(ResourcesCompat.getFont(this, R.font.gotham_book));
     }
@@ -92,15 +90,12 @@ public class LoginActivity extends BA {
                     public void onData(LoginResponse response) {
                         if (response.status == 200) {
 
-                            response.data.save(LoginActivity.this);
                             MyApp.instance.user = response.data;
                             String parentId = String.valueOf(MyApp.instance.user.id);
                             callForParentData(parentId);
-
                             saveTokenToFirebase();
 
 
-//                            Comment by arslan
                         } else {
 
 
@@ -165,10 +160,12 @@ public class LoginActivity extends BA {
                     @Override
                     public void onData(MyResponse<ParentCompleteData> response) throws Exception {
                         if (response.status == 200) {
-                            MyApp.instance.parentCompleteInfo = response.data;
+
+                            MyApp.instance.user.parentCompleteInfo = response.data;
                             HomeActivity.start(LoginActivity.this);
-//                            finish();
-                            Log.e("Fullname", MyApp.instance.parentCompleteInfo.fullname);
+                            MyPref.SAVE_USER(LoginActivity.this, MyApp.instance.user);
+
+                            finish();
 
                         } else {
                             throw new Exception(response.status + "");
