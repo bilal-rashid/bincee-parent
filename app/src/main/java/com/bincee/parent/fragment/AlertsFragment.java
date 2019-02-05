@@ -11,6 +11,8 @@ import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.AlertsAndAnnoucementModel;
+import com.bincee.parent.api.model.AlertsModel;
+import com.bincee.parent.api.model.AnnouncementModel;
 import com.bincee.parent.base.BFragment;
 import com.bincee.parent.customview.MyProgress;
 import com.bincee.parent.observer.EndpointObserver;
@@ -45,8 +47,8 @@ public class AlertsFragment extends BFragment {
     private FragmentStatePagerAdapter adapter;
     @BindView(R.id.imageViewBG)
     ImageView imageViewBG;
-    List<AlertsAndAnnoucementModel.AlertModel> alertListModel = new ArrayList<>();
-    List<AlertsAndAnnoucementModel.AnnouncementModel> announcementList = new ArrayList<>();
+    List<AlertsModel.EnclosingData> alertListModel = new ArrayList<>();
+    List<AnnouncementModel.SingleAnnouncement> announcementList = new ArrayList<>();
     int currentPage = 0;
 
 
@@ -67,9 +69,7 @@ public class AlertsFragment extends BFragment {
             public int getCount() {
                 if (currentPage == 0) {
                     return alertListModel.size();
-                }
-                else
-                {
+                } else {
                     return announcementList.size();
                 }
             }
@@ -85,31 +85,60 @@ public class AlertsFragment extends BFragment {
                 }
             }
         };
-        callApiForAlertsAndAnnoucements();
+        this.callApiForAlerts();
     }
-    public void callApiForAlertsAndAnnoucements()
+    public void callApiForAlerts()
+
     {
-//        progressBar.setVisibility(View.VISIBLE);
         compositeDisposable.add(MyApp.endPoints
-                .getAlertsAndAnnouncements(String.valueOf(MyApp.instance.user.id))
+                .getAlerts(String.valueOf(MyApp.instance.parentCompleteInfo.schoolId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new EndpointObserver<AlertsAndAnnoucementModel>() {
+                .subscribeWith(new EndpointObserver<AlertsModel>() {
+
 
                     @Override
                     public void onComplete() {
-//                    progressBar.setVisibility(View.GONE);
+
                     }
 
                     @Override
-                    public void onData(AlertsAndAnnoucementModel o) throws Exception {
+                    public void onData(AlertsModel o) throws Exception {
+                    if(o.status == 200)
+                    {
+                        alertListModel = o.data ;
+                        MyApp.instance.alertList = alertListModel;
+                        callApiForAnnoucements();
+//                        adapter.notifyDataSetChanged();
+                    }
+                    }
+
+                    @Override
+                    public void onHandledError(Throwable e) {
+
+                    }
+                }));
+    }
+    public void callApiForAnnoucements()
+    {
+        compositeDisposable.add(MyApp.endPoints
+                .getAnnouncements(String.valueOf(MyApp.instance.parentCompleteInfo.parentId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new EndpointObserver<AnnouncementModel>() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onData(AnnouncementModel o) throws Exception {
                         if(o.status == 200)
                         {
-                            alertListModel = o.data.emergencyAlerts;
-                            announcementList = o.data.schoolAnnouncements;
+                            announcementList = o.data ;
                             MyApp.instance.announcementList = announcementList;
-                            MyApp.instance.alertList = alertListModel;
-                            adapter.notifyDataSetChanged();
+//                            callApiForAnnoucements();
+                        adapter.notifyDataSetChanged();
                         }
                     }
 
@@ -119,6 +148,39 @@ public class AlertsFragment extends BFragment {
                     }
                 }));
     }
+//    public void callApiForAlertsAndAnnoucements()
+//    {
+//        callApiForAlerts();
+////        progressBar.setVisibility(View.VISIBLE);
+////        compositeDisposable.add(MyApp.endPoints
+////                .getAlertsAndAnnouncements(String.valueOf(MyApp.instance.user.id))
+////                .subscribeOn(Schedulers.io())
+////                .observeOn(AndroidSchedulers.mainThread())
+////                .subscribeWith(new EndpointObserver<AlertsAndAnnoucementModel>() {
+////
+////                    @Override
+////                    public void onComplete() {
+//////                    progressBar.setVisibility(View.GONE);
+////                    }
+////
+////                    @Override
+////                    public void onData(AlertsAndAnnoucementModel o) throws Exception {
+////                        if(o.status == 200)
+////                        {
+////                            alertListModel = o.data.emergencyAlerts;
+////                            announcementList = o.data.schoolAnnouncements;
+////                            MyApp.instance.announcementList = announcementList;
+////                            MyApp.instance.alertList = alertListModel;
+////                            adapter.notifyDataSetChanged();
+////                        }
+////                    }
+////
+////                    @Override
+////                    public void onHandledError(Throwable e) {
+////
+////                    }
+////                }));
+//    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

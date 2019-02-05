@@ -70,25 +70,49 @@ public class SummarizedStatusFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summarized_status_fragemnt, container, false);
         ButterKnife.bind(this, view);
+        eveningStatuses();
 
-        statusTextViewLeftFOrSchool.textViewTitle.setText("Left for school");
-        statusTextViewLeftFOrSchool.textViewText.setText("Driver is on his way to pickup Ahmad and will be there in 00:15 minutes");
 
-        statusTextViewAtLocation.textViewTitle.setText("At the Location");
-        statusTextViewAtLocation.textViewText.setText("Driver is at your location to pickup Ahmad");
+
+        return view;
+    }
+    public void morningStatuses()
+    {
+        statusTextViewLeftFOrSchool.textViewTitle.setText("Bus is coming");
+        statusTextViewLeftFOrSchool.textViewText.setText("Bus is on its way to pickup (student name) and will be there in ETA (mins) minutes");
+
+        statusTextViewAtLocation.textViewTitle.setText("Bus is here");
+        statusTextViewAtLocation.textViewText.setText("Bus has arrived to pickup (student name) and will leave in 5 minutes");
         statusTextViewAtLocation.view.setGravity(GravityCompat.END);
         statusTextViewAtLocation.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
 
         statusTextViewOnTheWay.textViewTitle.setText("On the way");
-        statusTextViewOnTheWay.textViewText.setText("Driver is on the way to school and will be there in 00:50 minutes");
+        statusTextViewOnTheWay.textViewText.setText("Bus is on the way to school and will be there in (ETA) minutes");
 
         statusTextViewReached.textViewTitle.setText("Reached");
-        statusTextViewReached.textViewText.setText("Driver has reached the school");
+        statusTextViewReached.textViewText.setText("Bus has reached the school");
         statusTextViewReached.view.setGravity(GravityCompat.END);
         statusTextViewReached.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+    }
+    public void eveningStatuses()
+    {
 
+            statusTextViewLeftFOrSchool.textViewTitle.setText("School is over");
+            statusTextViewLeftFOrSchool.textViewText.setText("School is over and bus is waiting for (student name) to hop in");
 
-        return view;
+            statusTextViewAtLocation.textViewTitle.setText("In the bus");
+            statusTextViewAtLocation.textViewText.setText("(Student name) is in the bus and will reach in around ETA (eta) minutes");
+            statusTextViewAtLocation.view.setGravity(GravityCompat.END);
+            statusTextViewAtLocation.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
+            statusTextViewOnTheWay.textViewTitle.setText("Almost There");
+            statusTextViewOnTheWay.textViewText.setText("(Student name) will reach home in (eta) minutes");
+
+            statusTextViewReached.textViewTitle.setText("At your doorstep");
+            statusTextViewReached.textViewText.setText("Please open the door (Student name) is waiting outside");
+            statusTextViewReached.view.setGravity(GravityCompat.END);
+            statusTextViewReached.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
     }
 
     @OnClick(R.id.buttonRealTimeTracking)
