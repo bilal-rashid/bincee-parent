@@ -2,9 +2,7 @@ package com.bincee.parent;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,5 +45,15 @@ public class StatusTextView extends LinearLayout {
         init();
     }
 
+    public void selected() {
+        textViewTitle.setTextColor(getResources().getColor(R.color.status_selected_title));
+        textViewText.setTextColor(getResources().getColor(R.color.status_selected_subtext));
+    }
+
+    public void unSelected() {
+
+        textViewTitle.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        textViewText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+    }
 
 }

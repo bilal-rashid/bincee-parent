@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
-import com.bincee.parent.api.model.AlertsAndAnnoucementModel;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
 import com.bincee.parent.base.BFragment;
@@ -22,15 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -49,7 +48,8 @@ public class AlertsFragment extends BFragment {
     ImageView imageViewBG;
     List<AlertsModel.EnclosingData> alertListModel = new ArrayList<>();
     List<AnnouncementModel.SingleAnnouncement> announcementList = new ArrayList<>();
-    int currentPage = 0;
+    private AlertsVPFragment alertsVPFragment;
+    private AnouncemetFragment anouncemetFragment;
 
 
     public AlertsFragment() {
@@ -59,19 +59,26 @@ public class AlertsFragment extends BFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        alertsVPFragment = new AlertsVPFragment();
+        anouncemetFragment = new AnouncemetFragment();
+
         adapter = new FragmentStatePagerAdapter(getChildFragmentManager()) {
+
+
             @Override
             public Fragment getItem(int position) {
-                return new AlertsVPFragment(currentPage);
+                switch (position) {
+                    case 0:
+                        return alertsVPFragment;
+                    case 1:
+                        return anouncemetFragment;
+                }
+                return new AlertsVPFragment();
             }
 
             @Override
             public int getCount() {
-                if (currentPage == 0) {
-                    return alertListModel.size();
-                } else {
-                    return announcementList.size();
-                }
+                return 2;
             }
 
             @Nullable
@@ -87,11 +94,10 @@ public class AlertsFragment extends BFragment {
         };
         this.callApiForAlerts();
     }
-    public void callApiForAlerts()
 
-    {
+    public void callApiForAlerts() {
         compositeDisposable.add(MyApp.endPoints
-                .getAlerts(String.valueOf(MyApp.instance.parentCompleteInfo.schoolId))
+                .getAlerts(String.valueOf(MyApp.instance.user.parentCompleteInfo.schoolId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new EndpointObserver<AlertsModel>() {
@@ -104,13 +110,13 @@ public class AlertsFragment extends BFragment {
 
                     @Override
                     public void onData(AlertsModel o) throws Exception {
-                    if(o.status == 200)
-                    {
-                        alertListModel = o.data ;
-                        MyApp.instance.alertList = alertListModel;
-                        callApiForAnnoucements();
+                        if (o.status == 200) {
+                            alertListModel = o.data;
+                            MyApp.instance.alertList = alertListModel;
+                            alertsVPFragment.setAlerts(alertListModel);
+                            callApiForAnnoucements();
 //                        adapter.notifyDataSetChanged();
-                    }
+                        }
                     }
 
                     @Override
@@ -119,10 +125,10 @@ public class AlertsFragment extends BFragment {
                     }
                 }));
     }
-    public void callApiForAnnoucements()
-    {
+
+    public void callApiForAnnoucements() {
         compositeDisposable.add(MyApp.endPoints
-                .getAnnouncements(String.valueOf(MyApp.instance.parentCompleteInfo.parentId))
+                .getAnnouncements(String.valueOf(MyApp.instance.user.parentCompleteInfo.parentId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new EndpointObserver<AnnouncementModel>() {
@@ -133,12 +139,11 @@ public class AlertsFragment extends BFragment {
 
                     @Override
                     public void onData(AnnouncementModel o) throws Exception {
-                        if(o.status == 200)
-                        {
-                            announcementList = o.data ;
+                        if (o.status == 200) {
+
+                            announcementList = o.data;
                             MyApp.instance.announcementList = announcementList;
-//                            callApiForAnnoucements();
-                        adapter.notifyDataSetChanged();
+                            anouncemetFragment.setData(announcementList);
                         }
                     }
 
@@ -148,39 +153,8 @@ public class AlertsFragment extends BFragment {
                     }
                 }));
     }
-//    public void callApiForAlertsAndAnnoucements()
-//    {
-//        callApiForAlerts();
-////        progressBar.setVisibility(View.VISIBLE);
-////        compositeDisposable.add(MyApp.endPoints
-////                .getAlertsAndAnnouncements(String.valueOf(MyApp.instance.user.id))
-////                .subscribeOn(Schedulers.io())
-////                .observeOn(AndroidSchedulers.mainThread())
-////                .subscribeWith(new EndpointObserver<AlertsAndAnnoucementModel>() {
-////
-////                    @Override
-////                    public void onComplete() {
-//////                    progressBar.setVisibility(View.GONE);
-////                    }
-////
-////                    @Override
-////                    public void onData(AlertsAndAnnoucementModel o) throws Exception {
-////                        if(o.status == 200)
-////                        {
-////                            alertListModel = o.data.emergencyAlerts;
-////                            announcementList = o.data.schoolAnnouncements;
-////                            MyApp.instance.announcementList = announcementList;
-////                            MyApp.instance.alertList = alertListModel;
-////                            adapter.notifyDataSetChanged();
-////                        }
-////                    }
-////
-////                    @Override
-////                    public void onHandledError(Throwable e) {
-////
-////                    }
-////                }));
-//    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -211,7 +185,6 @@ public class AlertsFragment extends BFragment {
 
             @Override
             public void onPageSelected(int position) {
-                currentPage = position;
 
                 if (position == 0) {
 

@@ -2,21 +2,27 @@ package com.bincee.parent.fragment;
 
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.R;
 import com.bincee.parent.StatusTextView;
+import com.bincee.parent.activity.MapActivity;
+import com.bincee.parent.api.model.Ride;
+import com.bincee.parent.api.model.Student;
 
 import java.util.Objects;
 
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,28 +35,30 @@ public class SummarizedStatusFragment extends Fragment {
 
 
     public static Fragment instance;
-    @BindView(R.id.statusTextViewAtLocation)
-    StatusTextView statusTextViewAtLocation;
-    @BindView(R.id.statusTextViewReached)
-    StatusTextView statusTextViewReached;
-    @BindView(R.id.imageView)
-    ImageView imageView;
-    @BindView(R.id.checkBoxTestLeftForSchool)
-    ImageView checkBoxTestLeftForSchool;
-    @BindView(R.id.statusTextViewLeftFOrSchool)
-    StatusTextView statusTextViewLeftFOrSchool;
-    @BindView(R.id.statusTextViewOnTheWay)
-    StatusTextView statusTextViewOnTheWay;
-    @BindView(R.id.checkBoxAtTheLocation)
-    ImageView checkBoxAtTheLocation;
-    @BindView(R.id.checkBoxOnTheWay)
-    ImageView checkBoxOnTheWay;
-    @BindView(R.id.checkBoxReached)
-    ImageView checkBoxReached;
-    @BindView(R.id.imageViewBusStauts)
-    ImageView imageViewBusStauts;
+
+
     @BindView(R.id.buttonRealTimeTracking)
     Button buttonRealTimeTracking;
+    @BindView(R.id.statusTextView2)
+    StatusTextView statusTextView2;
+    @BindView(R.id.statusTextView4)
+    StatusTextView statusTextView4;
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.checkBox1)
+    ImageView checkBox1;
+    @BindView(R.id.statusTextView1)
+    StatusTextView statusTextView1;
+    @BindView(R.id.statusTextView3)
+    StatusTextView statusTextView3;
+    @BindView(R.id.checkBox2)
+    ImageView checkBox2;
+    @BindView(R.id.checkBox3)
+    ImageView checkBox3;
+    @BindView(R.id.checkBox4)
+    ImageView checkBox4;
+    @BindView(R.id.imageViewBusStauts)
+    ImageView imageViewBusStauts;
 
     public SummarizedStatusFragment() {
         // Required empty public constructor
@@ -67,62 +75,221 @@ public class SummarizedStatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_summarized_status_fragemnt, container, false);
         ButterKnife.bind(this, view);
-        eveningStatuses();
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
 
         return view;
     }
-    public void morningStatuses()
-    {
-        statusTextViewLeftFOrSchool.textViewTitle.setText("Bus is coming");
-        statusTextViewLeftFOrSchool.textViewText.setText("Bus is on its way to pickup (student name) and will be there in ETA (mins) minutes");
 
-        statusTextViewAtLocation.textViewTitle.setText("Bus is here");
-        statusTextViewAtLocation.textViewText.setText("Bus has arrived to pickup (student name) and will leave in 5 minutes");
-        statusTextViewAtLocation.view.setGravity(GravityCompat.END);
-        statusTextViewAtLocation.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        statusTextViewOnTheWay.textViewTitle.setText("On the way");
-        statusTextViewOnTheWay.textViewText.setText("Bus is on the way to school and will be there in (ETA) minutes");
+        Fragment parentFragment = getParentFragment();
 
-        statusTextViewReached.textViewTitle.setText("Reached");
-        statusTextViewReached.textViewText.setText("Bus has reached the school");
-        statusTextViewReached.view.setGravity(GravityCompat.END);
-        statusTextViewReached.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        if (parentFragment instanceof StudentSSFragment) {
+            StudentSSFragment studentSSFragment = (StudentSSFragment) parentFragment;
+
+            studentSSFragment.ride.observe(getViewLifecycleOwner(), new Observer<Ride>() {
+                @Override
+                public void onChanged(Ride ride) {
+
+                    if (ride == null) return;
+
+                    if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
+//                        morningStatuses();
+
+                    } else if (ride.shift.equalsIgnoreCase(Ride.SHIFT_AFTERNOON)) {
+
+//                        eveningStatuses();
+                    } else if (false) {
+
+                        //Evening 1
+                        //TODO
+                    }
+
+
+                    for (Student student : ride.students) {
+
+                        if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
+                            morningStatuses(student);
+
+                            switch (student.status) {
+                                case 1:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    statusTextView1.selected();
+
+                                    break;
+                                case 2:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+
+                                    statusTextView1.selected();
+                                    statusTextView2.selected();
+
+
+                                    break;
+                                case 3:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
+
+                                    statusTextView1.selected();
+                                    statusTextView2.selected();
+                                    statusTextView3.selected();
+
+                                    break;
+                                case 4:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox4.setImageResource(R.drawable.checkbox_checked);
+
+                                    statusTextView1.selected();
+                                    statusTextView2.selected();
+                                    statusTextView3.selected();
+                                    statusTextView4.selected();
+
+                                    break;
+                                default:
+
+                                    break;
+                            }
+
+
+                        } else if (ride.shift.equalsIgnoreCase(Ride.SHIFT_AFTERNOON)) {
+
+                            eveningStatuses(student);
+
+
+                            switch (student.status) {
+                                case 1:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    break;
+                                case 2:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+
+
+                                    break;
+                                case 3:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
+
+                                    break;
+                                case 4:
+                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
+                                    checkBox4.setImageResource(R.drawable.checkbox_checked);
+
+                                    break;
+                                default:
+
+                                    break;
+
+                            }
+
+                        }
+
+
+                        return;
+
+                    }
+
+
+                }
+            });
+
+        }
+
+
     }
-    public void eveningStatuses()
-    {
 
-            statusTextViewLeftFOrSchool.textViewTitle.setText("School is over");
-            statusTextViewLeftFOrSchool.textViewText.setText("School is over and bus is waiting for (student name) to hop in");
+    public void morningStatuses(Student student) {
+        statusTextView1.textViewTitle.setText("Bus is coming");
+        statusTextView1.textViewText.setText("Bus is on its way to pickup " + student.fullname + " and will be there in " + Math.round(student.duration) + " minutes");
+        statusTextView1.unSelected();
 
-            statusTextViewAtLocation.textViewTitle.setText("In the bus");
-            statusTextViewAtLocation.textViewText.setText("(Student name) is in the bus and will reach in around ETA (eta) minutes");
-            statusTextViewAtLocation.view.setGravity(GravityCompat.END);
-            statusTextViewAtLocation.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
 
-            statusTextViewOnTheWay.textViewTitle.setText("Almost There");
-            statusTextViewOnTheWay.textViewText.setText("(Student name) will reach home in (eta) minutes");
+        statusTextView2.textViewTitle.setText("Bus is here");
+        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and will leave in " + Math.round(student.duration) + " minutes");
+        statusTextView2.view.setGravity(GravityCompat.END);
+        statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        statusTextView2.unSelected();
 
-            statusTextViewReached.textViewTitle.setText("At your doorstep");
-            statusTextViewReached.textViewText.setText("Please open the door (Student name) is waiting outside");
-            statusTextViewReached.view.setGravity(GravityCompat.END);
-            statusTextViewReached.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        statusTextView3.textViewTitle.setText("On the way");
+        statusTextView3.textViewText.setText("Bus is on the way to school and will be there in " + Math.round(student.duration) + " minutes");
+        statusTextView3.unSelected();
+
+        statusTextView4.textViewTitle.setText("Reached");
+        statusTextView4.textViewText.setText("Bus has reached the school");
+        statusTextView4.view.setGravity(GravityCompat.END);
+        statusTextView4.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        statusTextView4.unSelected();
+
+
+        unchechAllCheckox();
+    }
+
+    private void unchechAllCheckox() {
+        checkBox1.setImageResource(R.drawable.checkbox_unchecked);
+        checkBox2.setImageResource(R.drawable.checkbox_unchecked);
+        checkBox3.setImageResource(R.drawable.checkbox_unchecked);
+        checkBox4.setImageResource(R.drawable.checkbox_unchecked);
+    }
+
+
+    public void eveningStatuses(Student student) {
+
+        statusTextView1.textViewTitle.setText("School is over");
+        statusTextView1.textViewText.setText("School is over and bus is waiting for " + student.fullname + " to hop in");
+        statusTextView1.unSelected();
+
+        statusTextView2.textViewTitle.setText("In the bus");
+        statusTextView2.textViewText.setText(student.fullname + " is in the bus and will reach in around  " + Math.round(student.duration) + " minutes");
+        statusTextView2.view.setGravity(GravityCompat.END);
+        statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        statusTextView4.unSelected();
+
+
+        statusTextView3.textViewTitle.setText("Almost There");
+        statusTextView3.textViewText.setText("(Student name) will reach home in " + Math.round(student.duration) + " minutes");
+        statusTextView4.unSelected();
+
+        statusTextView4.textViewTitle.setText("At your doorstep");
+        statusTextView4.textViewText.setText("Please open the door " + student.fullname + " is waiting outside");
+        statusTextView4.view.setGravity(GravityCompat.END);
+        statusTextView4.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        statusTextView4.unSelected();
+
+
+        unchechAllCheckox();
 
     }
 
     @OnClick(R.id.buttonRealTimeTracking)
     public void onViewClicked() {
 
-        ((HomeActivity)getActivity()).getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frameLayout,new RealTimeTrackingFragment())
-                .commit();
+//        ((HomeActivity) getActivity()).getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.frameLayout, new RealTimeTrackingFragment())
+//                .commit();
 
+
+        StudentSSFragment parentFragment = (StudentSSFragment) getParentFragment();
+        MapActivity.start(getActivity(), parentFragment.currentKid);
 
 
     }

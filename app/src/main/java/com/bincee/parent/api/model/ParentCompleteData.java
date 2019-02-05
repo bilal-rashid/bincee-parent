@@ -81,6 +81,7 @@ public class ParentCompleteData {
         public Integer schoolId;
     }
     public  class KidModel{
+        public static final String KID = "kid";
         @SerializedName("id")
         @Expose
         public Integer id;

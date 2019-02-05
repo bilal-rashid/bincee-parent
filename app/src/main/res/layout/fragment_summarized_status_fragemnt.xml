@@ -11,26 +11,26 @@
 
 
     <com.bincee.parent.StatusTextView
-        android:id="@+id/statusTextViewAtLocation"
+        android:id="@+id/statusTextView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="end"
-        app:layout_constraintEnd_toStartOf="@+id/checkBoxAtTheLocation"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checkBoxAtTheLocation" />
+        app:layout_constraintTop_toTopOf="@+id/checkBox2" />
 
     <com.bincee.parent.StatusTextView
-        android:id="@+id/statusTextViewReached"
+        android:id="@+id/statusTextView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="end"
-        app:layout_constraintEnd_toStartOf="@+id/checkBoxReached"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checkBoxReached" />
+        app:layout_constraintTop_toTopOf="@+id/checkBox4" />
 
     <View
         android:id="@+id/view"
@@ -56,70 +56,69 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/checkBoxTestLeftForSchool"
+        android:id="@+id/checkBox1"
         android:layout_width="@dimen/checkbox_width_height"
         android:layout_height="@dimen/checkbox_width_height"
         android:layout_marginTop="16dp"
         android:src="@drawable/checkbox_unchecked"
-        app:layout_constraintBottom_toTopOf="@+id/checkBoxAtTheLocation"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox2"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <com.bincee.parent.StatusTextView
-        android:id="@+id/statusTextViewLeftFOrSchool"
+        android:id="@+id/statusTextView1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toEndOf="@+id/checkBoxTestLeftForSchool"
-        app:layout_constraintTop_toTopOf="@+id/checkBoxTestLeftForSchool" />
+        app:layout_constraintStart_toEndOf="@+id/checkBox1"
+        app:layout_constraintTop_toTopOf="@+id/checkBox1" />
 
     <com.bincee.parent.StatusTextView
-        android:id="@+id/statusTextViewOnTheWay"
+        android:id="@+id/statusTextView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/checkBoxOnTheWay"
-        app:layout_constraintTop_toTopOf="@+id/checkBoxOnTheWay" />
+        app:layout_constraintStart_toEndOf="@+id/checkBox3"
+        app:layout_constraintTop_toTopOf="@+id/checkBox3" />
 
     <ImageView
-        android:id="@+id/checkBoxAtTheLocation"
+        android:id="@+id/checkBox2"
         android:layout_width="@dimen/checkbox_width_height"
         android:layout_height="@dimen/checkbox_width_height"
         android:src="@drawable/checkbox_unchecked"
-        app:layout_constraintBottom_toTopOf="@+id/checkBoxOnTheWay"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox3"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxTestLeftForSchool" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox1" />
 
 
     <ImageView
-        android:id="@+id/checkBoxOnTheWay"
+        android:id="@+id/checkBox3"
         android:layout_width="@dimen/checkbox_width_height"
         android:layout_height="@dimen/checkbox_width_height"
         android:checked="true"
         android:src="@drawable/checkbox_unchecked"
-        app:layout_constraintBottom_toTopOf="@+id/checkBoxReached"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox4"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxAtTheLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
 
     <ImageView
-        android:id="@+id/checkBoxReached"
+        android:id="@+id/checkBox4"
         android:layout_width="@dimen/checkbox_width_height"
         android:layout_height="@dimen/checkbox_width_height"
 
-        android:src="@drawable/checkbox_checked"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxOnTheWay" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
 
     <ImageView
         android:id="@+id/imageViewBusStauts"

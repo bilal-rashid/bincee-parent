@@ -18,6 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activity.MapActivity"></activity>
+
         <provider
             android:name=".GenericFileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -30,6 +32,7 @@
 
         <activity
             android:name=".HomeActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
@@ -71,9 +74,7 @@
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ProfileActivity" />
-        <activity android:name=".activity.ContectUsActivity"></activity>
-
-
+        <activity android:name=".activity.ContectUsActivity" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

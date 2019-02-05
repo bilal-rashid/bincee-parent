@@ -12,6 +12,8 @@
         android:id="@+id/infiniteCycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
 
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,14 +59,14 @@
         android:text=""
         android:textColor="@color/text_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewStatus2"
+        app:layout_constraintBottom_toTopOf="@+id/textViewETA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/imageViewStatusIcon"
         app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
 
     <TextView
-        android:id="@+id/textViewStatus2"
+        android:id="@+id/textViewETA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -82,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/imageViewStatusIcon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/bus_icon_green"
@@ -92,7 +94,8 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewStatus"
-        app:layout_constraintVertical_bias="0.19999999" />
+        app:layout_constraintVertical_bias="0.19999999"
+        tools:visibility="gone" />
 
 
     <TextView
@@ -103,7 +106,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_medium"
-        android:text=""
         android:textColor="@color/text_black"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/textViewAddress"
@@ -122,7 +124,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/circle_rectangle_blue_selector"
-        android:text="Find Me"
+        android:text="Track my kid"
         android:textColor="#fff"
         android:translationZ="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -165,33 +167,33 @@
         app:layout_constraintGuide_percent="0.27" />
 
 
-    <LinearLayout
-        android:layout_width="100dp"
+    <!--<LinearLayout-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:background="@drawable/white_rounded_rectangle"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/guideline4"-->
+    <!--app:layout_constraintEnd_toEndOf="@+id/infiniteCycleView"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/infiniteCycleView"-->
+    <!--tools:visibility="gone">-->
 
-        android:layout_height="30dp"
-        android:background="@drawable/white_rounded_rectangle"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toEndOf="@+id/infiniteCycleView"
-        app:layout_constraintTop_toTopOf="@+id/infiniteCycleView">
+    <!--<TextView-->
+    <!--android:id="@+id/textViewSwipe"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="1dp"-->
+    <!--android:fontFamily="@font/gotham_book"-->
+    <!--android:text="Swipe"-->
+    <!--android:textColor="#242424"-->
+    <!--android:textSize="12sp" />-->
 
-        <TextView
-            android:id="@+id/textViewSwipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="1dp"
-            android:fontFamily="@font/gotham_book"
-            android:text="Swipe"
-            android:textColor="#242424"
-            android:textSize="12sp" />
+    <!--<ImageView-->
+    <!--android:layout_width="30sp"-->
+    <!--android:layout_height="12dp"-->
+    <!--android:src="@drawable/arrow" />-->
 
-        <ImageView
-            android:layout_width="30sp"
-            android:layout_height="12dp"
-            android:src="@drawable/arrow" />
-
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <ImageView
         android:id="@+id/imageViewCall"
@@ -202,5 +204,16 @@
         android:src="@drawable/call_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:translationZ="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
