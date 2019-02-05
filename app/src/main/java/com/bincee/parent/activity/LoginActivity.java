@@ -125,7 +125,7 @@ public class LoginActivity extends BA {
                 String token = instanceIdResult.getToken();
                 data.put("token", token);
                 data.put("userId", user.id);
-
+                Log.e("FcmToken",token);
 
                 FirebaseFirestore instance = FirebaseFirestore.getInstance();
                 instance.collection("token").document(user.id + "")
