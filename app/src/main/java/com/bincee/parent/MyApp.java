@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.bincee.parent.api.EndPoints;
 import com.bincee.parent.api.model.AlertsAndAnnoucementModel;
 import com.bincee.parent.api.model.LoginResponse;
-import com.bincee.parent.api.model.ParentCompleteData;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -28,7 +27,6 @@ public class MyApp extends Application {
     private static Toast toast;
     public Gson gson;
     public LoginResponse.User user;
-    public ParentCompleteData parentCompleteInfo;
     public List<AlertsAndAnnoucementModel.AnnouncementModel> announcementList;
     public List<AlertsAndAnnoucementModel.AlertModel> alertList;
     public static void showToast(String message) {

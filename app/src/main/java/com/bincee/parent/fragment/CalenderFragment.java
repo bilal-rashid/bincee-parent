@@ -100,10 +100,12 @@ public class CalenderFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         Calendar lastYear = Calendar.getInstance();
+
         lastYear.set(Calendar.YEAR, 2018);
         lastYear.set(Calendar.MONTH, 12);
         lastYear.set(Calendar.DAY_OF_MONTH, 31);
-        calendarView.init(Calendar.getInstance().getTime(), lastYear.getTime()).inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+
+        calendarView.init(lastYear.getTime(), Calendar.getInstance().getTime()).inMode(CalendarPickerView.SelectionMode.MULTIPLE);
 
 
         buttonCalendar.performClick();
@@ -164,7 +166,7 @@ public class CalenderFragment extends Fragment {
         linearLayoutLeaveAppplication.setVisibility(View.GONE);
         ParentCompleteData.KidModel currentKid = StudentSSFragment.getInstance().currentKid;
         if (currentKid == null) {
-            currentKid = MyApp.instance.parentCompleteInfo.kids.get(0);
+            currentKid = MyApp.instance.user.parentCompleteInfo.kids.get(0);
         }
 
 

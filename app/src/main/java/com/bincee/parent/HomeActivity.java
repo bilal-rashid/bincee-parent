@@ -10,18 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bincee.parent.activity.ContectUsActivity;
-import com.bincee.parent.activity.ProfileActivity;
-import com.bincee.parent.api.model.LoginResponse;
-import com.bincee.parent.base.BA;
-import com.bincee.parent.databinding.ActivityHomeBinding;
-import com.bincee.parent.fragment.AlertsFragment;
-import com.bincee.parent.fragment.CalenderFragment;
-import com.bincee.parent.fragment.StudentSSFragment;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
@@ -29,6 +17,23 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bincee.parent.activity.ContectUsActivity;
+import com.bincee.parent.activity.ProfileActivity;
+import com.bincee.parent.activity.SplashActivity;
+import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.base.BA;
+import com.bincee.parent.databinding.ActivityHomeBinding;
+import com.bincee.parent.dialog.DriverInformationDialog;
+import com.bincee.parent.dialog.LogoutDialog;
+import com.bincee.parent.fragment.AlertsFragment;
+import com.bincee.parent.fragment.CalenderFragment;
+import com.bincee.parent.fragment.StudentSSFragment;
+import com.bincee.parent.helper.MyPref;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,9 +46,10 @@ public class HomeActivity extends BA {
     public static final String ALERTS_AND_ANNOUNCEMENT = "- Alerts and Announcement";
     public static final String SETTINGS = "- Settings";
     public static final String DRIVERS_PROFILE = "- Drivers Profile";
-    public static final String FAQ = "- FAQ";
     public static final String ABOUT_US = "- About Us";
     public static final String CONTACT_US = "- Contact US";
+    public static final String LOCATE_ME = "- Locate Me";
+
 
     public ActivityHomeBinding binding;
 
@@ -86,8 +92,8 @@ public class HomeActivity extends BA {
 //        menuItem.add(ALERTS_AND_ANNOUNCEMENT);
 //        menuItem.add(SETTINGS);
         menuItem.add(DRIVERS_PROFILE);
-        menuItem.add(FAQ);
         menuItem.add(CONTACT_US);
+        menuItem.add(LOCATE_ME);
 //        menuItem.add(ABOUT_US);
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -140,7 +146,39 @@ public class HomeActivity extends BA {
         binding.bottomNavigationView.setItemIconTintList(null);
 
 
+        binding.textViewLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+
+
         goHomeUrDrunk();
+
+
+    }
+
+    private void logout() {
+
+        new LogoutDialog(this)
+                .setListner(new LogoutDialog.Listner() {
+                    @Override
+                    public void _logout() {
+                        MyPref.logout(HomeActivity.this);
+                        MyPref.logout(HomeActivity.this);
+
+                        Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void _cancel() {
+
+                    }
+                })
+                .show();
 
 
     }
@@ -183,23 +221,28 @@ public class HomeActivity extends BA {
         public void onMenuItemClicked() {
 
             binding.drawerLayout.closeDrawer(Gravity.LEFT);
-            if (textView.getText().toString().equalsIgnoreCase(HOME)) {
+            String s = textView.getText().toString();
+            if (s.equalsIgnoreCase(HOME)) {
 
                 goHomeUrDrunk();
 
-            } else if (textView.getText().toString().equalsIgnoreCase(MY_PROFILE)) {
+            } else if (s.equalsIgnoreCase(MY_PROFILE)) {
 
                 ProfileActivity.start(HomeActivity.this);
 
-            } else if (textView.getText().toString().equalsIgnoreCase(HOME)) {
+            } else if (s.equalsIgnoreCase(HOME)) {
 //                getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.frameLayout, HomeFragment.getInstance())
 //                        .commit();
-            } else if (textView.getText().toString().equalsIgnoreCase(CONTACT_US)) {
+            } else if (s.equalsIgnoreCase(CONTACT_US)) {
                 ContectUsActivity.start(HomeActivity.this);
 
-            } else if (textView.getText().toString().equalsIgnoreCase(ALERTS_AND_ANNOUNCEMENT)) {
+            } else if (s.equalsIgnoreCase(ALERTS_AND_ANNOUNCEMENT)) {
                 binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
+            } else if (s.equalsIgnoreCase(DRIVERS_PROFILE)) {
+
+                new DriverInformationDialog(HomeActivity.this, StudentSSFragment.getInstance().currentKid.driver).show();
+
             }
 
         }

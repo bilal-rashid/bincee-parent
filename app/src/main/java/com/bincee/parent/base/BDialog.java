@@ -19,5 +19,6 @@ public class BDialog extends Dialog {
         View decorView = window.getDecorView();
         decorView.setBackgroundColor(Color.TRANSPARENT);
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
     }
 }
