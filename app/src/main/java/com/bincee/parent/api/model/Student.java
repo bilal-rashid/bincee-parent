@@ -4,7 +4,8 @@ import androidx.annotation.Nullable;
 
 public class Student {
 
-    public static final String STUDENT_ID = "studenId";
+    public static final String STUDENT_ID = "studentId";
+    public static final String NOTIFICATION_TYPE = "type";
 
     public static final int STATUS_MORNING_BUS_IS_COMMING = 1;
     public static final int STATUS_MORNING_ATYOURLOCATION = 2;

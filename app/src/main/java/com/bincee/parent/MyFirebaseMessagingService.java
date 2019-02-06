@@ -46,25 +46,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
 
         String type = "";
-        int studentId = -1;
+        String studentId = "-1";
 
-        if (remoteMessage.getData().containsKey("studentId")) {
-            studentId = Integer.parseInt(remoteMessage.getData().get("studentId"));
+        if (remoteMessage.getData().containsKey(Student.STUDENT_ID)) {
+            studentId = (remoteMessage.getData().get(Student.STUDENT_ID));
 
         }
 
-        if (remoteMessage.getData().containsKey("type")) {
-            type = (remoteMessage.getData().get("type"));
+        if (remoteMessage.getData().containsKey(Student.NOTIFICATION_TYPE)) {
+            type = (remoteMessage.getData().get(Student.NOTIFICATION_TYPE));
         }
 
 
         if (type.equalsIgnoreCase("2") || type.equalsIgnoreCase("1")) {
             //Atandnace or update status
 
-            if (studentId != -1) {
+            if (!studentId.equalsIgnoreCase(" -1")) {
 
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.putExtra(Student.STUDENT_ID, studentId);
+                intent.putExtra(Student.NOTIFICATION_TYPE, type);
                 startActivity(intent);
 
             }

@@ -30,6 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
+
         AnimationDrawable frameAnimation = new AnimationDrawable();
         frameAnimation.addFrame(getResources().getDrawable(R.drawable._1), duration);
         frameAnimation.addFrame(getResources().getDrawable(R.drawable._2), duration);
