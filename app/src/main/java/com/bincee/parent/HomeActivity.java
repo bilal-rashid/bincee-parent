@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -61,6 +62,7 @@ public class HomeActivity extends BA {
     MutableLiveData<LoginResponse.User> liveUse = new MutableLiveData<>();
     private String TAG = HomeActivity.class.getSimpleName();
     private VM liveData;
+    private Handler handler = new Handler();
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, HomeActivity.class));
@@ -180,21 +182,40 @@ public class HomeActivity extends BA {
 
     }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+    }
+
+
     private void checkNotificationForStudent(Intent intent) {
         Bundle extras = intent.getExtras();
         if (extras == null) return;
 
 
-        int studenId = extras.getInt(Student.STUDENT_ID, -1);
-        if (studenId != -1) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        int studenId = Integer.parseInt(extras.getString(Student.STUDENT_ID, "-1"));
+        String type = (extras.getString(Student.NOTIFICATION_TYPE, "-1"));
 
-                    StudentSSFragment.getInstance().setCurrentStudent(studenId);
+        if (type.equalsIgnoreCase("2") || type.equalsIgnoreCase("1")) {
 
-                }
-            }, 1000);
+            if (studenId != -1) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        StudentSSFragment.getInstance().setCurrentStudent(studenId);
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                StudentSSFragment.getInstance().onButtonFindMeClicked();
+                            }
+                        }, 500);
+
+                    }
+                }, 1000);
+            }
         }
     }
 

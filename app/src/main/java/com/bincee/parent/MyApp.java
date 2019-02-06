@@ -7,6 +7,7 @@ import com.bincee.parent.api.EndPoints;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
 import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.helper.MyPref;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class MyApp extends Application {
     public LoginResponse.User user;
     public List<AnnouncementModel.SingleAnnouncement> announcementList = new ArrayList<>();
     public List<AlertsModel.EnclosingData> alertList = new ArrayList<>();
+
     public static void showToast(String message) {
         if (toast != null) {
             toast.cancel();
@@ -42,6 +44,8 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        user = MyPref.GET_USER(getApplicationContext());
+
 //        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 //            @Override
 //            public void uncaughtException(Thread thread, Throwable throwable) {
