@@ -21,8 +21,7 @@ public class StudentLeavesModel {
         @Expose
         @SerializedName("student_id")
         public int studentId;
-        @Expose
-        @SerializedName("comment")
+
         public String comment;
         @Expose
         @SerializedName("to_date")

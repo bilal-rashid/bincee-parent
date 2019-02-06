@@ -49,10 +49,11 @@ public class CalenderFragment extends Fragment {
     protected CompositeDisposable compositeDisposable;
 
 
-    @BindView(R.id.imageView7)
-    ImageView imageView7;
+    @BindView(R.id.imageViewBg)
+    ImageView imageViewBg;
     @BindView(R.id.calendar_view)
     CalendarPickerView calendarView;
+    //    CalendarView calendarView;
     @BindView(R.id.buttonCalendar)
     Button buttonCalendar;
     @BindView(R.id.buttonHistory)
@@ -73,6 +74,9 @@ public class CalenderFragment extends Fragment {
     RadioGroup radioButt;
     @BindView(R.id.editTextComment)
     TextInputEditText editTextComment;
+    @BindView(R.id.imageViewCross)
+    ImageView imageViewCross;
+
     private MyAdapter adapter;
     @BindView(R.id.progressBar)
     MyProgress progressBar;
@@ -125,7 +129,7 @@ public class CalenderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("CALENDAR");
+        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText(R.string.leaves);
 
     }
 
@@ -233,6 +237,12 @@ public class CalenderFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.imageViewCross)
+    public void onViewClicked() {
+        HomeActivity activity = (HomeActivity) getActivity();
+        activity.binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_summarizedsize);
+    }
+
     private class MyAdapter extends RecyclerView.Adapter<VH> {
 
         @NonNull
@@ -256,6 +266,7 @@ public class CalenderFragment extends Fragment {
     public class VH extends RecyclerView.ViewHolder {
         @BindView(R.id.imageView8)
         ImageView imageView8;
+
         @BindView(R.id.textViewTitle)
         TextView textViewTitle;
         @BindView(R.id.textViewDetailMessage)
@@ -267,9 +278,12 @@ public class CalenderFragment extends Fragment {
         }
 
         public void bind(StudentLeavesModel.OneLeaveRecord oneLeaveRecord) {
-            String help = DateHelper.help(oneLeaveRecord.fromDate);
-            textViewTitle.setText(help + " - " + oneLeaveRecord.toDate);
-            editTextComment.setText(oneLeaveRecord.comment);
+            String fromData = DateHelper.help(oneLeaveRecord.fromDate);
+            String toDate = DateHelper.help(oneLeaveRecord.toDate);
+            String year = DateHelper.helpYear(oneLeaveRecord.toDate);
+
+            textViewTitle.setText(fromData + " - " + toDate + ", " + year);
+            textViewDetailMessage.setText(oneLeaveRecord.comment);
         }
     }
 }

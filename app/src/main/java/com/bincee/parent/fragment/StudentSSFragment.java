@@ -118,7 +118,8 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         kidsArray = MyApp.instance.user.parentCompleteInfo.kids;
         stackViewAdapter = new StackViewAdapter(kidsArray);
 
-        layout = new StackLayoutManager();
+        layout = new StackLayoutManager(StackLayoutManager.ScrollOrientation.RIGHT_TO_LEFT, 3);
+        layout.setPagerMode(true);
 
 
         layout.setItemChangedListener(new StackLayoutManager.ItemChangedListener() {
@@ -128,7 +129,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                 changeCurrentStudent(position);
             }
         });
-//        layout.setItemOffset(400);
+        layout.setItemOffset(100);
+//        layout.setVisibleItemCount(3);
+
 
 
     }

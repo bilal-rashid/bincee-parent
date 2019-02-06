@@ -13,6 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.MyResponse;
@@ -32,15 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -404,6 +405,7 @@ public class ParentProfileFragment extends BFragment {
 
                         @Override
                         public void onHandledError(Throwable e) {
+                            e.printStackTrace();
 
                             parentErrorListner.setValue(new Event<Throwable>(e));
                             loading.setValue(false);
@@ -445,6 +447,7 @@ public class ParentProfileFragment extends BFragment {
 
                         @Override
                         public void onHandledError(Throwable e) {
+                            e.printStackTrace();
 
                             parentErrorListner.setValue(new Event<Throwable>(e));
                             kidsLoading.setValue(false);
