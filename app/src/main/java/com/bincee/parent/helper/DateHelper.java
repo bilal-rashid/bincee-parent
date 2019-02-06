@@ -8,7 +8,7 @@ import java.util.Date;
 public class DateHelper {
 
     public static String help(String fromDate) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         Date date = null;
 
         try {
@@ -16,7 +16,25 @@ public class DateHelper {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat formatter = new SimpleDateFormat("MMM-dd");
+        if (date == null) {
+            return null;
+        } else {
+            String dateStr = formatter.format(date);
+            return dateStr;
+        }
+    }
+
+    public static String helpYear(String fromDate) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        Date date = null;
+
+        try {
+            date = dateFormat.parse(fromDate);//You will get date object relative to server/client timezone wherever it is parsed
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DateFormat formatter = new SimpleDateFormat("yyyy");
         if (date == null) {
             return null;
         } else {

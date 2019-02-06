@@ -2,6 +2,8 @@ package com.bincee.parent.api.model;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Student {
 
     public static final String STUDENT_ID = "studentId";
@@ -32,7 +34,12 @@ public class Student {
     public int shift;
     public String fullname;
     public int id;
+    @SerializedName("ufff")
     public int status = 1;
+
+    @SerializedName("status")
+    public String backendStatus;
+
     public int parent_id;
 
     public int present = UNKNOWN;

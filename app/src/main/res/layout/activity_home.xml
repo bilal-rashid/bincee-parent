@@ -14,6 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="#fff"
         android:layout_height="match_parent"
         tools:context=".HomeActivity">
 
@@ -144,7 +145,8 @@
                         android:id="@+id/textViewLogout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="40dp"
+                        android:layout_marginStart="30dp"
+                        android:padding="10dp"
                         android:fontFamily="@font/gotham_book"
                         android:text="- Logout"
                         android:textColor="@color/_4f4f4f"

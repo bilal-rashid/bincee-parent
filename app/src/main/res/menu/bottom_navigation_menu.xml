@@ -11,7 +11,7 @@
     <item
         android:icon="@drawable/calendar_icon_selector"
         android:id="@+id/bottmnavigation_calender"
-        android:title="Calendar" />
+        android:title="@string/leaves" />
 
 
     <item

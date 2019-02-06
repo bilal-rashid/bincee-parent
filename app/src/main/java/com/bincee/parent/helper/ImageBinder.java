@@ -28,7 +28,7 @@ public final class ImageBinder {
         Context context = imageView.getContext();
         Glide.with(context).load(url)
                 .apply(new RequestOptions()
-                        .fitCenter()
+//                        .override(UiUtils.DptoPixel(imageView.getContext(),300),UiUtils.DptoPixel(imageView.getContext(),180))
                         .placeholder(R.drawable.girl_profile_icon)
                         .error(R.drawable.girl_profile_icon))
                 .into(imageView);

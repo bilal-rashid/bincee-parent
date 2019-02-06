@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.bincee.parent.R;
 import com.bincee.parent.base.BDialog;
+import com.bincee.parent.helper.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,7 +68,7 @@ public class LogoutDialog extends BDialog {
     public void show() {
         super.show();
 
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setLayout(UiUtils.DptoPixel(getContext(), 400), ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
     }
