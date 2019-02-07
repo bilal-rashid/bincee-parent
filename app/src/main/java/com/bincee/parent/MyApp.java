@@ -3,6 +3,8 @@ package com.bincee.parent;
 import android.app.Application;
 import android.widget.Toast;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.bincee.parent.api.EndPoints;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
@@ -29,7 +31,9 @@ public class MyApp extends Application {
     public static EndPoints endPoints;
     private static Toast toast;
     public Gson gson;
-    public LoginResponse.User user;
+
+    public MutableLiveData<LoginResponse.User> user = new MutableLiveData<>();
+
     public List<AnnouncementModel.SingleAnnouncement> announcementList = new ArrayList<>();
     public List<AlertsModel.EnclosingData> alertList = new ArrayList<>();
 
@@ -44,7 +48,7 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        user = MyPref.GET_USER(getApplicationContext());
+        user.setValue(MyPref.GET_USER(getApplicationContext()));
 
 //        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 //            @Override
@@ -70,7 +74,7 @@ public class MyApp extends Application {
                 .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(chain -> {
                     Request.Builder builder = chain.request().newBuilder();
-                    LoginResponse.User user = MyApp.instance.user;
+                    LoginResponse.User user = MyApp.instance.user.getValue();
                     if (user != null && user.token != null) {
                         builder.addHeader("Authorization", "Bearer " + user.token);
                     }

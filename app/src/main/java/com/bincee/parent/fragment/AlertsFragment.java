@@ -18,6 +18,7 @@ import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
+import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.base.BFragment;
 import com.bincee.parent.customview.MyProgress;
 import com.bincee.parent.observer.EndpointObserver;
@@ -97,7 +98,7 @@ public class AlertsFragment extends BFragment {
 
     public void callApiForAlerts() {
         compositeDisposable.add(MyApp.endPoints
-                .getAlerts(String.valueOf(MyApp.instance.user.parentCompleteInfo.schoolId))
+                .getAlerts(String.valueOf(MyApp.instance.user.getValue().parentCompleteInfo.schoolId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new EndpointObserver<AlertsModel>() {
@@ -128,7 +129,7 @@ public class AlertsFragment extends BFragment {
 
     public void callApiForAnnoucements() {
         compositeDisposable.add(MyApp.endPoints
-                .getAnnouncements(String.valueOf(MyApp.instance.user.parentCompleteInfo.parentId))
+                .getAnnouncements(String.valueOf(MyApp.instance.user.getValue().parentCompleteInfo.parentId))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new EndpointObserver<AnnouncementModel>() {
@@ -141,7 +142,18 @@ public class AlertsFragment extends BFragment {
                     public void onData(AnnouncementModel o) throws Exception {
                         if (o.status == 200) {
 
-                            announcementList = o.data;
+                            ParentCompleteData.KidModel currentKid = StudentSSFragment.getInstance().currentKid;
+
+
+                            for (AnnouncementModel.SingleAnouncementTop singleAnouncementTop : o.data) {
+
+                                if (singleAnouncementTop.student_id == currentKid.id) {
+                                    announcementList = singleAnouncementTop.data;
+                                }
+
+                            }
+
+
                             MyApp.instance.announcementList = announcementList;
                             anouncemetFragment.setData(announcementList);
                         }

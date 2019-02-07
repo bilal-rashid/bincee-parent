@@ -3,13 +3,12 @@ package com.bincee.parent.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.bincee.parent.activity.LoginActivity;
 import com.bincee.parent.api.model.LoginResponse;
 import com.google.gson.Gson;
 
 public class MyPref {
 
-    public static void SAVE_USER(LoginActivity loginActivity, LoginResponse.User user) {
+    public static void SAVE_USER(Context loginActivity, LoginResponse.User user) {
         SharedPreferences sharedPref = getSharedPref(loginActivity);
         sharedPref.edit().putString("user", new Gson().toJson(user)).apply();
 

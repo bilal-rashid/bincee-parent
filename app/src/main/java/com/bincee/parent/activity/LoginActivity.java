@@ -90,8 +90,8 @@ public class LoginActivity extends BA {
                     public void onData(LoginResponse response) {
                         if (response.status == 200) {
 
-                            MyApp.instance.user = response.data;
-                            String parentId = String.valueOf(MyApp.instance.user.id);
+                            MyApp.instance.user.setValue(response.data);
+                            String parentId = String.valueOf(MyApp.instance.user.getValue().id);
                             callForParentData(parentId);
                             saveTokenToFirebase();
 
@@ -120,7 +120,7 @@ public class LoginActivity extends BA {
             public void onSuccess(InstanceIdResult instanceIdResult) {
 
                 HashMap<String, Object> data = new HashMap<>();
-                LoginResponse.User user = MyApp.instance.user;
+                LoginResponse.User user = MyApp.instance.user.getValue();
 
                 String token = instanceIdResult.getToken();
                 data.put("token", token);
@@ -161,9 +161,9 @@ public class LoginActivity extends BA {
                     public void onData(MyResponse<ParentCompleteData> response) throws Exception {
                         if (response.status == 200) {
 
-                            MyApp.instance.user.parentCompleteInfo = response.data;
+                            MyApp.instance.user.getValue().parentCompleteInfo = response.data;
                             HomeActivity.start(LoginActivity.this);
-                            MyPref.SAVE_USER(LoginActivity.this, MyApp.instance.user);
+                            MyPref.SAVE_USER(LoginActivity.this, MyApp.instance.user.getValue());
 
                             finish();
 

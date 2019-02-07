@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bincee.parent.activity.ContectUsActivity;
+import com.bincee.parent.activity.MyLocationActivity;
 import com.bincee.parent.activity.ProfileActivity;
 import com.bincee.parent.activity.SplashActivity;
 import com.bincee.parent.api.model.LoginResponse;
@@ -34,6 +35,7 @@ import com.bincee.parent.dialog.LogoutDialog;
 import com.bincee.parent.fragment.AlertsFragment;
 import com.bincee.parent.fragment.CalenderFragment;
 import com.bincee.parent.fragment.StudentSSFragment;
+import com.bincee.parent.helper.ImageBinder;
 import com.bincee.parent.helper.MyPref;
 
 import java.util.ArrayList;
@@ -87,7 +89,7 @@ public class HomeActivity extends BA {
 
         liveData = ViewModelProviders.of(this).get(VM.class);
 
-        liveUse.setValue(MyApp.instance.user);
+        liveUse.setValue(MyApp.instance.user.getValue());
         liveUse.observe(this, new Observer<LoginResponse.User>() {
             @Override
             public void onChanged(LoginResponse.User user) {
@@ -173,6 +175,15 @@ public class HomeActivity extends BA {
             }
         });
 
+        MyApp.instance.user.observe(this, new Observer<LoginResponse.User>() {
+            @Override
+            public void onChanged(LoginResponse.User user) {
+                if (user == null) return;
+                ImageBinder.setImageUrlRoundedCorner(binding.userLayout.imageViewProfilePic, user.parentCompleteInfo.photo);
+                binding.userLayout.textViewUsername.setText(user.parentCompleteInfo.fullname);
+
+            }
+        });
 
         goHomeUrDrunk();
 
@@ -220,6 +231,7 @@ public class HomeActivity extends BA {
     }
 
     private void logout() {
+        binding.drawerLayout.closeDrawer(Gravity.LEFT);
 
         new LogoutDialog(this)
                 .setListner(new LogoutDialog.Listner() {
@@ -307,6 +319,8 @@ public class HomeActivity extends BA {
 
                 new DriverInformationDialog(HomeActivity.this, StudentSSFragment.getInstance().currentKid.driver).show();
 
+            } else if (s.equalsIgnoreCase(LOCATE_ME)) {
+                MyLocationActivity.start(HomeActivity.this);
             }
 
         }

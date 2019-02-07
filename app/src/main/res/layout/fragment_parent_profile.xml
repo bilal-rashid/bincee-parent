@@ -83,14 +83,16 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewNumber" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/textViewEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
+
+            android:onClick="@{handlers::onEditClicked}"
+            android:padding="10dp"
+
             android:fontFamily="@font/gotham_medium"
-            android:text="Edit"
+            android:text="@string/edit"
+            android:textAlignment="center"
             android:textColor="@color/blue"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +113,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewEdit" />
 
         <ProgressBar
             android:id="@+id/kidsProgressbar"
@@ -161,6 +163,7 @@
             android:layout_width="25dp"
             android:onClick="@{handlers::onProfileClicked}"
 
+            android:visibility="gone"
             android:layout_height="25dp"
             android:src="@drawable/edit_pencil"
             app:layout_constraintEnd_toEndOf="@+id/circleImageViewProfile"

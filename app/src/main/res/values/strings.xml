@@ -12,6 +12,8 @@
     <string name="manama_building_behrain">Manama Building, Behrain</string>
     <string name="name">Salman Khan</string>
     <string name="leaves">LEAVES</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
 
 
 </resources>

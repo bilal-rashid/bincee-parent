@@ -13,6 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -22,15 +23,27 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:src="@drawable/kid_profile"
+
+            app:imageUrl="@{student.photo}"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/imageVIewKidEdit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/edit_kid_pic_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+            app:layout_constraintEnd_toEndOf="@+id/imageView14" />
+
 
         <TextView
             android:id="@+id/textViewName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -46,13 +59,13 @@
 
         <TextView
             android:id="@+id/textViewAddress"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/gotham_book"
-            android:text=""
+            android:text="@{student.address}"
             android:textColor="@color/text_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageViewEdit"

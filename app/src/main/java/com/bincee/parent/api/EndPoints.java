@@ -73,4 +73,12 @@ public interface EndPoints {
     @GET("parent/getData/{parentId}")
     Observable<MyResponse<ParentCompleteData>> getParentCompleteData(@Path("parentId") String parentId);
 
+    @FormUrlEncoded
+    @POST("school/student/{studentId}")
+    Observable<MyResponse> updateKidPhoto(@Path("studentId") String studentId, @Field("photo") String imageUrl);
+
+    @FormUrlEncoded
+    @POST("school/parent/{parentId}")
+    Observable<MyResponse> updateLocation(@Path("parentId") String driverId, @Field("lat") Double lat, @Field("lng") Double lng);
+
 }
