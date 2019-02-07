@@ -1,27 +1,57 @@
 package com.bincee.parent.activity;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.bincee.parent.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+
+import com.bincee.parent.MyApp;
+import com.bincee.parent.R;
+import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.api.model.MyResponse;
+import com.bincee.parent.helper.MyPref;
+import com.bincee.parent.observer.EndpointObserver;
+import com.mapbox.android.core.permissions.PermissionsListener;
+import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.location.LocationComponent;
+import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import com.mapbox.mapboxsdk.location.modes.RenderMode;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
-public class MyLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
+import static com.bincee.parent.activity.MapActivity.MAPBOX_TOKEN;
+
+public class MyLocationActivity extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
 
     @BindView(R.id.buttonSkyBlue)
     Button buttonSkyBlue;
+    @BindView(R.id.mapView)
+    MapView mapView;
+    private MapboxMap mapboxMap;
+    private PermissionsManager permissionsManager;
+    private CompositeDisposable compositeDisposable;
+    private ProgressDialog progressDialog;
+
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, MyLocationActivity.class));
@@ -30,36 +60,184 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this, MAPBOX_TOKEN);
+        compositeDisposable = new CompositeDisposable();
+
         setContentView(R.layout.activity_my_location);
         ButterKnife.bind(this);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-            return;
-        }
-        googleMap.setMyLocationEnabled(true);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
 
     }
+
 
     @OnClick(R.id.buttonSkyBlue)
     public void onViewClicked() {
 
-        finish();
+        @SuppressLint("MissingPermission") Location lastLocation = mapboxMap.getLocationComponent().getLocationEngine().getLastLocation();
 
+        if (lastLocation != null) {
+            progressDialog = new ProgressDialog(MyLocationActivity.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Wait..");
+            progressDialog.show();
+
+            EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateLocation(MyApp.instance.user.getValue().id + "", lastLocation.getLatitude(), lastLocation.getLongitude())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new EndpointObserver<MyResponse>() {
+                        @Override
+                        public void onComplete() {
+                            progressDialog.dismiss();
+
+
+                        }
+
+                        @Override
+                        public void onData(MyResponse o) throws Exception {
+
+                            LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
+
+                            user.parentCompleteInfo.lat = lastLocation.getLatitude();
+                            user.parentCompleteInfo.lng = lastLocation.getLongitude();
+
+                            MyPref.SAVE_USER(MyLocationActivity.this, user);
+                            MyApp.instance.user.setValue(user);
+
+                            finish();
+                        }
+
+                        @Override
+                        public void onHandledError(Throwable e) {
+                            progressDialog.dismiss();
+
+                            new AlertDialog.Builder(MyLocationActivity.this)
+                                    .setMessage(e.getMessage()).setCancelable(true)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                        }
+                    });
+
+            compositeDisposable.add(endpointObserver);
+
+
+        } else {
+            MyApp.showToast("Location Not Found");
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        mapView.onStop();
+
+        super.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        compositeDisposable.dispose();
+        compositeDisposable.clear();
+        compositeDisposable = null;
+        mapView.onDestroy();
+        super.onDestroy();
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    public void onMapReady(MapboxMap mapboxMap) {
+        this.mapboxMap = mapboxMap;
+        this.mapboxMap.getUiSettings().setRotateGesturesEnabled(false);
+
+        mapboxMap.getUiSettings().setAllGesturesEnabled(true);
+        mapboxMap.getUiSettings().setCompassEnabled(true);
+
+        enableLocationComponent();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onExplanationNeeded(List<String> permissionsToExplain) {
+        Toast.makeText(this, "Location Permission Required", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPermissionResult(boolean granted) {
+        if (granted) {
+
+        } else {
+            Toast.makeText(this, "Failed to get Permission", Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
+    @SuppressWarnings({"MissingPermission"})
+    private void enableLocationComponent() {
+// Check if permissions are enabled and if not request
+        if (PermissionsManager.areLocationPermissionsGranted(this)) {
+
+// Get an instance of the component
+            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+
+// Activate with options
+            locationComponent.activateLocationComponent(this);
+
+// Enable to make component visible
+            locationComponent.setLocationComponentEnabled(true);
+
+// Set the component's camera mode
+            locationComponent.setCameraMode(CameraMode.TRACKING);
+
+// Set the component's render mode
+            locationComponent.setRenderMode(RenderMode.COMPASS);
+
+        } else {
+            permissionsManager = new PermissionsManager(this);
+            permissionsManager.requestLocationPermissions(this);
+        }
     }
 }

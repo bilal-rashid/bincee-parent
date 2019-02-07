@@ -170,7 +170,7 @@ public class CalenderFragment extends Fragment {
         linearLayoutLeaveAppplication.setVisibility(View.GONE);
         ParentCompleteData.KidModel currentKid = StudentSSFragment.getInstance().currentKid;
         if (currentKid == null) {
-            currentKid = MyApp.instance.user.parentCompleteInfo.kids.get(0);
+            currentKid = MyApp.instance.user.getValue().parentCompleteInfo.kids.get(0);
         }
 
 

@@ -83,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
         FirebaseFirestore instance = FirebaseFirestore.getInstance();
-        LoginResponse.User user = MyApp.instance.user;
+        LoginResponse.User user = MyApp.instance.user.getValue();
         if (user != null) {
             HashMap<String, Object> data = new HashMap<>();
             data.put("token", s);

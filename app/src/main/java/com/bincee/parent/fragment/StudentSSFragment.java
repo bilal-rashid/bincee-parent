@@ -115,7 +115,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         ride = new MutableLiveData<>();
 
         kidsArray = new ArrayList<>();
-        kidsArray = MyApp.instance.user.parentCompleteInfo.kids;
+        kidsArray = MyApp.instance.user.getValue().parentCompleteInfo.kids;
         stackViewAdapter = new StackViewAdapter(kidsArray);
 
         layout = new StackLayoutManager(StackLayoutManager.ScrollOrientation.RIGHT_TO_LEFT, 3);
@@ -140,7 +140,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         currentKid = kidsArray.get(position);
         textView5.setText(currentKid.fullname);
-        textViewAddress.setText(MyApp.instance.user.parentCompleteInfo.address.toString());
+        textViewAddress.setText(MyApp.instance.user.getValue().parentCompleteInfo.address.toString());
         stopSnapSHotListner();
 
         currentStudenSnapSHotListner = FirebaseFirestore.getInstance().collection("ride")

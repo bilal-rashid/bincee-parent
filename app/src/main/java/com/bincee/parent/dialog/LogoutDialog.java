@@ -1,8 +1,10 @@
 package com.bincee.parent.dialog;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +13,6 @@ import androidx.annotation.NonNull;
 
 import com.bincee.parent.R;
 import com.bincee.parent.base.BDialog;
-import com.bincee.parent.helper.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +69,14 @@ public class LogoutDialog extends BDialog {
     public void show() {
         super.show();
 
-        getWindow().setLayout(UiUtils.DptoPixel(getContext(), 400), ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowmanager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
+
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        getWindow().setLayout((int) (width * 0.9), ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
     }

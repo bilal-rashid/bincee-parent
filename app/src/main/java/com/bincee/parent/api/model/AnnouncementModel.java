@@ -3,38 +3,38 @@ package com.bincee.parent.api.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnnouncementModel {
 
-//    public List<SingleAnnouncement> annoucements = null;
-        @SerializedName("status")
-        @Expose
-        public Integer status;
-        @SerializedName("data")
-        @Expose
-        public  List<SingleAnnouncement> data = null;
+    //    public List<SingleAnnouncement> annoucements = null;
+    @SerializedName("status")
+    @Expose
+    public Integer status;
+    @SerializedName("data")
+    @Expose
+    public List<SingleAnouncementTop> data = new ArrayList<>();
 
-    public class SingleAnnouncement
-    {
-        @SerializedName("id")
-        @Expose
+    public class SingleAnnouncement {
         public Integer id;
-        @SerializedName("last_updated")
-        @Expose
         public String lastUpdated;
-        @SerializedName("title")
-        @Expose
         public String title;
-        @SerializedName("description")
-        @Expose
         public String description;
-        @SerializedName("type")
-        @Expose
         public String type;
         @SerializedName("school_id")
         @Expose
         public Integer schoolId;
     }
+
+    public class SingleAnouncementTop {
+
+        public int student_id;
+        public List<SingleAnnouncement> data = new ArrayList<>();
+
+
+    }
+
+
 }
 
