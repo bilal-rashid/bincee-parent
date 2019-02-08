@@ -45,10 +45,12 @@ public interface EndPoints {
     Observable<StudentLeavesModel> getStudentLeaves(@Path("studentId") String parentId);
 
 
-    @POST("school/leaves/create")
+    @FormUrlEncoded
+    @POST("school/leave/create")
     Observable<CreateLeaveResponce> createLeave(@Field("from_date") String from_date
             , @Field("to_date") String to_date
             , @Field("student_id") String student_id
+            , @Field("school_id") String school_id
             , @Field("comment") String comment
     );
 

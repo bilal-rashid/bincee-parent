@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
+import com.bincee.parent.api.model.CreateLeaveResponce;
 import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.StudentLeavesModel;
 import com.bincee.parent.customview.MyProgress;
@@ -60,8 +62,7 @@ public class CalenderFragment extends Fragment {
     Button buttonCalendar;
     @BindView(R.id.buttonHistory)
     Button buttonHistory;
-    @BindView(R.id.textViewFaltuText)
-    TextView textViewFaltuText;
+
     @BindView(R.id.buttonContinue)
     Button buttonContinue;
     @BindView(R.id.textViewLeaveHistory)
@@ -116,6 +117,10 @@ public class CalenderFragment extends Fragment {
 
 //        calendarView.
 
+        Calendar minData = Calendar.getInstance();
+
+        calendarView.setMinimumDate(minData);
+
         buttonCalendar.performClick();
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleView.setAdapter(adapter);
@@ -151,7 +156,6 @@ public class CalenderFragment extends Fragment {
 
         calendarView.setVisibility(View.VISIBLE);
 
-        textViewFaltuText.setVisibility(View.VISIBLE);
 
     }
 
@@ -170,7 +174,6 @@ public class CalenderFragment extends Fragment {
         textViewLeaveHistory.setVisibility(View.VISIBLE);
 
         calendarView.setVisibility(View.GONE);
-        textViewFaltuText.setVisibility(View.GONE);
         linearLayoutLeaveAppplication.setVisibility(View.GONE);
         ParentCompleteData.KidModel currentKid = StudentSSFragment.getInstance().currentKid;
         if (currentKid == null) {
@@ -223,11 +226,14 @@ public class CalenderFragment extends Fragment {
 
         if (calendarView.getVisibility() == View.VISIBLE) {
 
-            linearLayoutLeaveAppplication.setVisibility(View.VISIBLE);
-            buttonContinue.setText(R.string.done);
+            if (calendarView.getSelectedDates().size() > 0) {
 
-            calendarView.setVisibility(View.GONE);
-            textViewFaltuText.setVisibility(View.GONE);
+                linearLayoutLeaveAppplication.setVisibility(View.VISIBLE);
+                buttonContinue.setText(R.string.done);
+
+                calendarView.setVisibility(View.GONE);
+            }
+
 
         } else {
 
@@ -235,6 +241,53 @@ public class CalenderFragment extends Fragment {
 
             String comment = editTextComment.getText().toString();
 
+            List<Calendar> selectedDates = calendarView.getSelectedDates();
+
+            if (selectedDates.size() == 0) {
+
+                MyApp.showToast("Select date please");
+                return;
+            }
+
+
+            progressBar.setVisibility(View.VISIBLE);
+            Calendar fromDate = selectedDates.get(0);
+
+            Calendar toDate = selectedDates.get(selectedDates.size() - 1);
+
+            ParentCompleteData.KidModel currentKid = StudentSSFragment.getInstance().currentKid;
+            EndpointObserver<CreateLeaveResponce> endpointObserver = MyApp.endPoints.createLeave(fromDate.getTimeInMillis() / 1000L + ""
+                    , toDate.getTimeInMillis() / 1000L + ""
+                    , currentKid.id + ""
+                    , MyApp.instance.user.getValue().parentCompleteInfo.schoolId + ""
+                    , comment)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new EndpointObserver<CreateLeaveResponce>() {
+                        @Override
+                        public void onComplete() {
+
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onData(CreateLeaveResponce o) throws Exception {
+
+
+                        }
+
+                        @Override
+                        public void onHandledError(Throwable e) {
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage(e.getMessage())
+                                    .show();
+
+
+                        }
+                    });
+
+
+            compositeDisposable.add(endpointObserver);
 
         }
 
