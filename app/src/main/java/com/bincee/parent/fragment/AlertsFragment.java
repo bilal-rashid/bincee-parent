@@ -55,6 +55,7 @@ public class AlertsFragment extends BFragment {
 
     public AlertsFragment() {
         // Required empty public constructor
+
     }
 
     @Override

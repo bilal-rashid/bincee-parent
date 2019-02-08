@@ -6,13 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
+import com.bincee.parent.api.FireStoreHelper;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.api.model.ParentCompleteData;
@@ -20,11 +20,9 @@ import com.bincee.parent.base.BA;
 import com.bincee.parent.customview.MyProgress;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -115,31 +113,32 @@ public class LoginActivity extends BA {
     private void saveTokenToFirebase() {
 
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
+        FirebaseInstanceId.getInstance()
+                .getInstanceId()
+                .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                    @Override
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
 
-                HashMap<String, Object> data = new HashMap<>();
-                LoginResponse.User user = MyApp.instance.user.getValue();
+                        HashMap<String, Object> data = new HashMap<>();
+                        LoginResponse.User user = MyApp.instance.user.getValue();
 
-                String token = instanceIdResult.getToken();
-                data.put("token", token);
-                data.put("userId", user.id);
-                Log.e("FcmToken", token);
+                        String token = instanceIdResult.getToken();
+                        data.put("token", token);
+                        data.put("userId", user.id);
+                        Log.e("FcmToken", token);
 
-                FirebaseFirestore instance = FirebaseFirestore.getInstance();
-                instance.collection("token").document(user.id + "")
-                        .set(data)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Log.d(TAG, "Token Updated");
+                        FireStoreHelper.tokenCollection(user.id + "")
+                                .add(data)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d(TAG, "Token Updated");
 
-                            }
-                        });
+                                    }
+                                });
 
-            }
-        });
+                    }
+                });
 
 
     }

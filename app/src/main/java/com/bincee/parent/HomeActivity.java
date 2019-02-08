@@ -26,6 +26,7 @@ import com.bincee.parent.activity.ContectUsActivity;
 import com.bincee.parent.activity.MyLocationActivity;
 import com.bincee.parent.activity.ProfileActivity;
 import com.bincee.parent.activity.SplashActivity;
+import com.bincee.parent.api.FireStoreHelper;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
@@ -37,6 +38,12 @@ import com.bincee.parent.fragment.CalenderFragment;
 import com.bincee.parent.fragment.StudentSSFragment;
 import com.bincee.parent.helper.ImageBinder;
 import com.bincee.parent.helper.MyPref;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -240,9 +247,42 @@ public class HomeActivity extends BA {
                         MyPref.logout(HomeActivity.this);
                         MyPref.logout(HomeActivity.this);
 
-                        Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+
+                                if (task.isSuccessful()) {
+
+                                    String token = task.getResult().getToken();
+                                    FireStoreHelper.tokenCollection(MyApp.instance.user.getValue().id + "")
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                                    if (task.isSuccessful()) {
+
+                                                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                                                        for (DocumentSnapshot tokenSnapShot : documents) {
+
+                                                            if (tokenSnapShot.getString("token").equalsIgnoreCase(token)) {
+                                                                tokenSnapShot.getReference().delete();
+                                                            }
+
+                                                        }
+                                                    }
+
+
+                                                    Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+                                                }
+                                            });
+                                }
+                            }
+                        });
+
+
                     }
 
                     @Override
