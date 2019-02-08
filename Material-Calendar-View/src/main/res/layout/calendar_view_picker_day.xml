@@ -4,16 +4,18 @@
     android:layout_height="wrap_content"
     android:background="@drawable/day_item_background"
     android:orientation="vertical"
-    android:padding="3dp">
+    android:padding="0dp">
 
     <TextView
+        android:layout_marginTop="2dp"
         android:id="@+id/dayLabel"
         android:layout_width="@dimen/day_label_size_events_disabled"
         android:layout_height="@dimen/day_label_size_events_disabled"
         android:layout_gravity="center"
         android:gravity="center"
+        android:fontFamily="@font/gotham_book"
         android:padding="4dp"
-        android:textSize="14sp" />
+        android:textSize="10sp" />
 
 </LinearLayout>
 

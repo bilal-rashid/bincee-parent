@@ -57,7 +57,7 @@
             <!--android:paddingBottom="16dp"-->
             <!--android:scrollbarStyle="outsideOverlay"-->
             <!--android:visibility="visible"-->
-            <!--app:layout_constraintBottom_toTopOf="@+id/textViewFaltuText"-->
+            <!--app:layout_constraintBottom_toTopOf="@+id/buttonContinue"-->
             <!--app:layout_constraintEnd_toEndOf="parent"-->
             <!--app:layout_constraintHorizontal_bias="0.0"-->
             <!--app:layout_constraintStart_toStartOf="parent"-->
@@ -68,13 +68,16 @@
                 android:id="@+id/calendar_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:type="range_picker"
-                app:layout_constraintBottom_toTopOf="@+id/textViewFaltuText"
+                android:layout_marginBottom="10dp"
+
+                app:layout_constraintBottom_toTopOf="@+id/buttonContinue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewBg"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="1.0"
+                app:selectionColor="#49dbbd"
+                app:type="range_picker" />
 
             <Button
                 android:id="@+id/buttonCalendar"
@@ -112,17 +115,17 @@
                 app:layout_constraintTop_toTopOf="@+id/buttonCalendar" />
 
 
-            <TextView
-                android:id="@+id/textViewFaltuText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                android:text="*Clicked on the marked date to see comments"
-                app:layout_constraintBottom_toTopOf="@+id/buttonContinue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <!--<TextView-->
+            <!--android:id="@+id/buttonContinue"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="10dp"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:text="*Clicked on the marked date to see comments"-->
+            <!--app:layout_constraintBottom_toTopOf="@+id/buttonContinue"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent" />-->
 
 
             <Button
@@ -134,9 +137,11 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/circle_rectangle_blue"
+                android:elevation="10dp"
                 android:fontFamily="@font/gotham_bold"
                 android:text="@string/continue_text"
                 android:textColor="#fff"
+                android:translationZ="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
 
