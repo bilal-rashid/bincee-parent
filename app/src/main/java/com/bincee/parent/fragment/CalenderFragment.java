@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applandeo.materialcalendarview.CalendarView;
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
@@ -28,7 +29,6 @@ import com.bincee.parent.customview.MyProgress;
 import com.bincee.parent.helper.DateHelper;
 import com.bincee.parent.observer.EndpointObserver;
 import com.google.android.material.textfield.TextInputEditText;
-import com.savvi.rangedatepicker.CalendarPickerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,8 +52,10 @@ public class CalenderFragment extends Fragment {
     @BindView(R.id.imageViewBg)
     ImageView imageViewBg;
     @BindView(R.id.calendar_view)
-    CalendarPickerView calendarView;
-    //    CalendarView calendarView;
+    CalendarView calendarView;
+    //    CalendarPickerView calendarView;
+
+
     @BindView(R.id.buttonCalendar)
     Button buttonCalendar;
     @BindView(R.id.buttonHistory)
@@ -109,8 +111,10 @@ public class CalenderFragment extends Fragment {
         lastYear.set(Calendar.MONTH, 12);
         lastYear.set(Calendar.DAY_OF_MONTH, 31);
 
-        calendarView.init(lastYear.getTime(), Calendar.getInstance().getTime()).inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+//        calendarView.init(lastYear.getTime(), Calendar.getInstance().getTime()).inMode(CalendarPickerView.SelectionMode.MULTIPLE);
 
+
+//        calendarView.
 
         buttonCalendar.performClick();
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));

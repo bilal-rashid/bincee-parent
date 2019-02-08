@@ -33,7 +33,7 @@
             <ImageView
                 android:id="@+id/imageViewBg"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/calendar_popup_bg"
@@ -42,38 +42,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.savvi.rangedatepicker.CalendarPickerView
+            <!--<com.savvi.rangedatepicker.CalendarPickerView-->
+            <!--android:id="@+id/calendar_view"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:clipToPadding="false"-->
+            <!--android:paddingStart="30dp"-->
+            <!--android:paddingLeft="16dp"-->
+
+
+            <!--android:paddingEnd="30dp"-->
+            <!--android:paddingRight="16dp"-->
+            <!--android:paddingBottom="16dp"-->
+            <!--android:scrollbarStyle="outsideOverlay"-->
+            <!--android:visibility="visible"-->
+            <!--app:layout_constraintBottom_toTopOf="@+id/textViewFaltuText"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.0"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/imageViewBg"-->
+            <!--app:layout_constraintVertical_bias="1.0" />-->
+
+            <com.applandeo.materialcalendarview.CalendarView
                 android:id="@+id/calendar_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="20dp"
-                android:clipToPadding="false"
-                android:paddingStart="30dp"
-                android:paddingLeft="16dp"
-
-
-                android:paddingEnd="30dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp"
-                android:scrollbarStyle="outsideOverlay"
-                android:visibility="visible"
+                app:type="range_picker"
                 app:layout_constraintBottom_toTopOf="@+id/textViewFaltuText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewBg"
                 app:layout_constraintVertical_bias="1.0" />
-
-            <!--<com.applandeo.materialcalendarview.CalendarView-->
-            <!--android:id="@+id/calendar_view"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--app:layout_constraintBottom_toTopOf="@+id/textViewFaltuText"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintHorizontal_bias="0.0"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/imageViewBg"-->
-            <!--app:layout_constraintVertical_bias="1.0"/>-->
 
             <Button
                 android:id="@+id/buttonCalendar"
