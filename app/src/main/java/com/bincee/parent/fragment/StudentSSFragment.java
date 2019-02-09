@@ -51,7 +51,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     private static StudentSSFragment studentSSFragment;
     @BindView(R.id.infiniteCycleView)
     RecyclerView infiniteCycleView;
-    @BindView(R.id.imageView2)
+    @BindView(R.id.imageViewName)
     ImageView imageView2;
     @BindView(R.id.textViewAddress)
     TextView textViewAddress;
@@ -131,7 +131,6 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         });
         layout.setItemOffset(100);
 //        layout.setVisibleItemCount(3);
-
 
 
     }
@@ -247,6 +246,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         });
 
 
+        MyApp.showToast(getResources().getDimension(R.dimen.blue_button_height) + "");
     }
 
     @OnClick(R.id.buttonFindMe)
@@ -355,11 +355,12 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         }
 
-        if (student.duration > 0) {
+
+        if (student.duration != null && student.duration > 0) {
             textViewETA.setText(String.format("ETA: %d min", Math.round(student.duration)));
             imageViewStatusIcon.setVisibility(View.VISIBLE);
         } else {
-            textViewETA.setText("");
+            textViewETA.setText("0");
 
             imageViewStatusIcon.setVisibility(View.GONE);
 
@@ -433,7 +434,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         public void bind() {
 
-            ImageBinder.setImageSS(imageView, kidsArray.get(getAdapterPosition()).photo);
+            ImageBinder.setImageUrlRoundedCorner(imageView, kidsArray.get(getAdapterPosition()).photo);
         }
     }
 

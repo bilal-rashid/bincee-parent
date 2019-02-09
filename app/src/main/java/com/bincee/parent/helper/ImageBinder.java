@@ -31,7 +31,6 @@ public final class ImageBinder {
         Context context = imageView.getContext();
         Glide.with(context).load(url)
                 .apply(new RequestOptions()
-                        .centerCrop()
                         .placeholder(R.drawable.profile_avatar)
                         .transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(18)))
                         .error(R.drawable.profile_avatar))
@@ -61,4 +60,13 @@ public final class ImageBinder {
                         .error(R.drawable.girl_profile_icon))
                 .into(imageView);
     }
+//    public static void centerCorpRoundedCorner(ImageView imageView, String url) {
+//        Context context = imageView.getContext();
+//        Glide.with(context).load(url)
+//                .apply(new RequestOptions()
+//                        .transform()
+//                        .placeholder(R.drawable.girl_profile_icon)
+//                        .error(R.drawable.girl_profile_icon))
+//                .into(imageView);
+//    }
 }
