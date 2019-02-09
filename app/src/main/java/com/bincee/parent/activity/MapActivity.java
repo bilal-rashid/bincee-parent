@@ -354,39 +354,43 @@ public class MapActivity extends BA implements OnMapReadyCallback {
             @Override
             public void run() {
 
-                FirebaseFirestore.getInstance().collection("ride").document(kidModel.driverId + "").get().addOnCompleteListener(MapActivity.this, new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
+                FirebaseFirestore.getInstance()
+                        .collection("ride")
+                        .document(kidModel.driverId + "")
+                        .get()
+                        .addOnCompleteListener(MapActivity.this, new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
 
 
-                            Ride ride = task.getResult().toObject(Ride.class);
+                                    Ride ride = task.getResult().toObject(Ride.class);
 
-                            if (ride != null) {
+                                    if (ride != null) {
 
-                                for (Student student : ride.students) {
+                                        for (Student student : ride.students) {
 
-                                    if (student.id == kidModel.id) {
+                                            if (student.id == kidModel.id) {
 
-                                        setupStudent(ride, student);
-                                        return;
+                                                setupStudent(ride, student);
+                                                return;
+                                            }
+
+                                        }
+                                        fetchData(kidModel, 60 * 1000);
+
+                                    } else {
+                                        fetchData(kidModel, 60 * 1000);
+
                                     }
 
-                                }
-                                fetchData(kidModel, 60 * 1000);
 
-                            } else {
-                                fetchData(kidModel, 60 * 1000);
+                                } else {
+                                    fetchData(kidModel, 60 * 1000);
+                                }
 
                             }
-
-
-                        } else {
-                            fetchData(kidModel, 60 * 1000);
-                        }
-
-                    }
-                });
+                        });
 
             }
         }, delay);
@@ -395,8 +399,8 @@ public class MapActivity extends BA implements OnMapReadyCallback {
     private void setupStudent(Ride ride, Student student) {
 
         textViewName.setText(student.fullname + "");
-        textViewTime.setText("ETA: " + Math.round(student.duration) + " min");
-        ImageBinder.setImageCenterCorp(imageViewPic, student.photo);
+        textViewTime.setText("ETA: " + (student.duration != null ? Math.round(student.duration) : 0) + " min");
+        ImageBinder.setImageUrlRoundedCorner(imageViewPic, student.photo);
 
         if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
 
@@ -437,6 +441,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
 
 
+                if (isDestroyed()) return;
                 DirectionsRoute directionsRoute = response.body().routes().get(0);
 
                 showRoute(directionsRoute, origin, destination, student);

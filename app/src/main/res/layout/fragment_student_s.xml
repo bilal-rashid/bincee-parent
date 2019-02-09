@@ -12,17 +12,25 @@
         android:id="@+id/infiniteCycleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="@dimen/_35sdp"
+        android:layout_marginEnd="@dimen/_35sdp"
 
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        android:layout_marginBottom="24dp"
+        app:layoutManager="com.littlemango.stacklayoutmanager.StackLayoutManager"
+
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintDimensionRatio="4:2.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:spanCount="10"
+
+        tools:listitem="@layout/student_ss_row" />
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -38,12 +46,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_book"
-        android:text=""
+        android:text="address"
         android:textColor="@color/text_black"
-        app:layout_constraintBottom_toTopOf="@+id/textViewStatus"
+        android:textSize="@dimen/_10ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,17 +61,19 @@
         android:id="@+id/textViewStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_medium"
         android:text=""
         android:textColor="@color/text_black"
-        android:textSize="16sp"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintBottom_toTopOf="@+id/textViewETA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageViewStatusIcon"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="status" />
 
     <TextView
         android:id="@+id/textViewETA"
@@ -74,10 +84,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/gotham_medium"
-        android:text=""
+        android:text="WTA"
         android:textColor="@color/text_black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCalender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,8 +104,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewStatus"
-        app:layout_constraintVertical_bias="0.19999999"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
 
     <TextView
@@ -105,15 +114,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/gotham_medium"
+        android:text="namw"
         android:textColor="@color/text_black"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAddress"
+        android:textSize="@dimen/_16ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
@@ -123,14 +134,14 @@
         android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:background="@drawable/circle_rectangle_blue_selector"
         android:text="Track my kid"
         android:textColor="#fff"
         android:translationZ="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewCall"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCalender" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonCalender"
@@ -138,7 +149,6 @@
         android:layout_width="@dimen/blue_butoon_width"
         android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/circle_rectangle_green"
@@ -148,8 +158,6 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonFindMe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
-        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -157,7 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.61" />
+        app:layout_constraintGuide_begin="416dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -197,8 +205,8 @@
 
     <ImageView
         android:id="@+id/imageViewCall"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/call_icon"
@@ -211,6 +219,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:translationZ="4dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

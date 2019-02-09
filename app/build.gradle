@@ -85,6 +85,11 @@ dependencies {
     }
     implementation project(path: ':Material-Calendar-View')
 
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
+
+
 
 //    implementation 'com.applandeo:material-calendar-view:1.5.1'
 }

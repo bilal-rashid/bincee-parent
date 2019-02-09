@@ -106,18 +106,6 @@ public class SummarizedStatusFragment extends Fragment {
 
                     if (ride == null) return;
 
-                    if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
-//                        morningStatuses();
-
-                    } else if (ride.shift.equalsIgnoreCase(Ride.SHIFT_AFTERNOON)) {
-
-//                        eveningStatuses();
-                    } else if (false) {
-
-                        //Evening 1
-                        //TODO
-                    }
-
 
                     for (Student student : ride.students) {
 
@@ -175,11 +163,17 @@ public class SummarizedStatusFragment extends Fragment {
                             switch (student.status) {
                                 case 1:
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
+
+                                    statusTextView1.selected();
+
                                     break;
                                 case 2:
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
 
+
+                                    statusTextView1.selected();
+                                    statusTextView2.selected();
 
                                     break;
                                 case 3:
@@ -187,13 +181,20 @@ public class SummarizedStatusFragment extends Fragment {
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
                                     checkBox3.setImageResource(R.drawable.checkbox_checked);
 
+
+                                    statusTextView1.selected();
+                                    statusTextView2.selected();
+                                    statusTextView3.selected();
                                     break;
                                 case 4:
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
                                     checkBox3.setImageResource(R.drawable.checkbox_checked);
                                     checkBox4.setImageResource(R.drawable.checkbox_checked);
-
+                                    statusTextView1.selected();
+                                    statusTextView2.selected();
+                                    statusTextView3.selected();
+                                    statusTextView4.selected();
                                     break;
                                 default:
 
@@ -219,18 +220,18 @@ public class SummarizedStatusFragment extends Fragment {
 
     public void morningStatuses(Student student) {
         statusTextView1.textViewTitle.setText("Bus is coming");
-        statusTextView1.textViewText.setText("Bus is on its way to pickup " + student.fullname + " and will be there in " + Math.round(student.duration) + " minutes");
+        statusTextView1.textViewText.setText("Bus is on its way to pickup " + student.fullname + " and will be there in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView1.unSelected();
 
 
         statusTextView2.textViewTitle.setText("Bus is here");
-        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and will leave in " + Math.round(student.duration) + " minutes");
+        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and will leave in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView2.view.setGravity(GravityCompat.END);
         statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         statusTextView2.unSelected();
 
         statusTextView3.textViewTitle.setText("On the way");
-        statusTextView3.textViewText.setText("Bus is on the way to school and will be there in " + Math.round(student.duration) + " minutes");
+        statusTextView3.textViewText.setText("Bus is on the way to school and will be there in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView3.unSelected();
 
         statusTextView4.textViewTitle.setText("Reached");
@@ -258,14 +259,14 @@ public class SummarizedStatusFragment extends Fragment {
         statusTextView1.unSelected();
 
         statusTextView2.textViewTitle.setText("In the bus");
-        statusTextView2.textViewText.setText(student.fullname + " is in the bus and will reach in around  " + Math.round(student.duration) + " minutes");
+        statusTextView2.textViewText.setText(student.fullname + " is in the bus and will reach in around  " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView2.view.setGravity(GravityCompat.END);
         statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         statusTextView4.unSelected();
 
 
         statusTextView3.textViewTitle.setText("Almost There");
-        statusTextView3.textViewText.setText("(Student name) will reach home in " + Math.round(student.duration) + " minutes");
+        statusTextView3.textViewText.setText("(Student name) will reach home in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView4.unSelected();
 
         statusTextView4.textViewTitle.setText("At your doorstep");

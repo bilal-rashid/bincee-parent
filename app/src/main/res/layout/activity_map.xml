@@ -40,7 +40,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="18dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="28dp"
         android:src="@drawable/kid_profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
