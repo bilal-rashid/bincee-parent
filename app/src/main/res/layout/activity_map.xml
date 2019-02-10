@@ -22,8 +22,8 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@color/sky_blue"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewPic"
@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/imageViewPic"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_marginStart="18dp"
         android:layout_marginBottom="@dimen/_30sdp"
         android:src="@drawable/kid_profile"

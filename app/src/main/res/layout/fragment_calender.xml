@@ -34,6 +34,7 @@
                 android:id="@+id/imageViewBg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="0dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/calendar_popup_bg"
@@ -141,11 +142,12 @@
                 android:id="@+id/recycleView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+
                 android:layout_margin="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/buttonContinue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/guideline" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewLeaveHistory" />
 
             <LinearLayout
                 android:id="@+id/linearLayoutLeaveAppplication"
@@ -233,6 +235,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginTop="5dp"
+                        android:gravity="top"
+
                         android:layout_marginBottom="5dp"
                         android:inputType="textMultiLine"
                         android:background="@drawable/black_border_transparent_rectangle"

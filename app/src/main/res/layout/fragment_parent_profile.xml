@@ -43,7 +43,7 @@
             android:fontFamily="@font/gotham_bold"
             android:text="@{modal.username}"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/_22ssp"
+            android:textSize="@dimen/_18ssp"
             app:layout_constraintBottom_toBottomOf="@+id/guidelineName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
@@ -59,7 +59,7 @@
             android:fontFamily="@font/gotham_book"
             android:text="@{modal.contact}"
             android:textColor="@color/_232323"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/_17ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewName" />
@@ -106,7 +106,7 @@
             android:fontFamily="@font/gotham_medium"
             android:text="Registered Kids"
             android:textColor="@color/_1b1b1b"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewEdit" />

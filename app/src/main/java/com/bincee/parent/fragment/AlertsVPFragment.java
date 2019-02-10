@@ -109,12 +109,7 @@ public class AlertsVPFragment extends Fragment {
 
             message = itemView.findViewById(R.id.textViewMessage);
             alert = itemView.findViewById(R.id.textViewAlert);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new AlertDialog(getContext()).show();
-                }
-            });
+
         }
 
         public void bind() {
@@ -123,6 +118,12 @@ public class AlertsVPFragment extends Fragment {
 
             alert.setText(enclosingData.title);
             message.setText(enclosingData.description);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog(getContext()).setModel(enclosingData).show();
+                }
+            });
 
         }
     }

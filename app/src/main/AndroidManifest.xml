@@ -19,13 +19,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".activity.ForgetPasswordActivity"></activity>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notification_icon" />
 
-
-        <activity android:name=".activity.MapActivity"></activity>
+        <activity android:name=".activity.MapActivity" />
 
         <provider
             android:name=".GenericFileProvider"
@@ -43,6 +43,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name=".HomeActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -87,6 +88,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProfileActivity"
+            android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ContectUsActivity"

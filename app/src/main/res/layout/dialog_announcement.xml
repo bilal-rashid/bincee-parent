@@ -36,25 +36,25 @@
                 android:fontFamily="@font/gotham_medium"
                 android:text="Announcement"
                 android:textColor="#000"
-                android:textSize="20dp"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
 
             <TextView
+                android:id="@+id/textViewMessage"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/gotham_book"
-                android:text="Dear Parent,\n\n
-School bus will be late due to ......" />
+                android:text="" />
 
 
             <Button
                 android:id="@+id/buttonOK"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/blue_butoon_width"
+                android:layout_height="@dimen/blue_button_height"
+                android:layout_gravity="center"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="40dp"
