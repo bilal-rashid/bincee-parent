@@ -6,7 +6,6 @@
     </data>
 
     <FrameLayout
-        android:id="@+id/toolbarFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -23,8 +22,8 @@
             android:layout_gravity="center"
             android:fontFamily="@font/gotham_medium"
             android:text="Title"
-            android:textColor="#7a7a7a"
-            android:textSize="@dimen/_12ssp" />
+            android:textColor="#000"
+            android:textSize="@dimen/_16ssp" />
 
 
     </FrameLayout>

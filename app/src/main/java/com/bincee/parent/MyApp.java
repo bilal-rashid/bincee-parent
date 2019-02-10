@@ -72,14 +72,25 @@ public class MyApp extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 
+        overRideSustemFont();
+
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        overRideSustemFont();
+
+    }
+
+    private void overRideSustemFont() {
         Configuration configuration = getResources().getConfiguration();
         configuration.fontScale = 1f;
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
 
         getBaseContext().getResources().updateConfiguration(configuration, metrics);
-
-
     }
 
     private void setupRetrofit() {
