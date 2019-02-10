@@ -273,11 +273,15 @@ public class CalenderFragment extends Fragment {
                         @Override
                         public void onData(CreateLeaveResponce o) throws Exception {
 
+                            if (o.status == 200) {
+                                MyApp.showToast("Leave Created");
+                            }
 
                         }
 
                         @Override
                         public void onHandledError(Throwable e) {
+
                             new AlertDialog.Builder(getContext())
                                     .setMessage(e.getMessage())
                                     .show();
