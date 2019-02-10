@@ -63,7 +63,7 @@ public class HomeActivity extends BA {
     public static final String SETTINGS = "- Settings";
     public static final String DRIVERS_PROFILE = "- Drivers Profile";
     public static final String ABOUT_US = "- About Us";
-    public static final String CONTACT_US = "- Contact US";
+    public static final String CONTACT_US = "- Contact Us";
     public static final String LOCATE_ME = "- Locate Me";
 
 
