@@ -20,6 +20,7 @@ import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
+import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -74,7 +75,9 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     @OnClick(R.id.buttonSkyBlue)
     public void onViewClicked() {
 
-        @SuppressLint("MissingPermission") Location lastLocation = mapboxMap.getLocationComponent().getLocationEngine().getLastLocation();
+        LocationEngine locationEngine = mapboxMap.getLocationComponent().getLocationEngine();
+        if (locationEngine == null) return;
+        @SuppressLint("MissingPermission") Location lastLocation = locationEngine.getLastLocation();
 
         if (lastLocation != null) {
             progressDialog = new ProgressDialog(MyLocationActivity.this);
@@ -96,15 +99,21 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
                         @Override
                         public void onData(MyResponse o) throws Exception {
 
-                            LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
+                            if (o.status == 200) {
+                                LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
 
-                            user.parentCompleteInfo.lat = lastLocation.getLatitude();
-                            user.parentCompleteInfo.lng = lastLocation.getLongitude();
+                                user.parentCompleteInfo.lat = lastLocation.getLatitude();
+                                user.parentCompleteInfo.lng = lastLocation.getLongitude();
 
-                            MyPref.SAVE_USER(MyLocationActivity.this, user);
-                            MyApp.instance.user.setValue(user);
+                                MyPref.SAVE_USER(MyLocationActivity.this, user);
+                                MyApp.instance.user.setValue(user);
 
-                            finish();
+                                MyApp.showToast("Location Updated");
+                                finish();
+                            } else {
+
+                                throw new Exception(o.message);
+                            }
                         }
 
                         @Override
@@ -208,6 +217,8 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onPermissionResult(boolean granted) {
         if (granted) {
+
+            enableLocationComponent();
 
         } else {
             Toast.makeText(this, "Failed to get Permission", Toast.LENGTH_LONG).show();

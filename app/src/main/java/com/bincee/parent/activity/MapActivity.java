@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,8 +91,8 @@ public class MapActivity extends BA implements OnMapReadyCallback {
     TextView textViewNameKM;
     @BindView(R.id.textViewTime)
     TextView textViewTime;
-    @BindView(R.id.toolbarFrameLayout)
-    FrameLayout toolbarFrameLayout;
+    //    @BindView(R.id.)
+//    FrameLayout toolbarFrameLayout;
     String LINE_SOURCE = "line-source";
     String LINE_LAYER = "linelayer";
     Timer timer = new Timer();
