@@ -70,9 +70,8 @@ public class SplashActivity extends AppCompatActivity {
         frameAnimation.setOneShot(true);
 
         imageView.setImageDrawable(frameAnimation);
-
-
         frameAnimation.start();
+
 
         new Handler().postDelayed(new Runnable() {
             @Override
