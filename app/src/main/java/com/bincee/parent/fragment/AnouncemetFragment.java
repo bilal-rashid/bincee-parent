@@ -101,12 +101,7 @@ public class AnouncemetFragment extends BFragment {
             textView3 = itemView.findViewById(R.id.textViewMessage);
             textView2 = itemView.findViewById(R.id.textViewAlert);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new AlertDialog(getContext()).show();
-                }
-            });
+
         }
 
         public void bind() {
@@ -115,6 +110,12 @@ public class AnouncemetFragment extends BFragment {
             textView2.setText(singleAnnouncement.title);
             textView3.setText(singleAnnouncement.description);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog(getContext()).setModel(singleAnnouncement).show();
+                }
+            });
         }
     }
 

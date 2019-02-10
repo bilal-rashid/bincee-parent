@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.R;
 import com.bincee.parent.base.BA;
 import com.bincee.parent.fragment.ContectUsFragment;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
 public class ContectUsActivity extends BA {
@@ -25,6 +26,7 @@ public class ContectUsActivity extends BA {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contect_us);
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.res.ResourcesCompat;
@@ -46,6 +47,8 @@ public class LoginActivity extends BA {
     AppCompatCheckBox checkBox;
     @BindView(R.id.progressBar)
     MyProgress progressBar;
+    @BindView(R.id.textViewPassword)
+    TextView textViewPassword;
     private String TAG = LoginActivity.class.getSimpleName();
 
 
@@ -178,5 +181,10 @@ public class LoginActivity extends BA {
                         MyApp.showToast(e.getMessage());
                     }
                 }));
+    }
+
+    @OnClick(R.id.textViewPassword)
+    public void onPasswordClthicked() {
+        ForgetPasswordActivity.start(this);
     }
 }
