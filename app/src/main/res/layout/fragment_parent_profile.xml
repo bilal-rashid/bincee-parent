@@ -23,13 +23,15 @@
         <ImageView
             android:id="@+id/imageView13"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/profile_clouds"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--android:text="@{modal.username}"-->
 
         <TextView
             android:id="@+id/textViewName"
@@ -37,47 +39,41 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-
             android:drawablePadding="10dp"
             android:fontFamily="@font/gotham_bold"
-
             android:text="@{modal.username}"
             android:textColor="@color/text_black"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView13"
+            android:textSize="@dimen/_22ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/guidelineName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView13" />
-
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textViewNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/gotham_book"
             android:text="@{modal.contact}"
             android:textColor="@color/_232323"
+            android:textSize="@dimen/_20ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
-
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/gotham_medium"
             android:text="@{modal.address}"
             android:textAlignment="center"
             android:textColor="@color/_1b1b1b"
+            android:textSize="@dimen/_12sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewNumber" />
@@ -87,14 +83,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/gotham_medium"
             android:onClick="@{handlers::onEditClicked}"
             android:padding="10dp"
-
-            android:fontFamily="@font/gotham_medium"
             android:text="@string/edit"
             android:textAlignment="center"
             android:textColor="@color/blue"
-            android:textSize="10sp"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -110,7 +106,7 @@
             android:fontFamily="@font/gotham_medium"
             android:text="Registered Kids"
             android:textColor="@color/_1b1b1b"
-            android:textSize="16sp"
+            android:textSize="@dimen/_16ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewEdit" />
@@ -129,11 +125,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -145,29 +141,40 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageViewProfile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="?android:attr/actionBarSize"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="@dimen/_18sdp"
             app:civ_border_color="@color/sky_blue"
             app:civ_border_width="2dp"
             app:imageUrl="@{modal.photo}"
             app:layout_constraintBottom_toTopOf="@+id/textViewName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView13"
+            app:layout_constraintVertical_bias="0.72" />
 
 
         <ImageView
             android:id="@+id/imageViewProfileEdit"
             android:layout_width="25dp"
-            android:onClick="@{handlers::onProfileClicked}"
-
-            android:visibility="gone"
             android:layout_height="25dp"
+
+            android:onClick="@{handlers::onProfileClicked}"
             android:src="@drawable/edit_pencil"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/circleImageViewProfile"
             app:layout_constraintTop_toTopOf="@+id/circleImageViewProfile" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineName"
+            android:layout_width="@dimen/_20dp_dialog_title"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.35" />
 
         <FrameLayout
             android:id="@+id/progressBar"

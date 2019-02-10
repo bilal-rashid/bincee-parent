@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -26,8 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="10dp"
+        android:text="sdsdsd"
         android:fontFamily="@font/gotham_bold"
-        android:text=""
+        android:textSize="@dimen/_10ssp"
         android:textColor="@color/text_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -42,7 +43,9 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/gotham_book"
         android:layout_marginBottom="8dp"
-        android:text=""
+        android:text="sdsdsd"
+        android:textSize="@dimen/_10ssp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

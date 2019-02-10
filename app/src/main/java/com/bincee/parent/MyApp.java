@@ -1,6 +1,9 @@
 package com.bincee.parent;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -61,6 +64,20 @@ public class MyApp extends Application {
 //        });
         instance = this;
         setupRetrofit();
+
+
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.fontScale = 1f;
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        getBaseContext().getResources().updateConfiguration(configuration, metrics);
 
 
     }

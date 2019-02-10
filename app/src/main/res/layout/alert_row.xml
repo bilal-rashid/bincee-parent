@@ -12,8 +12,8 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
 
 
         android:layout_marginTop="8dp"
@@ -26,17 +26,18 @@
 
     <TextView
         android:id="@+id/textViewAlert"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="@font/gotham_medium"
-        android:textColor="@color/_545454"
-        android:textSize="14sp"
         android:text="Alert"
+        android:textColor="@color/_545454"
+        android:textSize="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@+id/textViewMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView6"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -44,15 +45,15 @@
 
     <TextView
         android:id="@+id/textViewMessage"
-        android:fontFamily="@font/gotham_book"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/gotham_book"
         android:text="Dear Parents sadsadsadsadsad asdasdsadsa dasdsadas dsadasd sssdsdsd ds dsd sd s ds "
         android:textColor="@color/_232323"
-        android:layout_marginBottom="8dp"
-        android:textSize="10sp"
+        android:textSize="@dimen/_9sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

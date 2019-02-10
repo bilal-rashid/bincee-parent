@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
+import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.Ride;
 import com.bincee.parent.api.model.Student;
@@ -180,6 +181,20 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         super.onViewCreated(view, savedInstanceState);
         changeCurrentStudent(layout.getFirstVisibleItemPosition());
 
+        MyApp.instance.user.observe(getViewLifecycleOwner(), new Observer<LoginResponse.User>() {
+            @Override
+            public void onChanged(LoginResponse.User user) {
+                if (user != null) {
+                    List<ParentCompleteData.KidModel> kids = user.parentCompleteInfo.kids;
+
+                    stackViewAdapter.kids = kids;
+                    stackViewAdapter.notifyDataSetChanged();
+
+                }
+
+            }
+        });
+
         ride.observe(getViewLifecycleOwner(), new Observer<Ride>() {
             @Override
             public void onChanged(Ride ride) {
@@ -246,7 +261,6 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         });
 
 
-        MyApp.showToast(getResources().getDimension(R.dimen.blue_button_height) + "");
     }
 
     @OnClick(R.id.buttonFindMe)

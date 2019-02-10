@@ -24,8 +24,8 @@
         android:id="@+id/statusTextView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
         android:gravity="end"
         app:layout_constraintEnd_toStartOf="@+id/checkBox4"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,8 +46,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/bus_icon_size"
-        android:layout_height="@dimen/bus_icon_size"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_38sdp"
         android:src="@drawable/bus_icon_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +55,8 @@
 
     <ImageView
         android:id="@+id/checkBox1"
-        android:layout_width="@dimen/checkbox_width_height"
-        android:layout_height="@dimen/checkbox_width_height"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginTop="16dp"
         android:src="@drawable/checkbox_unchecked"
         app:layout_constraintBottom_toTopOf="@+id/checkBox2"
@@ -138,11 +138,12 @@
         android:layout_width="@dimen/blue_butoon_width"
         android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
-        android:elevation="10dp"
-        android:translationZ="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:elevation="10dp"
         android:text="Real Time Tracking"
+        android:textSize="@dimen/_8ssp"
+        android:translationZ="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

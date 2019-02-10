@@ -17,9 +17,9 @@
 
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
             android:id="@+id/imageViewProfilePic"
+            android:layout_width="@dimen/_60ssp"
+            android:layout_height="@dimen/_60ssp"
 
             android:src="@drawable/profile_avatar" />
 
@@ -32,7 +32,7 @@
             android:fontFamily="@font/gotham_bold"
             android:text="Salman Khan"
             android:textColor="@color/_4f4f4f"
-            android:textSize="14sp" />
+            android:textSize="@dimen/_10ssp" />
 
     </LinearLayout>
 </layout>
