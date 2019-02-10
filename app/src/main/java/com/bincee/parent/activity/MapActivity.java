@@ -1,6 +1,5 @@
 package com.bincee.parent.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +23,7 @@ import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
 import com.bincee.parent.helper.ImageBinder;
 import com.bincee.parent.helper.LatLngHelper;
+import com.bincee.parent.helper.PermissionHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -66,6 +66,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.bincee.parent.api.model.ParentCompleteData.KidModel.KID;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -103,6 +105,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
     private ParentCompleteData.KidModel kidModel;
     private Marker busMarker;
     private Marker destinationMarker;
+    private PermissionHelper permissionHelper;
 
 
     public static void start(Activity context, ParentCompleteData.KidModel currentKid) {
@@ -186,12 +189,34 @@ public class MapActivity extends BA implements OnMapReadyCallback {
         this.mapboxMap = mapboxMap;
         this.mapboxMap.getUiSettings().setRotateGesturesEnabled(false);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MapActivity.this, new String[]{ACCESS_FINE_LOCATION}, 44);
             return;
         }
-//        setupMyLocation(mapboxMap);
+
+
+        permissionHelper = new PermissionHelper();
+        permissionHelper.with(this).requiredPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}).setListner(new PermissionHelper.PermissionCallback() {
+            @Override
+            public void onPermissionGranted() {
+                String kidString = getIntent().getStringExtra(KID);
+                kidModel = new Gson().fromJson(kidString, ParentCompleteData.KidModel.class);
+
+
+                if (kidModel != null) {
+                    fetchData(kidModel, 0);
+
+                } else {
+                    MyApp.showToast("Null Kid");
+                }
+            }
+
+            @Override
+            public void onPermissionFailed() {
+
+            }
+        }).permissionId(55).request();
 
 
         FeatureCollection featureCollection =
@@ -229,18 +254,6 @@ public class MapActivity extends BA implements OnMapReadyCallback {
                 iconIgnorePlacement(true));
 
         mapboxMap.addLayer(startEndIconLayer);
-
-
-        String kidString = getIntent().getStringExtra(KID);
-        kidModel = new Gson().fromJson(kidString, ParentCompleteData.KidModel.class);
-
-
-        if (kidModel != null) {
-            fetchData(kidModel, 0);
-
-        } else {
-            MyApp.showToast("Null Kid");
-        }
 
 
 //        getHomeActivity().liveData.myLocaton.observe(getViewLifecycleOwner(), new Observer<Location>() {
@@ -550,5 +563,15 @@ public class MapActivity extends BA implements OnMapReadyCallback {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissionHelper != null) {
+            permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        }
     }
 }

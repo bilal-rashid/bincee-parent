@@ -28,10 +28,13 @@ public class DriverInformationDialog extends BDialog {
     @BindView(R.id.imageViewCross)
     ImageView imageViewCross;
     CompositeDisposable compositeDisposable;
+    private Listner listner;
+
     public DriverInformationDialog(Context context, ParentCompleteData.DriverModel currentDriver) {
         super(context);
         compositeDisposable = new CompositeDisposable();
 
+        setCancelable(true);
         int layout = R.layout.dialog_driver_info;
         View view = getLayoutInflater().inflate(layout, null, false);
 
@@ -39,22 +42,40 @@ public class DriverInformationDialog extends BDialog {
         ButterKnife.bind(this, view);
         updateViews(currentDriver);
     }
-    public void updateViews(ParentCompleteData.DriverModel currentDriver)
-    {
+
+    public void updateViews(ParentCompleteData.DriverModel currentDriver) {
         driverName.setText(currentDriver.fullname.toString());
         driverNumber.setText(currentDriver.phoneNo.toString());
     }
+
     @OnClick(R.id.buttonLogout)
     public void onButtonLogoutClicked() {
+        listner.call();
     }
 
     @OnClick(R.id.buttonCancel)
     public void onButtonCancelClicked() {
+
         dismiss();
+        listner.cancel();
+
+
     }
 
     @OnClick(R.id.imageViewCross)
     public void onImageViewCrossClicked() {
         dismiss();
     }
+
+    public DriverInformationDialog setListner(Listner listner) {
+        this.listner = listner;
+        return this;
+    }
+
+    public interface Listner {
+        void call();
+
+        void cancel();
+    }
+
 }

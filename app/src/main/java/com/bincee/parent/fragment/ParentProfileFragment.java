@@ -36,6 +36,7 @@ import com.bincee.parent.base.BFragment;
 import com.bincee.parent.databinding.FragmentParentProfileBinding;
 import com.bincee.parent.databinding.RegisteredKidRowBinding;
 import com.bincee.parent.helper.ActivityResultHelper;
+import com.bincee.parent.helper.ImageBinder;
 import com.bincee.parent.helper.ImageFilePath;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.helper.PermissionHelper;
@@ -546,7 +547,7 @@ public class ParentProfileFragment extends BFragment {
 
                             if (o.status == 200) {
 
-                                getParentData();
+                                getParentKidsData();
                             } else {
 
                                 throw new Exception(o.status + "");
@@ -621,6 +622,9 @@ public class ParentProfileFragment extends BFragment {
         public void bind(Student student, boolean edit) {
             this.student = student;
             binding.setStudent(student);
+
+            ImageBinder.setImageUrlRoundedCorner(binding.imageViewKid, student.photo);
+
             if (edit) {
                 binding.imageVIewKidEdit.setVisibility(View.VISIBLE);
             } else {
@@ -629,10 +633,13 @@ public class ParentProfileFragment extends BFragment {
             }
 
 
-            binding.imageVIewKidEdit.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewKid.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showImageSelection();
+                    if (edit) {
+                        showImageSelection();
+                    } else {
+                    }
                 }
             });
 

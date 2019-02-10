@@ -2,6 +2,7 @@ package com.bincee.parent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.bincee.parent.activity.ProfileActivity;
 import com.bincee.parent.activity.SplashActivity;
 import com.bincee.parent.api.FireStoreHelper;
 import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
 import com.bincee.parent.databinding.ActivityHomeBinding;
@@ -357,7 +359,26 @@ public class HomeActivity extends BA {
                 binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
             } else if (s.equalsIgnoreCase(DRIVERS_PROFILE)) {
 
-                new DriverInformationDialog(HomeActivity.this, StudentSSFragment.getInstance().currentKid.driver).show();
+                ParentCompleteData.DriverModel driver = StudentSSFragment.getInstance().currentKid.driver;
+                new DriverInformationDialog(HomeActivity.this, driver)
+                        .setListner(new DriverInformationDialog.Listner() {
+                            @Override
+                            public void call() {
+
+                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                intent.setData(Uri.parse("tel:" + driver.phoneNo));
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void cancel() {
+                                Uri sms_uri = Uri.parse("smsto:" + driver.phoneNo);
+                                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+                                sms_intent.putExtra("sms_body", "");
+                                startActivity(sms_intent);
+                            }
+                        })
+                        .show();
 
             } else if (s.equalsIgnoreCase(LOCATE_ME)) {
                 MyLocationActivity.start(HomeActivity.this);

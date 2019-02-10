@@ -8,20 +8,20 @@
 
     <TextView
         android:id="@+id/textViewTitle"
-        android:fontFamily="@font/gotham_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gotham_bold"
         android:text="Title"
         android:textColor="@color/status_selected_title"
-        android:textSize="15sp" />
+        android:textSize="@dimen/_10ssp" />
 
     <TextView
         android:id="@+id/textViewText"
-        android:fontFamily="@font/gotham_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gotham_book"
         android:text="SubText"
-        android:textColor="@color/status_unselected_title"
-        android:textSize="12sp" />
+        android:textColor="@color/status_selected_subtext"
+        android:textSize="@dimen/_8ssp" />
 
 </LinearLayout>

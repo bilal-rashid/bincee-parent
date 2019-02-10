@@ -22,6 +22,7 @@
         app:tabMaxWidth="170dp"
         app:tabMinWidth="130dp"
 
+
         app:tabSelectedTextColor="#fff"
         app:tabTextAppearance="@style/tab_text_apeerance"
         app:tabTextColor="#000"
