@@ -32,6 +32,7 @@ import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.ProfileResponse;
 import com.bincee.parent.api.model.Student;
+import com.bincee.parent.api.model.UploadImageResponce;
 import com.bincee.parent.base.BFragment;
 import com.bincee.parent.databinding.FragmentParentProfileBinding;
 import com.bincee.parent.databinding.RegisteredKidRowBinding;
@@ -48,8 +49,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -335,6 +338,9 @@ public class ParentProfileFragment extends BFragment {
         public MutableLiveData<String> photo = new MutableLiveData<>();
 
         public MutableLiveData<Boolean> loading = new MutableLiveData<>();
+//        public MutableLiveData<Boolean> errorLister = new MutableLiveData<>();
+
+
         public MutableLiveData<Boolean> kidsLoading = new MutableLiveData<>();
         public MutableLiveData<Event<Throwable>> parentErrorListner = new MutableLiveData<>();
         public MutableLiveData<List<Student>> students = new MutableLiveData<>();
@@ -482,8 +488,20 @@ public class ParentProfileFragment extends BFragment {
             loading.setValue(true);
 
             EndpointObserver<MyResponse> observer = MyApp.endPoints.uploadImage(body)
-                    .flatMap(uploadImageResponceResponse ->
-                            MyApp.endPoints.updateProfile(MyApp.instance.user.getValue().id + "", "" + uploadImageResponceResponse.data.path)
+                    .flatMap(new Function<MyResponse<UploadImageResponce>, ObservableSource<? extends MyResponse>>() {
+                                 @Override
+                                 public ObservableSource<? extends MyResponse> apply(MyResponse<UploadImageResponce> uploadImageResponceResponse) throws Exception {
+
+                                     if (uploadImageResponceResponse.status != 200) {
+
+                                         throw new Exception(uploadImageResponceResponse.message);
+                                     }
+
+                                     return MyApp.endPoints.updateProfile(MyApp.instance.user.getValue().id + "", "" + uploadImageResponceResponse.data.path);
+
+
+                                 }
+                             }
                     )
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -497,8 +515,8 @@ public class ParentProfileFragment extends BFragment {
                         public void onData(MyResponse o) throws Exception {
 
                             if (o.status == 200) {
-
                                 getParentData();
+
                             } else {
 
                                 throw new Exception(o.status + "");
