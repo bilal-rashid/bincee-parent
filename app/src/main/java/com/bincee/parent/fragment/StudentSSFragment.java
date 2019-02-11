@@ -448,7 +448,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         public void bind() {
 
-            ImageBinder.setImageUrlRoundedCorner(imageView, kidsArray.get(getAdapterPosition()).photo);
+            ImageBinder.roundedCornerCenterCorpKid(imageView, kidsArray.get(getAdapterPosition()).photo);
         }
     }
 

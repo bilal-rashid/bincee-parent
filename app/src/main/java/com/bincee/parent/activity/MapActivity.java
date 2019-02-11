@@ -412,7 +412,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
         textViewName.setText(student.fullname + "");
         textViewTime.setText("ETA: " + (student.duration != null ? Math.round(student.duration) : 0) + " min");
-        ImageBinder.setImageUrlRoundedCorner(imageViewPic, student.photo);
+        ImageBinder.roundedCornerCenterCorpKid(imageViewPic, student.photo);
 
         if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
 

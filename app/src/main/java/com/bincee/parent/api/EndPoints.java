@@ -28,6 +28,7 @@ import retrofit2.http.Path;
 public interface EndPoints {
 
     String BaseUrl = "http://access.bincee.com/";
+    String AVATAR_UPLOAD = "avatar/upload";
 
     @FormUrlEncoded
     @POST("auth/login")
@@ -55,8 +56,8 @@ public interface EndPoints {
     );
 
     @Multipart
-    @POST("avatar/upload")
-    Observable<MyResponse<UploadImageResponce>> uploadImage(@Part MultipartBody.Part image);
+    @POST(AVATAR_UPLOAD)
+    Observable<UploadImageResponce> uploadImage(@Part MultipartBody.Part image);
 
     @FormUrlEncoded
     @POST("school/parent/{parentId}")

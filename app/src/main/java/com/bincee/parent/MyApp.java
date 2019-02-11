@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.gsonparserfactory.GsonParserFactory;
 import com.bincee.parent.api.EndPoints;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
@@ -94,6 +96,8 @@ public class MyApp extends Application {
     }
 
     private void setupRetrofit() {
+
+
         OkHttpClient client = new OkHttpClient
                 .Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -120,6 +124,9 @@ public class MyApp extends Application {
                 .client(client)
                 .build();
         endPoints = retrofit.create(EndPoints.class);
+
+        AndroidNetworking.initialize(getApplicationContext());
+        AndroidNetworking.setParserFactory(new GsonParserFactory());
 
     }
 }

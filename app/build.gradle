@@ -89,6 +89,7 @@ dependencies {
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     implementation 'com.cesards.android:cropimageview:1.0.2.1'
 
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
 
 //    implementation 'com.applandeo:material-calendar-view:1.5.1'

@@ -25,8 +25,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
+import com.bincee.parent.api.EndPoints;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.api.model.ParentCompleteData;
@@ -49,10 +53,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -227,10 +229,11 @@ public class ParentProfileFragment extends BFragment {
                             case 0:
                                 permissionHelper = new PermissionHelper();
                                 permissionHelper.with(ParentProfileFragment.this).permissionId(52)
-                                        .requiredPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE})
+                                        .requiredPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE})
                                         .setListner(new PermissionHelper.PermissionCallback() {
                                             @Override
                                             public void onPermissionGranted() {
+
                                                 Intent intent = new Intent();
                                                 intent.setType("image/*");
                                                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -480,59 +483,107 @@ public class ParentProfileFragment extends BFragment {
 
 
             File file = new File(realPath);
-            RequestBody requestFile =
-                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//            RequestBody requestFile = RequestBody.create(MediaType.parse(MyApp.instance.getContentResolver().getType(Uri.fromFile(file))), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
             loading.setValue(true);
 
-            EndpointObserver<MyResponse> observer = MyApp.endPoints.uploadImage(body)
-                    .flatMap(new Function<MyResponse<UploadImageResponce>, ObservableSource<? extends MyResponse>>() {
-                                 @Override
-                                 public ObservableSource<? extends MyResponse> apply(MyResponse<UploadImageResponce> uploadImageResponceResponse) throws Exception {
+//            EndpointObserver<MyResponse> observer = MyApp.endPoints.uploadImage(body)
+//                    .flatMap(uploadImageResponceResponse -> {
+//
+//                                if (uploadImageResponceResponse.status != 200) {
+//
+//                                    throw new Exception(uploadImageResponceResponse.message);
+//                                }
+//
+//                                return MyApp.endPoints.updateProfile(MyApp.instance.user.getValue().id + "", "" + uploadImageResponceResponse.data.path);
+//
+//
+//                            }
+//                    )
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribeWith(new EndpointObserver<MyResponse>() {
+//                        @Override
+//                        public void onComplete() {
+//                            loading.setValue(false);
+//                        }
+//
+//                        @Override
+//                        public void onData(MyResponse o) throws Exception {
+//
+//                            if (o.status == 200) {
+//                                getParentData();
+//
+//                            } else {
+//
+//                                throw new Exception(o.status + "");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onHandledError(Throwable e) {
+//                            e.printStackTrace();
+//                            loading.setValue(false);
+//                            parentErrorListner.setValue(new Event<Throwable>(e));
+//
+//
+//                        }
+//                    });
 
-                                     if (uploadImageResponceResponse.status != 200) {
 
-                                         throw new Exception(uploadImageResponceResponse.message);
-                                     }
-
-                                     return MyApp.endPoints.updateProfile(MyApp.instance.user.getValue().id + "", "" + uploadImageResponceResponse.data.path);
-
-
-                                 }
-                             }
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new EndpointObserver<MyResponse>() {
+            AndroidNetworking.upload(EndPoints.BaseUrl + EndPoints.AVATAR_UPLOAD)
+                    .addMultipartFile("image", file)
+                    .setTag(ParentProfileFragment.class.getSimpleName())
+                    .build().getAsObject(UploadImageResponce.class
+                    , new ParsedRequestListener<UploadImageResponce>() {
                         @Override
-                        public void onComplete() {
-                            loading.setValue(false);
-                        }
+                        public void onResponse(UploadImageResponce uploadImageResponceResponse) {
 
-                        @Override
-                        public void onData(MyResponse o) throws Exception {
-
-                            if (o.status == 200) {
-                                getParentData();
-
-                            } else {
-
-                                throw new Exception(o.status + "");
+                            if (uploadImageResponceResponse.status != 200) {
+//
+                                onError(new ANError(uploadImageResponceResponse.message));
+                                return;
                             }
+                            EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateProfile(MyApp.instance.user.getValue().id + "", "" + uploadImageResponceResponse.data.path)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeWith(new EndpointObserver<MyResponse>() {
+                                        @Override
+                                        public void onComplete() {
+                                            loading.setValue(false);
+                                        }
+
+                                        @Override
+                                        public void onData(MyResponse o) throws Exception {
+
+                                            if (o.status == 200) {
+                                                getParentData();
+                                            } else {
+                                                throw new Exception(o.status + "");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onHandledError(Throwable e) {
+                                            e.printStackTrace();
+                                            loading.setValue(false);
+                                            parentErrorListner.setValue(new Event<Throwable>(e));
+                                        }
+                                    });
+                            compositeDisposable.add(endpointObserver);
                         }
 
                         @Override
-                        public void onHandledError(Throwable e) {
-                            e.printStackTrace();
+                        public void onError(ANError anError) {
+                            anError.printStackTrace();
                             loading.setValue(false);
-                            parentErrorListner.setValue(new Event<Throwable>(e));
-
-
+                            parentErrorListner.setValue(new Event<Throwable>(anError));
                         }
                     });
-            compositeDisposable.add(observer);
+
+
+//            compositeDisposable.add(observer);
 
 
         }
@@ -548,40 +599,98 @@ public class ParentProfileFragment extends BFragment {
 
             loading.setValue(true);
 
-            EndpointObserver<MyResponse> observer = MyApp.endPoints.uploadImage(body)
-                    .flatMap(uploadImageResponceResponse ->
-                            MyApp.endPoints.updateKidPhoto(kidId + "", "" + uploadImageResponceResponse.data.path)
-                    )
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new EndpointObserver<MyResponse>() {
+//            EndpointObserver<MyResponse> observer = MyApp.endPoints.uploadImage(body)
+//                    .flatMap(uploadImageResponceResponse ->
+//                            MyApp.endPoints.updateKidPhoto(kidId + "", "" + uploadImageResponceResponse.data.path)
+//                    )
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribeWith(new EndpointObserver<MyResponse>() {
+//                        @Override
+//                        public void onComplete() {
+//                            loading.setValue(false);
+//                        }
+//
+//                        @Override
+//                        public void onData(MyResponse o) throws Exception {
+//
+//                            if (o.status == 200) {
+//
+//                                getParentKidsData();
+//                            } else {
+//
+//                                throw new Exception(o.status + "");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onHandledError(Throwable e) {
+//                            e.printStackTrace();
+//                            loading.setValue(false);
+//                            parentErrorListner.setValue(new Event<Throwable>(e));
+//
+//
+//                        }
+//                    });
+//            compositeDisposable.add(observer);
+
+
+            AndroidNetworking.upload(EndPoints.BaseUrl + EndPoints.AVATAR_UPLOAD)
+                    .addMultipartFile("image", file)
+                    .setTag(ParentProfileFragment.class.getSimpleName())
+                    .build().getAsObject(UploadImageResponce.class
+                    , new ParsedRequestListener<UploadImageResponce>() {
                         @Override
-                        public void onComplete() {
-                            loading.setValue(false);
-                        }
+                        public void onResponse(UploadImageResponce uploadImageResponceResponse) {
 
-                        @Override
-                        public void onData(MyResponse o) throws Exception {
-
-                            if (o.status == 200) {
-
-                                getParentKidsData();
-                            } else {
-
-                                throw new Exception(o.status + "");
+                            if (uploadImageResponceResponse.status != 200) {
+//
+                                onError(new ANError(uploadImageResponceResponse.message));
+                                return;
                             }
+                            EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateKidPhoto(kidId + "", "" + uploadImageResponceResponse.data.path)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribeWith(new EndpointObserver<MyResponse>() {
+                                        @Override
+                                        public void onComplete() {
+                                            loading.setValue(false);
+                                        }
+
+                                        @Override
+                                        public void onData(MyResponse o) throws Exception {
+
+                                            if (o.status == 200) {
+
+                                                getParentKidsData();
+                                            } else {
+
+                                                throw new Exception(o.status + "");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onHandledError(Throwable e) {
+                                            e.printStackTrace();
+                                            loading.setValue(false);
+                                            parentErrorListner.setValue(new Event<Throwable>(e));
+
+
+                                        }
+                                    });
+
+                            compositeDisposable.add(endpointObserver);
                         }
 
                         @Override
-                        public void onHandledError(Throwable e) {
-                            e.printStackTrace();
+                        public void onError(ANError anError) {
+                            anError.printStackTrace();
                             loading.setValue(false);
-                            parentErrorListner.setValue(new Event<Throwable>(e));
-
-
+                            parentErrorListner.setValue(new Event<Throwable>(anError));
                         }
                     });
-            compositeDisposable.add(observer);
+
+
         }
     }
 
@@ -641,7 +750,7 @@ public class ParentProfileFragment extends BFragment {
             this.student = student;
             binding.setStudent(student);
 
-            ImageBinder.setImageUrlRoundedCorner(binding.imageViewKid, student.photo);
+            ImageBinder.roundedCornerCenterCorpKid(binding.imageViewKid, student.photo);
 
             if (edit) {
                 binding.imageVIewKidEdit.setVisibility(View.VISIBLE);
@@ -673,7 +782,7 @@ public class ParentProfileFragment extends BFragment {
                                 case 0:
                                     permissionHelper = new PermissionHelper();
                                     permissionHelper.with(ParentProfileFragment.this).permissionId(52)
-                                            .requiredPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE})
+                                            .requiredPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE})
                                             .setListner(new PermissionHelper.PermissionCallback() {
                                                 @Override
                                                 public void onPermissionGranted() {
