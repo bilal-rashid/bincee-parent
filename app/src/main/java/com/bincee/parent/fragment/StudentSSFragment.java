@@ -70,7 +70,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
 
     public ParentCompleteData.KidModel currentKid;
-    private List<ParentCompleteData.KidModel> kidsArray;
+    //    private List<ParentCompleteData.KidModel> kidsArray;
     int[] images = {R.drawable.checkbox_checked, R.drawable.checkbox_checked};
 
 
@@ -94,9 +94,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
     @OnClick(R.id.imageViewCall)
     public void onCAllClicked() {
-        if (kidsArray.size() != 0) {
-            if (currentKid == null && kidsArray.size() != 0) {
-                currentKid = kidsArray.get(0);
+        if (stackViewAdapter.getKids().size() != 0) {
+            if (currentKid == null && stackViewAdapter.getItemCount() != 0) {
+                currentKid = stackViewAdapter.getKids().get(0);
             }
             new DriverInformationDialog(getContext(), currentKid.driver).show();
         } else {
@@ -115,9 +115,8 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         ride = new MutableLiveData<>();
 
-        kidsArray = new ArrayList<>();
-        kidsArray = MyApp.instance.user.getValue().parentCompleteInfo.kids;
-        stackViewAdapter = new StackViewAdapter(kidsArray);
+        stackViewAdapter = new StackViewAdapter(new ArrayList<>());
+
 
         layout = new StackLayoutManager(StackLayoutManager.ScrollOrientation.RIGHT_TO_LEFT, 3);
         layout.setPagerMode(true);
@@ -138,7 +137,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
     private void changeCurrentStudent(int position) {
 
-        currentKid = kidsArray.get(position);
+        currentKid = stackViewAdapter.getKids().get(position);
         textView5.setText(currentKid.fullname);
         textViewAddress.setText(MyApp.instance.user.getValue().parentCompleteInfo.address.toString());
         stopSnapSHotListner();
@@ -173,13 +172,21 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         infiniteCycleView.setAdapter(stackViewAdapter);
 
 
+        MyApp.instance.user.observe(this, new Observer<LoginResponse.User>() {
+            @Override
+            public void onChanged(LoginResponse.User user) {
+                stackViewAdapter.setKids(user.parentCompleteInfo.kids);
+
+
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        changeCurrentStudent(layout.getFirstVisibleItemPosition());
 
         MyApp.instance.user.observe(getViewLifecycleOwner(), new Observer<LoginResponse.User>() {
             @Override
@@ -189,6 +196,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
                     stackViewAdapter.kids = kids;
                     stackViewAdapter.notifyDataSetChanged();
+                    changeCurrentStudent(layout.getFirstVisibleItemPosition());
 
                 }
 
@@ -290,8 +298,8 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
     public void setCurrentStudent(int studenId) {
 
-        for (int i = 0; i < kidsArray.size(); i++) {
-            if (kidsArray.get(i).id == studenId) {
+        for (int i = 0; i < stackViewAdapter.getKids().size(); i++) {
+            if (stackViewAdapter.getKids().get(i).id == studenId) {
 
                 infiniteCycleView.smoothScrollToPosition(i);
                 return;
@@ -412,6 +420,12 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         private List<ParentCompleteData.KidModel> kids = new ArrayList<>();
 
+        @Override
+        public void onBindViewHolder(@NonNull VH holder, int position) {
+            holder.bind(kids.get(holder.getAdapterPosition()));
+
+        }
+
         public StackViewAdapter(List<ParentCompleteData.KidModel> kids) {
             this.kids = kids;
         }
@@ -423,15 +437,18 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             return vh;
         }
 
-        @Override
-        public void onBindViewHolder(@NonNull VH holder, int position) {
-            holder.bind();
-
+        public List<ParentCompleteData.KidModel> getKids() {
+            return kids;
         }
 
         @Override
         public int getItemCount() {
             return kids.size();
+        }
+
+        public void setKids(List<ParentCompleteData.KidModel> kids) {
+            this.kids = kids;
+            notifyDataSetChanged();
         }
     }
 
@@ -446,9 +463,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind() {
+        public void bind(ParentCompleteData.KidModel kidModel) {
 
-            ImageBinder.roundedCornerCenterCorpKid(imageView, kidsArray.get(getAdapterPosition()).photo);
+            ImageBinder.roundedCornerCenterCorpKid(imageView, kidModel.photo);
         }
     }
 
