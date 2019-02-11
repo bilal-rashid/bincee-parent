@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.bincee.parent.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -20,22 +21,34 @@ public final class ImageBinder {
         Context context = imageView.getContext();
         Glide.with(context).load(url)
                 .apply(new RequestOptions()
-//                        .placeholder(R.drawable.profile_avatar)
-//                        .error(R.drawable.profile_avatar)
+                        .placeholder(R.drawable.profile_avatar)
+                        .error(R.drawable.profile_avatar)
                 )
                 .into(imageView);
     }
-//    @BindingAdapter("imageUrl")
 
-    public static void setImageUrlRoundedCorner(ImageView imageView, String url) {
+    @BindingAdapter("imageRoundedCenterCorpParent")
+    public static void roundedCornerCenterCorpParent(ImageView imageView, String url) {
         Context context = imageView.getContext();
         Glide.with(context).load(url)
                 .apply(new RequestOptions()
-//                        .placeholder(R.drawable.profile_avatar)
-                                .transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(18)))
-//                        .error(R.drawable.profile_avatar)
+                        .placeholder(R.drawable.profile_avatar)
+                        .transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(18)))
+                        .error(R.drawable.profile_avatar)
                 )
-//                .apply(RequestOptions.bitmapTransform(new RoundedCorners(14)))
+
+                .into(imageView);
+    }
+
+    @BindingAdapter("imageRoundedCenterCorpKid")
+    public static void roundedCornerCenterCorpKid(ImageView imageView, String url) {
+        Context context = imageView.getContext();
+        Glide.with(context).load(url)
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.kid_profile)
+                        .transform(new MultiTransformation<>(new CenterCrop(), new RoundedCorners(18)))
+                        .error(R.drawable.kid_profile)
+                )
 
                 .into(imageView);
     }

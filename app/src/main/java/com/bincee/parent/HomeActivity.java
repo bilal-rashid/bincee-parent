@@ -188,7 +188,7 @@ public class HomeActivity extends BA {
             @Override
             public void onChanged(LoginResponse.User user) {
                 if (user == null) return;
-                ImageBinder.setImageUrlRoundedCorner(binding.userLayout.imageViewProfilePic, user.parentCompleteInfo.photo);
+                ImageBinder.roundedCornerCenterCorpParent(binding.userLayout.imageViewProfilePic, user.parentCompleteInfo.photo);
                 binding.userLayout.textViewUsername.setText(user.parentCompleteInfo.fullname);
 
             }
