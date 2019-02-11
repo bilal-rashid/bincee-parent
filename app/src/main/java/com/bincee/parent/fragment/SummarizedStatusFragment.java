@@ -266,7 +266,7 @@ public class SummarizedStatusFragment extends Fragment {
 
 
         statusTextView3.textViewTitle.setText("Almost There");
-        statusTextView3.textViewText.setText("(Student name) will reach home in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        statusTextView3.textViewText.setText(student.fullname + " will reach home in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView4.unSelected();
 
         statusTextView4.textViewTitle.setText("At your doorstep");
