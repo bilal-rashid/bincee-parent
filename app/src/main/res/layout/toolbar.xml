@@ -23,7 +23,9 @@
             android:fontFamily="@font/gotham_medium"
             android:text="Title"
             android:textColor="#000"
-            android:textSize="@dimen/_10ssp" />
+            android:textSize="@dimen/_10ssp"
+
+            />
 
 
     </FrameLayout>

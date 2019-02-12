@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,6 +60,8 @@ public class SummarizedStatusFragment extends Fragment {
     ImageView checkBox4;
     @BindView(R.id.imageViewBusStauts)
     ImageView imageViewBusStauts;
+    @BindView(R.id.textViewRide)
+    TextView textViewRide;
 
     public SummarizedStatusFragment() {
         // Required empty public constructor
@@ -109,9 +112,11 @@ public class SummarizedStatusFragment extends Fragment {
 
                     for (Student student : ride.students) {
 
-                        if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
-                            morningStatuses(student);
 
+                        if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
+
+                            textViewRide.setText("Pickup");
+                            morningStatuses(student);
                             switch (student.status) {
                                 case 1:
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
@@ -156,10 +161,9 @@ public class SummarizedStatusFragment extends Fragment {
 
 
                         } else if (ride.shift.equalsIgnoreCase(Ride.SHIFT_AFTERNOON)) {
+                            textViewRide.setText("Dropoff");
 
                             eveningStatuses(student);
-
-
                             switch (student.status) {
                                 case 1:
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
@@ -262,12 +266,12 @@ public class SummarizedStatusFragment extends Fragment {
         statusTextView2.textViewText.setText(student.fullname + " is in the bus and will reach in around  " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
         statusTextView2.view.setGravity(GravityCompat.END);
         statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        statusTextView4.unSelected();
+        statusTextView2.unSelected();
 
 
         statusTextView3.textViewTitle.setText("Almost There");
         statusTextView3.textViewText.setText(student.fullname + " will reach home in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
-        statusTextView4.unSelected();
+        statusTextView3.unSelected();
 
         statusTextView4.textViewTitle.setText("At your doorstep");
         statusTextView4.textViewText.setText("Please open the door " + student.fullname + " is waiting outside");

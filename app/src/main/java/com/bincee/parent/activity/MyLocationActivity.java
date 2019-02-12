@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     private PermissionsManager permissionsManager;
     private CompositeDisposable compositeDisposable;
     private ProgressDialog progressDialog;
+    private LocationManager locationManager;
 
 
     public static void start(Context context) {
@@ -64,8 +67,11 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
         Mapbox.getInstance(this, MAPBOX_TOKEN);
         compositeDisposable = new CompositeDisposable();
 
+
         setContentView(R.layout.activity_my_location);
         ButterKnife.bind(this);
+
+
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
@@ -230,6 +236,27 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     private void enableLocationComponent() {
 // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
+
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("GPS is disabled. would you like to enable it?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+
 
 // Get an instance of the component
             LocationComponent locationComponent = mapboxMap.getLocationComponent();

@@ -246,6 +246,7 @@ public class HomeActivity extends BA {
                 .setListner(new LogoutDialog.Listner() {
                     @Override
                     public void _logout() {
+
                         MyPref.logout(HomeActivity.this);
                         MyPref.logout(HomeActivity.this);
 
@@ -278,6 +279,7 @@ public class HomeActivity extends BA {
                                                     Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(intent);
+                                                    finish();
                                                 }
                                             });
                                 }

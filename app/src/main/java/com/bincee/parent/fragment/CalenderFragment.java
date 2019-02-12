@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,12 +67,12 @@ public class CalenderFragment extends Fragment {
     TextView textViewLeaveHistory;
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
-    @BindView(R.id.radioButtonMorning)
-    RadioButton radioButtonMorning;
-    @BindView(R.id.radioButtonEvening)
-    RadioButton radioButtonEvening;
-    @BindView(R.id.radioButt)
-    RadioGroup radioButt;
+    //    @BindView(R.id.radioButtonMorning)
+//    RadioButton radioButtonMorning;
+//    @BindView(R.id.radioButtonEvening)
+//    RadioButton radioButtonEvening;
+//    @BindView(R.id.radioButt)
+//    RadioGroup radioButt;
     @BindView(R.id.editTextComment)
     TextInputEditText editTextComment;
     @BindView(R.id.imageViewCross)
@@ -226,6 +224,7 @@ public class CalenderFragment extends Fragment {
 
         if (calendarView.getVisibility() == View.VISIBLE) {
 
+
             if (calendarView.getSelectedDates().size() > 0) {
 
                 linearLayoutLeaveAppplication.setVisibility(View.VISIBLE);
@@ -237,7 +236,12 @@ public class CalenderFragment extends Fragment {
 
         } else {
 
-            int checkedRadioButtonId = radioButt.getCheckedRadioButtonId();
+            if (recycleView.getVisibility() == View.VISIBLE) {
+                onButtonCalendarClicked();
+                return;
+            }
+
+//            int checkedRadioButtonId = radioButt.getCheckedRadioButtonId();
 
             String comment = editTextComment.getText().toString();
 

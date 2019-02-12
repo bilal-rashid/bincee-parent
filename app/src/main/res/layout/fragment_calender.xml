@@ -190,13 +190,13 @@
                         android:text="No Bus Ride for "
                         android:textSize="@dimen/_10ssp" />
 
-                    <RadioGroup
-                        android:id="@+id/radioButt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <!--<RadioGroup-->
+                    <!--android:id="@+id/radioButt"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
 
 
-                        <RadioButton
+                    <CheckBox
                             android:id="@+id/radioButtonMorning"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                             android:text="Morning Shift"
                             android:textSize="@dimen/_10ssp" />
 
-                        <RadioButton
+                    <CheckBox
                             android:id="@+id/radioButtonEvening"
 
                             android:layout_width="wrap_content"
@@ -217,7 +217,7 @@
                             android:padding="10dp"
                             android:text="Evening Shift"
                             android:textSize="@dimen/_10ssp" />
-                    </RadioGroup>
+                    <!--</RadioGroup>-->
 
                     <TextView
                         android:layout_width="wrap_content"

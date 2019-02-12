@@ -9,6 +9,24 @@
     tools:context=".fragment.SummarizedStatusFragment">
 
 
+    <TextView
+        android:id="@+id/textViewRide"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+
+        android:fontFamily="@font/gotham_medium"
+        android:text="DROP off"
+        android:textColor="#000"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.bincee.parent.StatusTextView
         android:id="@+id/statusTextView2"
         android:layout_width="0dp"
@@ -48,10 +66,11 @@
         android:id="@+id/imageView"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_38sdp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/bus_icon_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRide" />
 
     <ImageView
         android:id="@+id/checkBox1"
@@ -140,9 +159,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:elevation="10dp"
         android:text="Real Time Tracking"
-        android:translationZ="10dp"
         app:layout_constraintBottom_toTopOf="@+id/imageViewBusStauts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
