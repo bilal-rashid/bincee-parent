@@ -188,6 +188,16 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+//        ViewUtils.generateBackgroundWithShadow(
+
+
+//                , (R.color.sky_blue)
+//                , R.dimen.radius_corner, (R.color.sky_blue)
+//                , R.dimen.elevation
+//                , Gravity.BOTTOM
+//        );
+
+
         MyApp.instance.user.observe(getViewLifecycleOwner(), new Observer<LoginResponse.User>() {
             @Override
             public void onChanged(LoginResponse.User user) {
@@ -327,9 +337,21 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     }
 
     private void populaeStatusesAcordingly(Ride ride, Student student) {
+
+        imageViewStatusIcon.setVisibility(View.VISIBLE);
+        if (student.duration != null && student.duration > 0) {
+            textViewETA.setText(String.format("ETA: %d min", Math.round(student.duration)));
+        } else {
+//            textViewETA.setText(String.format("ETA: %d min", null));
+
+        }
+
+
         if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
 
             switch (student.status) {
+
+
                 case Student.STATUS_MORNING_BUS_IS_COMMING:
                     textViewStatus.setText("Bus is coming");
                     break;
@@ -356,6 +378,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             switch (student.status) {
                 case Student.STATUS_AFTERNOON_SCHOOLISOVER:
                     textViewStatus.setText("School is over");
+                    textViewETA.setText("");
+
+
                     break;
                 case Student.STATUS_AFTERNOON_INTHEBUS:
                     textViewStatus.setText("In the bus");
@@ -378,16 +403,15 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         }
 
 
-        if (student.duration != null && student.duration > 0) {
-            textViewETA.setText(String.format("ETA: %d min", Math.round(student.duration)));
-            imageViewStatusIcon.setVisibility(View.VISIBLE);
-        } else {
-            textViewETA.setText("0");
-
-            imageViewStatusIcon.setVisibility(View.GONE);
-
-        }
-        //TODO
+//        if (student.duration != null && student.duration > 0) {
+//            textViewETA.setText(String.format("ETA: %d min", Math.round(student.duration)));
+//            imageViewStatusIcon.setVisibility(View.VISIBLE);
+//        } else {
+//            imageViewStatusIcon.setVisibility(View.VISIBLE);
+//            textViewETA.setText(String.format("ETA: %d min", null));
+//
+//        }
+//        //TODO
 
     }
 

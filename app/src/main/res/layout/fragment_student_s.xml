@@ -73,6 +73,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageViewStatusIcon"
         app:layout_constraintTop_toBottomOf="@+id/textViewAddress"
+        app:layout_constraintVertical_bias="0.00999999"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="status" />
 
@@ -133,10 +134,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="@dimen/_20sdp"
-        android:background="@drawable/circle_rectangle_blue_selector"
+        android:enabled="false"
         android:text="Track my kid"
         android:textColor="#fff"
-        android:translationZ="2dp"
         app:layout_constraintBottom_toTopOf="@+id/imageViewCall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -152,7 +152,6 @@
         android:background="@drawable/circle_rectangle_green"
         android:text="Calender"
         android:textColor="#fff"
-        android:translationZ="2dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonFindMe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="416dp" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"

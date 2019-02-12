@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:background="@drawable/white_rounded_rectangle_shadow_ss"
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

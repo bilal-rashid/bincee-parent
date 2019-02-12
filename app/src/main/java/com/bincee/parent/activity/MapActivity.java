@@ -536,7 +536,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
             destinationMarker = mapboxMap.addMarker(new MarkerOptions()
                     .setPosition(LatLngHelper.toLatLng(destination))
                     .setIcon(getInstance.defaultMarker())
-                    .setTitle("ETA: " + Math.round(student.duration) + " min"));
+                    .setTitle("ETA: " + (student.duration != null ? Math.round(student.duration) : 0f) + " min"));
 
         } else {
             destinationMarker.setPosition(LatLngHelper.toLatLng(destination));
