@@ -64,6 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (!studentId.equalsIgnoreCase(" -1")) {
 
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Student.STUDENT_ID, studentId);
                 intent.putExtra(Student.NOTIFICATION_TYPE, type);
                 startActivity(intent);

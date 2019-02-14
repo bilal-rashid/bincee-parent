@@ -47,7 +47,7 @@ public class DateHelper {
         double hours = duration / 60; //since both are ints, you get an int
         double minutes = duration % 60;
 
-        return hours + ":" + minutes + " Minutes";
+        return Math.round(hours) + ":" + Math.round(minutes) + " Minutes";
     }
 }
 
