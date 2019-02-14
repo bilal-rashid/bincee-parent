@@ -1,5 +1,6 @@
 package com.bincee.parent.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -63,8 +65,14 @@ public class LoginActivity extends BA {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+
+        editTextUsername.setText(MyPref.getUSER_NAME(this));
+        editTextPassword.setText(MyPref.getPASSWORD(this));
+
+
         editTextUsername.setText("test_parentp1");
         editTextPassword.setText("Changeme.1");
+
 
         checkBox.setTypeface(ResourcesCompat.getFont(this, R.font.gotham_book));
     }
@@ -90,6 +98,15 @@ public class LoginActivity extends BA {
                     @Override
                     public void onData(LoginResponse response) {
                         if (response.status == 200) {
+                            if (response.data.type != 4) {
+                                new AlertDialog.Builder(LoginActivity.this).setMessage("Only Parent can login").setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                }).show();
+                                return;
+                            }
 
                             MyApp.instance.user.setValue(response.data);
                             String parentId = String.valueOf(MyApp.instance.user.getValue().id);
@@ -166,6 +183,14 @@ public class LoginActivity extends BA {
                             MyApp.instance.user.getValue().parentCompleteInfo = response.data;
                             HomeActivity.start(LoginActivity.this);
                             MyPref.SAVE_USER(LoginActivity.this, MyApp.instance.user.getValue());
+                            if (checkBox.isChecked()) {
+                                MyPref.SAVE_CREDATIALS(LoginActivity.this
+                                        , editTextUsername.getText().toString()
+                                        , editTextPassword.getText().toString());
+                            } else {
+                                MyPref.getUSER_NAME(LoginActivity.this);
+
+                            }
 
                             finish();
 

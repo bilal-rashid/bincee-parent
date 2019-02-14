@@ -14,8 +14,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#fff"
         android:layout_height="match_parent"
+        android:background="#fff"
         tools:context=".HomeActivity">
 
         <androidx.drawerlayout.widget.DrawerLayout
@@ -75,7 +75,6 @@
                 android:id="@+id/navigationView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:layout_gravity="start"
                 android:background="#fff"
                 android:fitsSystemWindows="true">
@@ -112,9 +111,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginBottom="8dp"
                         android:fitsSystemWindows="true"
                         android:orientation="vertical"
-                        app:layout_constraintBottom_toTopOf="@+id/textViewLogout"
+                        app:layout_constraintBottom_toTopOf="@+id/imageView15"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -139,20 +139,6 @@
 
 
                     </LinearLayout>
-
-
-                    <TextView
-                        android:id="@+id/textViewLogout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:padding="10dp"
-                        android:fontFamily="@font/gotham_book"
-                        android:text="- Logout"
-                        android:textColor="@color/_4f4f4f"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toTopOf="@+id/imageView15"
-                        app:layout_constraintStart_toStartOf="parent" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

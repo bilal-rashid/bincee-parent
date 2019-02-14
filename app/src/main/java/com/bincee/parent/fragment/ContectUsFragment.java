@@ -48,11 +48,17 @@ public class ContectUsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_EMAIL, getResources().getString(R.string.u_contactus_bincee_com_u));
-                startActivity(Intent.createChooser(intent, "Send Email"));
 
+//                intent.putExtra(Intent.EXTRA_EMAIL, getResources().getString(R.string.u_contactus_bincee_com_u));
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String[] addresses = {getResources().getString(R.string.u_contactus_bincee_com_u)};
+                intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "");
+
+//                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(intent);
+//                }
 
             }
         });

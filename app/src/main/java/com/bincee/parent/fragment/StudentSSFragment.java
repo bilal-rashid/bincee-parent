@@ -284,17 +284,11 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     @OnClick(R.id.buttonFindMe)
     public void onButtonFindMeClicked() {
 
-//        ((AppCompatActivity) getActivity())
-////                .getSupportFragmentManager()
-////                .beginTransaction()
-////                .replace(R.id.frameLayout, new SummarizedStatusFragment())
-////                .commit();
-
-
-        fragment = new SummarizedStatusFragment();
+        fragment = SummarizedStatusFragment.getInstance();
 
         getChildFragmentManager()
                 .beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.frameLayout, fragment)
                 .commit();
 

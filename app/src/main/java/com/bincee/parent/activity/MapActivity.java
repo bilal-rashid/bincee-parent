@@ -419,7 +419,15 @@ public class MapActivity extends BA implements OnMapReadyCallback {
             if (student.status == 1) {
                 getRoute(LatLngHelper.toPoint(ride.latLng), Point.fromLngLat(student.lng, student.lat), student);
 
-            } else {
+            }
+//
+//            else if (student.status == Student.STATUS_MORNING_ONTHEWAY) {
+//
+//                getRoute(LatLngHelper.toPoint(ride.latLng), LatLngHelper.toPoint(ride.schoolLatLng), student);
+//
+//            }
+
+            else {
                 getRoute(LatLngHelper.toPoint(ride.latLng), LatLngHelper.toPoint(ride.schoolLatLng), student);
 
             }

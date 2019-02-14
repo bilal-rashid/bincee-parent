@@ -42,5 +42,12 @@ public class DateHelper {
             return dateStr;
         }
     }
+
+    public static String toTime(Double duration) {
+        double hours = duration / 60; //since both are ints, you get an int
+        double minutes = duration % 60;
+
+        return hours + ":" + minutes + " Minutes";
+    }
 }
 

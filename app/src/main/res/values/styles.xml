@@ -19,7 +19,7 @@
     </style>
 
 
-    <style name="dialogButtonBlue" parent="Widget.AppCompat.Button.Colored">
+    <style name="dialogButtonBlue" parent="Widget.AppCompat.Button">
         <item name="android:fontFamily">@font/gotham_bold</item>
         <item name="android:textColor">#fff</item>
         <item name="android:background">@drawable/circle_rectangle_blue_selector</item>
