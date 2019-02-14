@@ -1,7 +1,6 @@
 package com.bincee.parent.activity;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.MyResponse;
+import com.bincee.parent.dialog.MyProgressDialog;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
 import com.mapbox.android.core.location.LocationEngine;
@@ -53,7 +53,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     private MapboxMap mapboxMap;
     private PermissionsManager permissionsManager;
     private CompositeDisposable compositeDisposable;
-    private ProgressDialog progressDialog;
+    private MyProgressDialog progressDialog;
     private LocationManager locationManager;
 
 
@@ -86,7 +86,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
         @SuppressLint("MissingPermission") Location lastLocation = locationEngine.getLastLocation();
 
         if (lastLocation != null) {
-            progressDialog = new ProgressDialog(MyLocationActivity.this);
+            progressDialog = new MyProgressDialog(MyLocationActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Wait..");
             progressDialog.show();
