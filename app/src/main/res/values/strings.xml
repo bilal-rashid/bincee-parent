@@ -14,6 +14,8 @@
     <string name="leaves">LEAVES</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="close">close</string>
+    <string name="open">open</string>
 
 
 </resources>

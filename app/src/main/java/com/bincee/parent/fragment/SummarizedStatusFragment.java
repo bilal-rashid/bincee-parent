@@ -3,6 +3,7 @@ package com.bincee.parent.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 
 import com.bincee.parent.HomeActivity;
@@ -21,6 +23,7 @@ import com.bincee.parent.StatusTextView;
 import com.bincee.parent.activity.MapActivity;
 import com.bincee.parent.api.model.Ride;
 import com.bincee.parent.api.model.Student;
+import com.bincee.parent.helper.DateHelper;
 
 import java.util.Objects;
 
@@ -35,7 +38,7 @@ import butterknife.OnClick;
 public class SummarizedStatusFragment extends Fragment {
 
 
-    public static Fragment instance;
+    public static SummarizedStatusFragment instance;
 
 
     @BindView(R.id.buttonRealTimeTracking)
@@ -62,18 +65,29 @@ public class SummarizedStatusFragment extends Fragment {
     ImageView imageViewBusStauts;
     @BindView(R.id.textViewRide)
     TextView textViewRide;
+    @BindView(R.id.textViewETA2)
+    TextView textViewETA2;
+    @BindView(R.id.textViewETA3)
+    TextView textViewETA3;
 
     public SummarizedStatusFragment() {
         // Required empty public constructor
     }
 
-    public static Fragment getInstance() {
+    public static SummarizedStatusFragment getInstance() {
+
         if (instance == null) {
             instance = new SummarizedStatusFragment();
         }
+
         return instance;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,8 +109,27 @@ public class SummarizedStatusFragment extends Fragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+
+            StudentSSFragment.getInstance().getChildFragmentManager().popBackStack();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        FragmentActivity factivity = getActivity();
+        if (factivity instanceof HomeActivity) {
+            HomeActivity activity = (HomeActivity) factivity;
+            activity.setBackButton();
+        }
 
         Fragment parentFragment = getParentFragment();
 
@@ -112,6 +145,8 @@ public class SummarizedStatusFragment extends Fragment {
 
                     for (Student student : ride.students) {
 
+                        textViewETA2.setVisibility(View.GONE);
+                        textViewETA3.setVisibility(View.GONE);
 
                         if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
 
@@ -126,6 +161,10 @@ public class SummarizedStatusFragment extends Fragment {
                                 case 2:
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
+
+                                    textViewETA2.setVisibility(View.VISIBLE);
+                                    textViewETA2.setText(DateHelper.toTime(student.duration));
+
 
                                     statusTextView1.selected();
                                     statusTextView2.selected();
@@ -175,7 +214,6 @@ public class SummarizedStatusFragment extends Fragment {
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
 
-
                                     statusTextView1.selected();
                                     statusTextView2.selected();
 
@@ -184,6 +222,9 @@ public class SummarizedStatusFragment extends Fragment {
                                     checkBox1.setImageResource(R.drawable.checkbox_checked);
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
                                     checkBox3.setImageResource(R.drawable.checkbox_checked);
+
+                                    textViewETA3.setVisibility(View.VISIBLE);
+                                    textViewETA3.setText(DateHelper.toTime(student.duration));
 
 
                                     statusTextView1.selected();
@@ -195,6 +236,7 @@ public class SummarizedStatusFragment extends Fragment {
                                     checkBox2.setImageResource(R.drawable.checkbox_checked);
                                     checkBox3.setImageResource(R.drawable.checkbox_checked);
                                     checkBox4.setImageResource(R.drawable.checkbox_checked);
+
                                     statusTextView1.selected();
                                     statusTextView2.selected();
                                     statusTextView3.selected();
@@ -243,7 +285,6 @@ public class SummarizedStatusFragment extends Fragment {
         statusTextView4.view.setGravity(GravityCompat.END);
         statusTextView4.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         statusTextView4.unSelected();
-
 
         unchechAllCheckox();
     }
@@ -304,5 +345,15 @@ public class SummarizedStatusFragment extends Fragment {
         super.onResume();
         ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("BUS STATUS");
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        FragmentActivity factivity = getActivity();
+        if (factivity instanceof HomeActivity) {
+            HomeActivity activity = (HomeActivity) factivity;
+            activity.setThreeLine();
+        }
+        super.onDestroyView();
     }
 }

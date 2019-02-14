@@ -15,6 +15,7 @@ import com.applandeo.materialcalendarview.utils.DateUtils;
 import com.applandeo.materialcalendarview.utils.DayColorsUtils;
 import com.applandeo.materialcalendarview.utils.SelectedDay;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -107,7 +108,21 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
         }
 
         if (selectedDays.size() == 1) {
-            selectOneAndRange(dayLabel, day);
+
+            SelectedDay selectedDay = new SelectedDay(day);
+            boolean contains = selectedDays.contains(selectedDay);
+            if (contains) {
+
+                mCalendarProperties.setSelectedDays(new ArrayList<>());
+                mCalendarPageAdapter.notifyDataSetChanged();
+
+
+            } else {
+
+                selectOneAndRange(dayLabel, day);
+            }
+
+
         }
 
         if (selectedDays.isEmpty()) {

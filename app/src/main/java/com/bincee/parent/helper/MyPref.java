@@ -3,10 +3,17 @@ package com.bincee.parent.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.bincee.parent.activity.LoginActivity;
 import com.bincee.parent.api.model.LoginResponse;
 import com.google.gson.Gson;
 
 public class MyPref {
+
+
+    public static final String CREDANTIALS = "credantials";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+
 
     public static void SAVE_USER(Context loginActivity, LoginResponse.User user) {
         SharedPreferences sharedPref = getSharedPref(loginActivity);
@@ -37,5 +44,35 @@ public class MyPref {
         getSharedPref(context).edit().clear().apply();
 
     }
+
+    public static void SAVE_CREDATIALS(LoginActivity loginActivity, String username, String pass) {
+        SharedPreferences sharedPreferences = getRemeberMePrefrance(loginActivity);
+        sharedPreferences.edit().putString(USERNAME, username).putString(PASSWORD, pass).apply();
+
+
+    }
+
+
+    public static String getUSER_NAME(LoginActivity loginActivity) {
+        SharedPreferences sharedPreferences = getRemeberMePrefrance(loginActivity);
+        return sharedPreferences.getString(USERNAME, "");
+    }
+
+    public static String getPASSWORD(LoginActivity loginActivity) {
+        SharedPreferences sharedPreferences = getRemeberMePrefrance(loginActivity);
+        return sharedPreferences.getString(PASSWORD, "");
+    }
+
+    public static void REMOVE_REMEBER(LoginActivity loginActivity) {
+        SharedPreferences sharedPreferences = getRemeberMePrefrance(loginActivity);
+        sharedPreferences.edit().clear().apply();
+
+
+    }
+
+    private static SharedPreferences getRemeberMePrefrance(LoginActivity loginActivity) {
+        return loginActivity.getSharedPreferences(CREDANTIALS, Context.MODE_PRIVATE);
+    }
+
 
 }

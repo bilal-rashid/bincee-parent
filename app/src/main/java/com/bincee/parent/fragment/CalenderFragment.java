@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,16 +68,14 @@ public class CalenderFragment extends Fragment {
     TextView textViewLeaveHistory;
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
-    //    @BindView(R.id.radioButtonMorning)
-//    RadioButton radioButtonMorning;
-//    @BindView(R.id.radioButtonEvening)
-//    RadioButton radioButtonEvening;
-//    @BindView(R.id.radioButt)
-//    RadioGroup radioButt;
     @BindView(R.id.editTextComment)
     TextInputEditText editTextComment;
     @BindView(R.id.imageViewCross)
     ImageView imageViewCross;
+    @BindView(R.id.radioButtonMorning)
+    CheckBox radioButtonMorning;
+    @BindView(R.id.radioButtonEvening)
+    CheckBox radioButtonEvening;
 
     private MyAdapter adapter;
     @BindView(R.id.progressBar)
@@ -154,6 +153,10 @@ public class CalenderFragment extends Fragment {
 
         calendarView.setVisibility(View.VISIBLE);
 
+        editTextComment.setText("");
+
+        radioButtonEvening.setChecked(false);
+        radioButtonMorning.setChecked(false);
 
     }
 
@@ -279,6 +282,8 @@ public class CalenderFragment extends Fragment {
 
                             if (o.status == 200) {
                                 MyApp.showToast("Leave Created");
+                                onButtonHistoryClicked();
+                                calendarView.setSelectedDates(new ArrayList<>());
                             }
 
                         }

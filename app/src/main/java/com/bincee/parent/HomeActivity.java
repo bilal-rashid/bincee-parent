@@ -1,5 +1,6 @@
 package com.bincee.parent;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -38,8 +40,10 @@ import com.bincee.parent.dialog.LogoutDialog;
 import com.bincee.parent.fragment.AlertsFragment;
 import com.bincee.parent.fragment.CalenderFragment;
 import com.bincee.parent.fragment.StudentSSFragment;
+import com.bincee.parent.fragment.SummarizedStatusFragment;
 import com.bincee.parent.helper.ImageBinder;
 import com.bincee.parent.helper.MyPref;
+import com.bincee.parent.helper.PermissionHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -65,6 +69,7 @@ public class HomeActivity extends BA {
     public static final String ABOUT_US = "- About Us";
     public static final String CONTACT_US = "- Contact Us";
     public static final String LOCATE_ME = "- Locate Me";
+    public static final String LOGOUT = "- Logout";
 
 
     public ActivityHomeBinding binding;
@@ -74,6 +79,7 @@ public class HomeActivity extends BA {
     private String TAG = HomeActivity.class.getSimpleName();
     private VM liveData;
     private Handler handler = new Handler();
+    private PermissionHelper permissionHelper;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, HomeActivity.class));
@@ -112,20 +118,16 @@ public class HomeActivity extends BA {
 
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.threee_line);
+        setThreeLine();
 
 
         menuItem = new ArrayList<String>();
 
-//        menuItem.add(HOME);
         menuItem.add(MY_PROFILE);
-//        menuItem.add(MY_KIDs_Profile);
-//        menuItem.add(ALERTS_AND_ANNOUNCEMENT);
-//        menuItem.add(SETTINGS);
         menuItem.add(DRIVERS_PROFILE);
         menuItem.add(CONTACT_US);
         menuItem.add(LOCATE_ME);
-//        menuItem.add(ABOUT_US);
+        menuItem.add(LOGOUT);
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
         binding.recycleView.setLayoutFrozen(true);
@@ -177,13 +179,6 @@ public class HomeActivity extends BA {
         binding.bottomNavigationView.setItemIconTintList(null);
 
 
-        binding.textViewLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logout();
-            }
-        });
-
         MyApp.instance.user.observe(this, new Observer<LoginResponse.User>() {
             @Override
             public void onChanged(LoginResponse.User user) {
@@ -200,6 +195,14 @@ public class HomeActivity extends BA {
         checkNotificationForStudent(getIntent());
 
 
+    }
+
+    public void setThreeLine() {
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.threee_line);
+    }
+
+    public void setBackButton() {
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
     }
 
     @Override
@@ -308,9 +311,21 @@ public class HomeActivity extends BA {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        super.onOptionsItemSelected(item);
         if (item.getItemId() == android.R.id.home) {
-            binding.drawerLayout.openDrawer(Gravity.LEFT, true);
-            return true;
+
+            Fragment instance = SummarizedStatusFragment.getInstance();
+
+            if (instance != null && instance.isVisible()) {
+
+                instance.onOptionsItemSelected(item);
+                return true;
+
+            } else {
+                binding.drawerLayout.openDrawer(Gravity.LEFT, true);
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -320,6 +335,15 @@ public class HomeActivity extends BA {
 
         public VM() {
 
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissionHelper != null) {
+            permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         }
     }
@@ -366,27 +390,67 @@ public class HomeActivity extends BA {
                         .setListner(new DriverInformationDialog.Listner() {
                             @Override
                             public void call() {
+                                permissionHelper = new PermissionHelper();
+                                permissionHelper
 
-                                Intent intent = new Intent(Intent.ACTION_DIAL);
-                                intent.setData(Uri.parse("tel:" + driver.phoneNo));
-                                startActivity(intent);
+                                        .permissionId(88)
+                                        .setListner(new PermissionHelper.PermissionCallback() {
+                                            @Override
+                                            public void onPermissionGranted() {
+                                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                                intent.setData(Uri.parse("tel:" + driver.phoneNo));
+                                                startActivity(intent);
+                                            }
+
+                                            @Override
+                                            public void onPermissionFailed() {
+                                                MyApp.showToast("Permission Required");
+
+                                            }
+                                        }).requiredPermissions(new String[]{Manifest.permission.CALL_PHONE})
+                                        .with(HomeActivity.this)
+                                        .request();
+
+
                             }
 
                             @Override
                             public void cancel() {
-                                Uri sms_uri = Uri.parse("smsto:" + driver.phoneNo);
-                                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
-                                sms_intent.putExtra("sms_body", "");
-                                startActivity(sms_intent);
+
+                                permissionHelper = new PermissionHelper();
+                                permissionHelper
+
+                                        .permissionId(89)
+                                        .setListner(new PermissionHelper.PermissionCallback() {
+                                            @Override
+                                            public void onPermissionGranted() {
+
+                                                Uri sms_uri = Uri.parse("smsto:" + driver.phoneNo);
+                                                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+                                                sms_intent.putExtra("sms_body", "");
+                                                startActivity(sms_intent);
+                                            }
+
+                                            @Override
+                                            public void onPermissionFailed() {
+                                                MyApp.showToast("Permission Required");
+
+                                            }
+                                        }).requiredPermissions(new String[]{Manifest.permission.SEND_SMS})
+                                        .with(HomeActivity.this)
+                                        .request();
+
+
                             }
                         })
                         .show();
 
             } else if (s.equalsIgnoreCase(LOCATE_ME)) {
                 MyLocationActivity.start(HomeActivity.this);
+            } else if (s.equalsIgnoreCase(LOGOUT)) {
+                logout();
             }
 
         }
     }
-
 }
