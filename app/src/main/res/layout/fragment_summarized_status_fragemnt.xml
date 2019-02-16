@@ -8,6 +8,20 @@
 
     tools:context=".fragment.SummarizedStatusFragment">
 
+    <ImageView
+        android:id="@+id/imageViewBusStauts"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+
+        android:src="@drawable/status1_bg"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <TextView
         android:id="@+id/textViewRide"
@@ -16,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
 
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="8dp"
 
         android:fontFamily="@font/gotham_medium"
@@ -52,9 +66,11 @@
     <View
         android:id="@+id/view"
         android:layout_width="1dp"
+
+
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="80dp"
         android:background="@color/status_vertical_line_color"
         app:layout_constraintBottom_toTopOf="@+id/buttonRealTimeTracking"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
@@ -66,7 +82,7 @@
         android:id="@+id/imageView"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_38sdp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="00dp"
         android:src="@drawable/bus_icon_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -178,19 +194,6 @@
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/checkBox3" />
 
-    <ImageView
-        android:id="@+id/imageViewBusStauts"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-
-        android:src="@drawable/status1_bg"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonRealTimeTracking"
@@ -198,20 +201,20 @@
         android:layout_width="@dimen/blue_butoon_width"
         android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
+
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Real Time Tracking"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewBusStauts"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageViewBusStauts" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.62" />
+        app:layout_constraintGuide_percent="0.8" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
