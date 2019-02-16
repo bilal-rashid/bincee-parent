@@ -65,10 +65,12 @@ public class LatLngHelper {
             list.add(toLatLng(point));
         }
 
+
         return list;
     }
 
     public static Point toPoint(GeoPoint latLng) {
+        if (latLng == null) return null;
         Point point = Point.fromLngLat(latLng.getLongitude(), latLng.getLatitude());
 
         return point;

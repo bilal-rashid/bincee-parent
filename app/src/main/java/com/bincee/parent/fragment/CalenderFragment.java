@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -348,11 +349,33 @@ public class CalenderFragment extends Fragment {
         }
 
         public void bind(StudentLeavesModel.OneLeaveRecord oneLeaveRecord) {
-            String fromData = DateHelper.help(oneLeaveRecord.fromDate);
-            String toDate = DateHelper.help(oneLeaveRecord.toDate);
-            String year = DateHelper.helpYear(oneLeaveRecord.toDate);
+            Date fromData = DateHelper.parse(oneLeaveRecord.fromDate);
+            Date toDate = DateHelper.parse(oneLeaveRecord.toDate);
 
-            textViewTitle.setText(fromData + " - " + toDate + ", " + year);
+            Calendar fromCalender = Calendar.getInstance();
+            fromCalender.setTime(fromData);
+
+
+            Calendar toCalenter = Calendar.getInstance();
+            toCalenter.setTime(toDate);
+
+            toCalenter.add(Calendar.HOUR_OF_DAY, -24);
+
+
+            toDate = toCalenter.getTime();
+            String year = DateHelper.helpYear(oneLeaveRecord.toDate);
+            String text = "";
+
+            if (fromCalender.get(Calendar.DATE) == toCalenter.get(Calendar.DATE)) {
+                text = DateHelper.format(fromData) + ", " + year;
+
+            } else {
+                text = DateHelper.format(fromData) + " - " + DateHelper.format(toDate) + ", " + year;
+
+            }
+
+
+            textViewTitle.setText(text);
             textViewDetailMessage.setText(oneLeaveRecord.comment);
         }
     }

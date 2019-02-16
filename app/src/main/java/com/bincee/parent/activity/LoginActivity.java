@@ -70,8 +70,8 @@ public class LoginActivity extends BA {
         editTextPassword.setText(MyPref.getPASSWORD(this));
 
 
-        editTextUsername.setText("test_parentp1");
-        editTextPassword.setText("Changeme.1");
+//        editTextUsername.setText("test_parentp1");
+//        editTextPassword.setText("Changeme.1");
 
 
         checkBox.setTypeface(ResourcesCompat.getFont(this, R.font.gotham_book));
@@ -92,6 +92,7 @@ public class LoginActivity extends BA {
                     @Override
                     public void onComplete() {
 
+                        progressBar.setVisibility(View.GONE);
 
                     }
 

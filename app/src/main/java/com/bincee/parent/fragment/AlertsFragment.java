@@ -71,9 +71,11 @@ public class AlertsFragment extends BFragment {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return alertsVPFragment;
-                    case 1:
                         return anouncemetFragment;
+
+                    case 1:
+                        return alertsVPFragment;
+
                 }
                 return new AlertsVPFragment();
             }
