@@ -69,9 +69,11 @@ public class LoginActivity extends BA {
         editTextUsername.setText(MyPref.getUSER_NAME(this));
         editTextPassword.setText(MyPref.getPASSWORD(this));
 
+        checkBox.setChecked(MyPref.getREMEMBERME(this));
 
-        editTextUsername.setText("test_parentp1");
-        editTextPassword.setText("Changeme.1");
+
+//        editTextUsername.setText("test_parentp1");
+//        editTextPassword.setText("Changeme.1");
 //
 //        editTextUsername.setText("arslan_parentp3");
 //        editTextPassword.setText("ChangeMe@4");
@@ -192,7 +194,7 @@ public class LoginActivity extends BA {
                                         , editTextUsername.getText().toString()
                                         , editTextPassword.getText().toString());
                             } else {
-                                MyPref.getUSER_NAME(LoginActivity.this);
+                                MyPref.REMOVE_REMEBER(LoginActivity.this);
 
                             }
 
