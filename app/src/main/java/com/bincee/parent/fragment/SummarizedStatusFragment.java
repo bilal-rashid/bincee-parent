@@ -21,10 +21,12 @@ import com.bincee.parent.HomeActivity;
 import com.bincee.parent.R;
 import com.bincee.parent.StatusTextView;
 import com.bincee.parent.activity.MapActivity;
+import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.Ride;
 import com.bincee.parent.api.model.Student;
 import com.bincee.parent.helper.DateHelper;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -120,9 +122,22 @@ public class SummarizedStatusFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public static Student getCurrentSutend(ParentCompleteData.KidModel currentKid, List<Student> students) {
+        for (Student student :
+                students) {
+
+            if (student.id == currentKid.id) {
+                return student;
+            }
+
+        }
+        return null;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("BUS STATUS");
 
 
         FragmentActivity factivity = getActivity();
@@ -140,118 +155,126 @@ public class SummarizedStatusFragment extends Fragment {
                 @Override
                 public void onChanged(Ride ride) {
 
-                    if (ride == null) return;
+                    if (ride == null) {
+
+                        StudentSSFragment.getInstance().getChildFragmentManager().popBackStack();
+
+                        return;
+                    }
 
 
-                    for (Student student : ride.students) {
+                    textViewETA2.setVisibility(View.GONE);
+                    textViewETA3.setVisibility(View.GONE);
 
-                        textViewETA2.setVisibility(View.GONE);
-                        textViewETA3.setVisibility(View.GONE);
+                    Student student = getCurrentSutend(studentSSFragment.currentKid, ride.students);
 
-                        if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
-
-                            textViewRide.setText("Pickup");
-                            morningStatuses(student);
-                            switch (student.status) {
-                                case 1:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    statusTextView1.selected();
-
-                                    break;
-                                case 2:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
-
-                                    textViewETA2.setVisibility(View.VISIBLE);
-                                    textViewETA2.setText(DateHelper.toTime(student.duration));
+                    if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
 
 
-                                    statusTextView1.selected();
-                                    statusTextView2.selected();
+                        textViewRide.setText("Pickup");
+                        morningStatuses(student);
+                        switch (student.status) {
+                            case 1:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                statusTextView1.selected();
+
+                                break;
+                            case 2:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                checkBox2.setImageResource(R.drawable.checkbox_checked);
+
+                                textViewETA2.setVisibility(View.VISIBLE);
+                                textViewETA2.setText(DateHelper.toTime(student.duration));
 
 
-                                    break;
-                                case 3:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
-
-                                    statusTextView1.selected();
-                                    statusTextView2.selected();
-                                    statusTextView3.selected();
-
-                                    break;
-                                case 4:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox4.setImageResource(R.drawable.checkbox_checked);
-
-                                    statusTextView1.selected();
-                                    statusTextView2.selected();
-                                    statusTextView3.selected();
-                                    statusTextView4.selected();
-
-                                    break;
-                                default:
-
-                                    break;
-                            }
+                                statusTextView1.selected();
+                                statusTextView2.selected();
 
 
-                        } else if (ride.shift.equalsIgnoreCase(Ride.SHIFT_AFTERNOON)) {
-                            textViewRide.setText("Dropoff");
+                                break;
+                            case 3:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                checkBox3.setImageResource(R.drawable.checkbox_checked);
 
-                            eveningStatuses(student);
-                            switch (student.status) {
-                                case 1:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                statusTextView1.selected();
+                                statusTextView2.selected();
+                                statusTextView3.selected();
 
-                                    statusTextView1.selected();
+                                break;
+                            case 4:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                checkBox3.setImageResource(R.drawable.checkbox_checked);
+                                checkBox4.setImageResource(R.drawable.checkbox_checked);
 
-                                    break;
-                                case 2:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                statusTextView1.selected();
+                                statusTextView2.selected();
+                                statusTextView3.selected();
+                                statusTextView4.selected();
 
-                                    statusTextView1.selected();
-                                    statusTextView2.selected();
+                                break;
+                            default:
 
-                                    break;
-                                case 3:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
+                                break;
+                        }
 
-                                    textViewETA3.setVisibility(View.VISIBLE);
-                                    textViewETA3.setText(DateHelper.toTime(student.duration));
-
-
-                                    statusTextView1.selected();
-                                    statusTextView2.selected();
-                                    statusTextView3.selected();
-                                    break;
-                                case 4:
-                                    checkBox1.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox2.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox3.setImageResource(R.drawable.checkbox_checked);
-                                    checkBox4.setImageResource(R.drawable.checkbox_checked);
-
-                                    statusTextView1.selected();
-                                    statusTextView2.selected();
-                                    statusTextView3.selected();
-                                    statusTextView4.selected();
-                                    break;
-                                default:
-
-                                    break;
-
-                            }
+                        if (student.present == Student.ABSENT) {
+                            StudentSSFragment.getInstance().getChildFragmentManager().popBackStack();
 
                         }
 
 
-                        return;
+                    } else if (ride.shift.equalsIgnoreCase(Ride.SHIFT_AFTERNOON)) {
+                        textViewRide.setText("Dropoff");
+
+                        eveningStatuses(student);
+                        switch (student.status) {
+                            case 1:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+
+                                statusTextView1.selected();
+
+                                break;
+                            case 2:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                checkBox2.setImageResource(R.drawable.checkbox_checked);
+
+                                statusTextView1.selected();
+                                statusTextView2.selected();
+
+                                break;
+                            case 3:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                checkBox3.setImageResource(R.drawable.checkbox_checked);
+
+                                textViewETA3.setVisibility(View.VISIBLE);
+                                textViewETA3.setText(DateHelper.toTime(student.duration));
+
+
+                                statusTextView1.selected();
+                                statusTextView2.selected();
+                                statusTextView3.selected();
+                                break;
+                            case 4:
+                                checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                checkBox2.setImageResource(R.drawable.checkbox_checked);
+                                checkBox3.setImageResource(R.drawable.checkbox_checked);
+                                checkBox4.setImageResource(R.drawable.checkbox_checked);
+
+                                statusTextView1.selected();
+                                statusTextView2.selected();
+                                statusTextView3.selected();
+                                statusTextView4.selected();
+
+
+                                break;
+                            default:
+
+                                break;
+
+                        }
 
                     }
 
@@ -271,7 +294,7 @@ public class SummarizedStatusFragment extends Fragment {
 
 
         statusTextView2.textViewTitle.setText("Bus is here");
-        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and will leave in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and will leave in 5 minutes");
         statusTextView2.view.setGravity(GravityCompat.END);
         statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         statusTextView2.unSelected();
@@ -343,7 +366,6 @@ public class SummarizedStatusFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("BUS STATUS");
 
     }
 
@@ -354,6 +376,7 @@ public class SummarizedStatusFragment extends Fragment {
             HomeActivity activity = (HomeActivity) factivity;
             activity.setThreeLine();
         }
+        StudentSSFragment.getInstance().setTitle();
         super.onDestroyView();
     }
 }

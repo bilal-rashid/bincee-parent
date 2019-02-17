@@ -223,7 +223,8 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     if (ride.students.size() > 0) {
 
 
-                        for (Student student : ride.students) {
+                        Student student = SummarizedStatusFragment.getCurrentSutend(currentKid, ride.students);
+                        if (student != null) {
 
                             if (student.id == currentKid.id) {
 
@@ -253,20 +254,24 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
                                 }
 
-
                                 return;
                             }
 
+                        } else {
+
+                            disableFindMe();
+
 
                         }
-                        //Kid Nhe hy SHow Status
 
+
+                    } else {
+                        disableFindMe();
 
                     }
 
 
                 } else {
-                    ///Ride Not Present
 
 
                     disableFindMe();
@@ -316,8 +321,12 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     @Override
     public void onResume() {
         super.onResume();
-        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("SUMMARIZED STATUS");
+        setTitle();
 
+    }
+
+    public void setTitle() {
+        ((HomeActivity) Objects.requireNonNull(getActivity())).textViewTitle.setText("SUMMARIZED STATUS");
     }
 
     @Override
@@ -428,6 +437,10 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
     private void markAbsent() {
 
+        enableFIndMe(false);
+        textViewStatus.setText("Absent");
+        imageViewStatusIcon.setVisibility(View.VISIBLE);
+        textViewETA.setText("");
     }
 
     private void rideNotPResent() {

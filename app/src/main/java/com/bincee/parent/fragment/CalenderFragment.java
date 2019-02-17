@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
@@ -36,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,14 +112,24 @@ public class CalenderFragment extends Fragment {
         lastYear.set(Calendar.MONTH, 12);
         lastYear.set(Calendar.DAY_OF_MONTH, 31);
 
+
 //        calendarView.init(lastYear.getTime(), Calendar.getInstance().getTime()).inMode(CalendarPickerView.SelectionMode.MULTIPLE);
 
 
 //        calendarView.
 
         Calendar minData = Calendar.getInstance();
+        minData.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
+
 
         calendarView.setMinimumDate(minData);
+
+        try {
+            calendarView.setDate(minData);
+        } catch (OutOfDateRangeException e) {
+            e.printStackTrace();
+        }
+
 
         buttonCalendar.performClick();
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -353,22 +365,28 @@ public class CalenderFragment extends Fragment {
             Date toDate = DateHelper.parse(oneLeaveRecord.toDate);
 
             Calendar fromCalender = Calendar.getInstance();
+            fromCalender.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
             fromCalender.setTime(fromData);
+            fromCalender.add(Calendar.DATE, 1);
+
+            fromData = fromCalender.getTime();
 
 
             Calendar toCalenter = Calendar.getInstance();
+            toCalenter.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
             toCalenter.setTime(toDate);
 
-            toCalenter.add(Calendar.HOUR_OF_DAY, -24);
+//            toCalenter.add(Calendar.HOUR_OF_DAY, -24);
 
 
             toDate = toCalenter.getTime();
+
+
             String year = DateHelper.helpYear(oneLeaveRecord.toDate);
             String text = "";
 
             if (fromCalender.get(Calendar.DATE) == toCalenter.get(Calendar.DATE)) {
                 text = DateHelper.format(fromData) + ", " + year;
-
             } else {
                 text = DateHelper.format(fromData) + " - " + DateHelper.format(toDate) + ", " + year;
 

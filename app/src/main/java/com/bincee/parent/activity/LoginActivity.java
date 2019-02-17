@@ -70,8 +70,11 @@ public class LoginActivity extends BA {
         editTextPassword.setText(MyPref.getPASSWORD(this));
 
 
-//        editTextUsername.setText("test_parentp1");
-//        editTextPassword.setText("Changeme.1");
+        editTextUsername.setText("test_parentp1");
+        editTextPassword.setText("Changeme.1");
+//
+//        editTextUsername.setText("arslan_parentp3");
+//        editTextPassword.setText("ChangeMe@4");
 
 
         checkBox.setTypeface(ResourcesCompat.getFont(this, R.font.gotham_book));
