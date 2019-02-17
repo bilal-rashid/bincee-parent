@@ -4,11 +4,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateHelper {
 
     public static String help(String fromDate) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
         Date date = null;
 
         try {
@@ -24,7 +27,9 @@ public class DateHelper {
         Date date = parse(fromDate);
 
 
-        DateFormat formatter = new SimpleDateFormat("yyyy");
+        DateFormat formatter = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+        formatter.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
+
         if (date == null) {
             return null;
         } else {
@@ -34,7 +39,8 @@ public class DateHelper {
     }
 
     public static String format(Date date) {
-        DateFormat formatter = new SimpleDateFormat("MMM-dd");
+        DateFormat formatter = new SimpleDateFormat("MMM-dd", Locale.ENGLISH);
+        formatter.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
         if (date == null) {
             return null;
         } else {
@@ -52,7 +58,9 @@ public class DateHelper {
     }
 
     public static Date parse(String toDate) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Baghdad"));
+
         Date date = null;
 
         try {

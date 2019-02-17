@@ -17,4 +17,5 @@
     <dimen name="edittext_round_radius">30dp</dimen>
     <dimen name="radius_corner">30dp</dimen>
     <dimen name="elevation">10dp</dimen>
+    <dimen name="status_radius">50dp</dimen>
 </resources>

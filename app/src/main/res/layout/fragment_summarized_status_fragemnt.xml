@@ -14,9 +14,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-
         android:src="@drawable/status1_bg"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -88,17 +86,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRide" />
 
+
     <ImageView
         android:id="@+id/checkBox1"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
+        android:layout_width="@dimen/checkbox_width_height"
+        android:layout_height="@dimen/checkbox_width_height"
         android:layout_marginTop="16dp"
-        android:src="@drawable/checkbox_unchecked"
+        android:src="@drawable/checkbox_checked"
         app:layout_constraintBottom_toTopOf="@+id/checkBox2"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
 
     <com.bincee.parent.StatusTextView
         android:id="@+id/statusTextView1"
@@ -148,7 +148,8 @@
         android:id="@+id/checkBox2"
         android:layout_width="@dimen/checkbox_width_height"
         android:layout_height="@dimen/checkbox_width_height"
-        android:src="@drawable/checkbox_unchecked"
+        android:background="#fff"
+        android:src="@drawable/checkbox_checked"
         app:layout_constraintBottom_toTopOf="@+id/checkBox3"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"

@@ -378,6 +378,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
                                     Ride ride = task.getResult().toObject(Ride.class);
 
+
                                     if (ride != null) {
 
                                         for (Student student : ride.students) {
@@ -392,7 +393,8 @@ public class MapActivity extends BA implements OnMapReadyCallback {
                                         fetchData(kidModel, 60 * 1000);
 
                                     } else {
-                                        fetchData(kidModel, 60 * 1000);
+                                        finish();
+//                                        fetchData(kidModel, 60 * 1000);
 
                                     }
 
@@ -445,6 +447,10 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
     private void getRoute(Point origin, Point destination, Student student) {
 
+        if (origin == null) {
+            MyApp.showToast("Buss Location Not found");
+            return;
+        }
         MapboxDirections.Builder builder = MapboxDirections.builder()
                 .origin(origin)
                 .destination(destination)
