@@ -19,6 +19,7 @@ public class Student {
     public static final int STATUS_AFTERNOON_INTHEBUS = 2;
     public static final int STATUS_AFTERNOON_ALMOSTTHERE = 3;//500meters
     public static final int STATUS_AFTERNOON_ATYOURDOORSTEP = 4;
+    public static final String STUDENT_NOTIFICATION_MESSAGE = "message";
 
     public static int UNKNOWN = -1;
     public static int PRESENT = 1;

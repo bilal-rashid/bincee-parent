@@ -42,7 +42,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.bincee.parent.activity.MapActivity.MAPBOX_TOKEN;
+import static com.bincee.parent.activity.MapActivity.getToken;
 
 public class MyLocationActivity extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
 
@@ -64,7 +64,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, MAPBOX_TOKEN);
+        Mapbox.getInstance(this, getToken());
         compositeDisposable = new CompositeDisposable();
 
 

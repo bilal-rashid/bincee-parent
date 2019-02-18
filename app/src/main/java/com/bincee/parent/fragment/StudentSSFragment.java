@@ -284,6 +284,15 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         });
 
 
+//        showReachedFragemnt();
+    }
+
+    public void showReachedFragemnt() {
+        getChildFragmentManager()
+                .beginTransaction()
+                .addToBackStack("")
+                .replace(R.id.frameLayout, KidArrivedFragment.getInstance())
+                .commit();
     }
 
     @OnClick(R.id.buttonFindMe)

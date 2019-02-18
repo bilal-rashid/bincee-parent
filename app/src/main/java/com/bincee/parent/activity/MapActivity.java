@@ -1,10 +1,13 @@
 package com.bincee.parent.activity;
 
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +23,7 @@ import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.Ride;
 import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
+import com.bincee.parent.fragment.SummarizedStatusFragment;
 import com.bincee.parent.helper.ImageBinder;
 import com.bincee.parent.helper.LatLngHelper;
 import com.bincee.parent.helper.PermissionHelper;
@@ -27,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.gson.Gson;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.MapboxDirections;
@@ -43,6 +48,7 @@ import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -73,8 +79,12 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
 public class MapActivity extends BA implements OnMapReadyCallback {
 
-    public static final String MAPBOX_TOKEN = "pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ";
+    public static final int DELAY = 60 * 1000;
+
+
     public static final int REQUEST_CODE = 669;
+    private static final long DURATION = 3000;
+    private IconFactory getInstance;
 
 
     @BindView(R.id.mapView)
@@ -106,6 +116,14 @@ public class MapActivity extends BA implements OnMapReadyCallback {
     private Marker destinationMarker;
     private PermissionHelper permissionHelper;
 
+    public static String getToken() {
+
+        //client
+        return "pk.eyJ1IjoiYmluY2VlIiwiYSI6ImNqc2E2Nm0wYjAwaGM0OXFjd3kxazBnNmYifQ.Wnu7rjFfU_qpl1Pmi062vg";
+//        return "pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ";
+
+    }
+
 
     public static void start(Activity context, ParentCompleteData.KidModel currentKid) {
         Intent intent = new Intent(context, MapActivity.class);
@@ -116,9 +134,10 @@ public class MapActivity extends BA implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, MAPBOX_TOKEN);
+        Mapbox.getInstance(this, getToken());
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
+        getInstance = IconFactory.getInstance(MapActivity.this);
 
 
         setSupportActionBar(toolbar);
@@ -370,9 +389,10 @@ public class MapActivity extends BA implements OnMapReadyCallback {
                         .collection("ride")
                         .document(kidModel.driverId + "")
                         .get()
-                        .addOnCompleteListener(MapActivity.this, new OnCompleteListener<DocumentSnapshot>() {
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (isDestroyed()) return;
                                 if (task.isSuccessful()) {
 
 
@@ -381,16 +401,16 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
                                     if (ride != null) {
 
-                                        for (Student student : ride.students) {
 
-                                            if (student.id == kidModel.id) {
-
-                                                setupStudent(ride, student);
-                                                return;
-                                            }
-
+                                        Student student = SummarizedStatusFragment.getCurrentSutend(kidModel, ride.students);
+                                        if (student != null) {
+                                            setupStudent(ride, student);
                                         }
-                                        fetchData(kidModel, 60 * 1000);
+
+                                        fetchData(kidModel, DELAY);
+
+                                        setupBusLocation(ride);
+
 
                                     } else {
                                         finish();
@@ -400,7 +420,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
 
                                 } else {
-                                    fetchData(kidModel, 60 * 1000);
+                                    fetchData(kidModel, DELAY);
                                 }
 
                             }
@@ -408,6 +428,11 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
             }
         }, delay);
+    }
+
+    private void setupBusLocation(Ride ride) {
+
+        updateusMrker(ride.latLng);
     }
 
     private void setupStudent(Ride ride, Student student) {
@@ -456,7 +481,7 @@ public class MapActivity extends BA implements OnMapReadyCallback {
                 .destination(destination)
                 .overview(DirectionsCriteria.OVERVIEW_FULL)
                 .profile(DirectionsCriteria.PROFILE_DRIVING)
-                .accessToken(MAPBOX_TOKEN);
+                .accessToken(getToken());
 
 
         MapboxDirections client = builder
@@ -472,14 +497,14 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
                 showRoute(directionsRoute, origin, destination, student);
 
-                fetchData(kidModel, 60 * 1000);
+                fetchData(kidModel, DELAY);
 
 
             }
 
             @Override
             public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
-                fetchData(kidModel, 60 * 1000);
+                fetchData(kidModel, DELAY);
 
 
                 throwable.printStackTrace();
@@ -531,29 +556,24 @@ public class MapActivity extends BA implements OnMapReadyCallback {
         lineSource.setGeoJson(featureCollection);
 
 
-        IconFactory getInstance = IconFactory.getInstance(MapActivity.this);
-
-
 //        Point busLatLng = Point.fromLngLat(origin.longitude(), origin.latitude());
 
-        if (busMarker == null) {
-            busMarker = mapboxMap.addMarker(new MarkerOptions()
-                    .setPosition(LatLngHelper.toLatLng(origin))
-                    .setIcon(getInstance.fromResource(R.drawable.bus_icon_green))
-                    .setTitle("Bus"));
-        } else {
-            busMarker.setPosition(LatLngHelper.toLatLng(origin));
-        }
+
+        //dont show because already shown
+//        updateusMrker(origin);
+
+        String title = "ETA: " + (student.duration != null ? Math.round(student.duration) : 0) + " min";
 
         if (destinationMarker == null) {
 
             destinationMarker = mapboxMap.addMarker(new MarkerOptions()
                     .setPosition(LatLngHelper.toLatLng(destination))
                     .setIcon(getInstance.defaultMarker())
-                    .setTitle("ETA: " + (student.duration != null ? Math.round(student.duration) : 0f) + " min"));
+                    .setTitle(title));
 
         } else {
             destinationMarker.setPosition(LatLngHelper.toLatLng(destination));
+            destinationMarker.setTitle(title);
 
         }
 
@@ -568,6 +588,40 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
     }
 
+    private void updateusMrker(GeoPoint origin) {
+        if (busMarker == null) {
+            LatLng busLocation = LatLngHelper.toLatLng(origin);
+
+            busMarker = mapboxMap.addMarker(new MarkerOptions()
+                    .setPosition(busLocation)
+                    .setIcon(getInstance.fromResource(R.drawable.bus_icon_green))
+                    .setTitle("Bus"));
+        } else {
+
+//            busMarker.setPosition(LatLngHelper.toLatLng(origin));
+
+            LatLng oldPosition = busMarker.getPosition();
+            LatLng newPosition = LatLngHelper.toLatLng(origin);
+
+            ValueAnimator markerAnimator = ValueAnimator.ofObject(new LatLngEvaluator(), (Object[]) new LatLng[]{oldPosition, newPosition});
+            markerAnimator.setDuration(DURATION);
+            markerAnimator.setRepeatCount(0);
+            markerAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            markerAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    if (busMarker != null) {
+
+                        busMarker.setPosition((LatLng) animation.getAnimatedValue());
+
+                    }
+                }
+            });
+            markerAnimator.start();
+
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -578,6 +632,21 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
     }
 
+    private static class LatLngEvaluator implements TypeEvaluator<LatLng> {
+
+        // Method is used to interpolate the marker animation.
+
+        private LatLng latLng = new LatLng();
+
+        @Override
+        public LatLng evaluate(float fraction, LatLng startValue, LatLng endValue) {
+            latLng.setLatitude(startValue.getLatitude()
+                    + ((endValue.getLatitude() - startValue.getLatitude()) * fraction));
+            latLng.setLongitude(startValue.getLongitude()
+                    + ((endValue.getLongitude() - startValue.getLongitude()) * fraction));
+            return latLng;
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

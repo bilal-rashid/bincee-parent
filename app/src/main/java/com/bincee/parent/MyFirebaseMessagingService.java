@@ -58,7 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
 
-        if (type.equalsIgnoreCase("2") || type.equalsIgnoreCase("1")) {
+        if (type.equalsIgnoreCase("2") || type.equalsIgnoreCase("1") || type.equalsIgnoreCase("3")) {
             //Atandnace or update status
 
             if (!studentId.equalsIgnoreCase(" -1")) {
@@ -66,6 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Student.STUDENT_ID, studentId);
+                intent.putExtra(Student.STUDENT_NOTIFICATION_MESSAGE, body);
                 intent.putExtra(Student.NOTIFICATION_TYPE, type);
                 startActivity(intent);
 
@@ -75,7 +76,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } else {
 
 
+//            if (body.contains("Bus has Reached the school")) {
+//
+//
+//                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra(Student.STUDENT_ID, studentId);
+//                intent.putExtra(Student.STUDENT_NOTIFICATION_MESSAGE, body);
+//                intent.putExtra(Student.NOTIFICATION_TYPE, type);
+//                startActivity(intent);
+//
+//            }
+
+
         }
+
 
     }
 
