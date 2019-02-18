@@ -39,6 +39,7 @@ import com.bincee.parent.dialog.DriverInformationDialog;
 import com.bincee.parent.dialog.LogoutDialog;
 import com.bincee.parent.fragment.AlertsFragment;
 import com.bincee.parent.fragment.CalenderFragment;
+import com.bincee.parent.fragment.KidArrivedFragment;
 import com.bincee.parent.fragment.StudentSSFragment;
 import com.bincee.parent.fragment.SummarizedStatusFragment;
 import com.bincee.parent.helper.ImageBinder;
@@ -197,6 +198,7 @@ public class HomeActivity extends BA {
 
     }
 
+
     public void setThreeLine() {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.threee_line);
     }
@@ -219,6 +221,7 @@ public class HomeActivity extends BA {
 
         int studenId = Integer.parseInt(extras.getString(Student.STUDENT_ID, "-1"));
         String type = (extras.getString(Student.NOTIFICATION_TYPE, "-1"));
+        String message = (extras.getString(Student.STUDENT_NOTIFICATION_MESSAGE, ""));
 
         if (type.equalsIgnoreCase("2") || type.equalsIgnoreCase("1")) {
 
@@ -234,11 +237,22 @@ public class HomeActivity extends BA {
                             public void run() {
                                 StudentSSFragment.getInstance().onButtonFindMeClicked();
                             }
-                        }, 500);
+                        }, 1000);
 
                     }
                 }, 1000);
             }
+        } else if (type.equalsIgnoreCase("3")) {
+
+            if (message.contains("Bus has Reached the school") || message.contains("Please open the door")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        StudentSSFragment.getInstance().showReachedFragemnt();
+                    }
+                }, 1000);
+            }
+
         }
     }
 
@@ -316,12 +330,16 @@ public class HomeActivity extends BA {
         if (item.getItemId() == android.R.id.home) {
 
             Fragment instance = SummarizedStatusFragment.getInstance();
+            KidArrivedFragment kidArrivedFragment = KidArrivedFragment.getInstance();
 
             if (instance != null && instance.isVisible()) {
 
                 instance.onOptionsItemSelected(item);
                 return true;
 
+            } else if (kidArrivedFragment != null && kidArrivedFragment.isVisible()) {
+                kidArrivedFragment.onOptionsItemSelected(item);
+                return true;
             } else {
                 binding.drawerLayout.openDrawer(Gravity.LEFT, true);
                 return true;

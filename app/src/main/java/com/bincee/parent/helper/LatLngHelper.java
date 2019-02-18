@@ -75,4 +75,9 @@ public class LatLngHelper {
 
         return point;
     }
+
+    public static LatLng toLatLng(GeoPoint origin) {
+        LatLng latLng = new LatLng(origin.getLatitude(), origin.getLongitude());
+        return latLng;
+    }
 }
