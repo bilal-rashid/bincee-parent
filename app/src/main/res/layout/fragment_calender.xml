@@ -204,7 +204,7 @@
                             android:checked="true"
                             android:fontFamily="@font/gotham_book"
                             android:padding="10dp"
-                            android:text="Morning Shift"
+                        android:text="Pickup"
                             android:textSize="@dimen/_10ssp" />
 
                     <CheckBox
@@ -215,7 +215,7 @@
                             android:button="@drawable/login_checkbox_selector"
                             android:fontFamily="@font/gotham_book"
                             android:padding="10dp"
-                            android:text="Evening Shift"
+                        android:text="Dropoff"
                             android:textSize="@dimen/_10ssp" />
                     <!--</RadioGroup>-->
 
