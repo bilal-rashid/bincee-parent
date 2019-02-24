@@ -139,7 +139,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         currentKid = stackViewAdapter.getKids().get(position);
         textView5.setText(currentKid.fullname);
-        textViewAddress.setText(MyApp.instance.user.getValue().parentCompleteInfo.address.toString());
+        textViewAddress.setText(MyApp.instance.user.getValue().parentCompleteInfo.school.name);
         stopSnapSHotListner();
 
         currentStudenSnapSHotListner = FirebaseFirestore.getInstance().collection("ride")

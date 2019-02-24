@@ -54,7 +54,7 @@ public class DateHelper {
         double hours = duration / 60; //since both are ints, you get an int
         double minutes = duration % 60;
 
-        return Math.round(hours) + ":" + Math.round(minutes) + " Minutes";
+        return (int) hours + ":" + Math.round(minutes) + " Minutes";
     }
 
     public static Date parse(String toDate) {

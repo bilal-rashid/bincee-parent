@@ -43,7 +43,7 @@ public class ParentCompleteData {
     @Expose
     public List<KidModel> kids = null;
 
-    public static class DriverModel{
+    public static class DriverModel {
         @SerializedName("driver_id")
         @Expose
         public Integer driverId;
@@ -63,7 +63,8 @@ public class ParentCompleteData {
         @Expose
         public String status;
     }
-    public  class GradeModel{
+
+    public class GradeModel {
         @SerializedName("grade_id")
         @Expose
         public Integer gradeId;
@@ -80,7 +81,8 @@ public class ParentCompleteData {
         @Expose
         public Integer schoolId;
     }
-    public  class KidModel{
+
+    public class KidModel {
         public static final String KID = "kid";
         @SerializedName("id")
         @Expose
@@ -112,9 +114,11 @@ public class ParentCompleteData {
         @SerializedName("driver")
         @Expose
         public DriverModel driver;
+        public SchoolModel school;
 
     }
-    public   class SchoolModel{
+
+    public class SchoolModel {
 
         @SerializedName("school_id")
         @Expose
@@ -139,8 +143,7 @@ public class ParentCompleteData {
         public Double lng;
     }
 
-    public  class ShiftModel
-    {
+    public class ShiftModel {
         @SerializedName("shift_id")
         @Expose
         public Integer shiftId;
