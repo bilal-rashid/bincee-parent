@@ -121,7 +121,6 @@
         app:layout_constraintStart_toEndOf="@+id/checkBox3"
         app:layout_constraintTop_toTopOf="@+id/checkBox3" />
 
-
     <TextView
         android:id="@+id/textViewETA2"
         android:layout_width="wrap_content"
@@ -137,9 +136,8 @@
         android:paddingBottom="5dp"
         android:text="00:00 Minutes"
         android:textSize="@dimen/_6ssp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/checkBox2"
-
         app:layout_constraintStart_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/checkBox2" />
 
@@ -148,8 +146,7 @@
         android:id="@+id/checkBox2"
         android:layout_width="@dimen/checkbox_width_height"
         android:layout_height="@dimen/checkbox_width_height"
-        android:background="#fff"
-        android:src="@drawable/checkbox_checked"
+        android:src="@drawable/checkbox_unchecked"
         app:layout_constraintBottom_toTopOf="@+id/checkBox3"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
@@ -168,7 +165,7 @@
         android:paddingBottom="5dp"
         android:text="00:00 Minutes"
         android:textSize="@dimen/_6ssp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/checkBox3"
         app:layout_constraintEnd_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/checkBox3" />

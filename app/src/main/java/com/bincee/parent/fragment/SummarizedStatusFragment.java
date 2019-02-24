@@ -183,8 +183,6 @@ public class SummarizedStatusFragment extends Fragment {
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
 
-                                textViewETA2.setVisibility(View.VISIBLE);
-                                textViewETA2.setText(DateHelper.toTime(student.duration));
 
 
                                 statusTextView1.selected();
@@ -196,6 +194,9 @@ public class SummarizedStatusFragment extends Fragment {
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
                                 checkBox3.setImageResource(R.drawable.checkbox_checked);
+                                textViewETA3.setVisibility(View.VISIBLE);
+                                textViewETA3.setText(DateHelper.toTime(student.duration));
+
 
                                 statusTextView1.selected();
                                 statusTextView2.selected();
@@ -239,7 +240,8 @@ public class SummarizedStatusFragment extends Fragment {
                             case 2:
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
-
+                                textViewETA2.setVisibility(View.VISIBLE);
+                                textViewETA2.setText(DateHelper.toTime(student.duration));
                                 statusTextView1.selected();
                                 statusTextView2.selected();
 
@@ -248,9 +250,6 @@ public class SummarizedStatusFragment extends Fragment {
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
                                 checkBox3.setImageResource(R.drawable.checkbox_checked);
-
-                                textViewETA3.setVisibility(View.VISIBLE);
-                                textViewETA3.setText(DateHelper.toTime(student.duration));
 
 
                                 statusTextView1.selected();

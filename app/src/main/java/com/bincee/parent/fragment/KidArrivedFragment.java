@@ -77,7 +77,13 @@ public class KidArrivedFragment extends BFragment {
     }
 
     private void goback() {
+
         StudentSSFragment.getInstance().getChildFragmentManager().popBackStack();
+
+        SummarizedStatusFragment instance = SummarizedStatusFragment.getInstance();
+        if (instance != null && instance.isVisible()) {
+            instance.getChildFragmentManager().popBackStack();
+        }
     }
 
     @Override
