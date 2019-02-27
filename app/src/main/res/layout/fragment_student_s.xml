@@ -132,14 +132,14 @@
         android:layout_width="@dimen/blue_butoon_width"
         android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="@dimen/_20sdp"
         android:enabled="false"
         android:text="Track my kid"
         android:textColor="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/imageViewCall"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCalender" />
 
     <Button
         android:id="@+id/buttonCalender"
@@ -147,14 +147,17 @@
         android:layout_width="@dimen/blue_butoon_width"
         android:layout_height="@dimen/blue_button_height"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/circle_rectangle_green"
         android:text="Calender"
         android:textColor="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFindMe"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.32999998"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.constraintlayout.widget.Guideline

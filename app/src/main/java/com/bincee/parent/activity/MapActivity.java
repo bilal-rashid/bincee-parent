@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bincee.parent.BuildConfig;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.ParentCompleteData;
@@ -118,9 +119,16 @@ public class MapActivity extends BA implements OnMapReadyCallback {
 
     public static String getToken() {
 
-        //client
-//        return "pk.eyJ1IjoiYmluY2VlIiwiYSI6ImNqc2E2Nm0wYjAwaGM0OXFjd3kxazBnNmYifQ.Wnu7rjFfU_qpl1Pmi062vg";
-        return "pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ";
+        if (BuildConfig.FLAVOR.equalsIgnoreCase("client")) {
+//            client
+            return "pk.eyJ1IjoiYmluY2VlIiwiYSI6ImNqc2E2Nm0wYjAwaGM0OXFjd3kxazBnNmYifQ.Wnu7rjFfU_qpl1Pmi062vg";
+        } else {
+
+            return "pk.eyJ1IjoiZmluZHhhaW4iLCJhIjoiY2pxOTY1bjY3MTMwYjQzbDEwN3h2aTdsbCJ9.fKLD1_UzlMIWhXfUZ3aRYQ";
+
+        }
+
+        //
 
     }
 

@@ -172,14 +172,14 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         infiniteCycleView.setAdapter(stackViewAdapter);
 
 
-        MyApp.instance.user.observe(this, new Observer<LoginResponse.User>() {
-            @Override
-            public void onChanged(LoginResponse.User user) {
-                stackViewAdapter.setKids(user.parentCompleteInfo.kids);
-
-
-            }
-        });
+//        MyApp.instance.user.observe(this, new Observer<LoginResponse.User>() {
+//            @Override
+//            public void onChanged(LoginResponse.User user) {
+//                stackViewAdapter.setKids(user.parentCompleteInfo.kids);
+//
+//
+//            }
+//        });
 
         return view;
     }
@@ -187,15 +187,6 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        ViewUtils.generateBackgroundWithShadow(
-
-
-//                , (R.color.sky_blue)
-//                , R.dimen.radius_corner, (R.color.sky_blue)
-//                , R.dimen.elevation
-//                , Gravity.BOTTOM
-//        );
 
 
         MyApp.instance.user.observe(getViewLifecycleOwner(), new Observer<LoginResponse.User>() {
@@ -369,6 +360,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     break;
                 case Student.STATUS_MORNING_ATYOURLOCATION:
                     textViewStatus.setText("Bus is here");
+                    textViewETA.setText("");
+                    imageViewStatusIcon.setVisibility(View.GONE);
+
 
                     break;
                 case Student.STATUS_MORNING_ONTHEWAY:
@@ -377,7 +371,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     break;
                 case Student.STATUS_MORNING_REACHED:
                     textViewStatus.setText("Reached");
-
+                    enableFIndMe(false);
+                    imageViewStatusIcon.setVisibility(View.GONE);
+                    textViewETA.setText("");
                     break;
                 default:
                     textViewStatus.setText("");
@@ -404,7 +400,9 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     break;
                 case Student.STATUS_AFTERNOON_ATYOURDOORSTEP:
                     textViewStatus.setText("At your door step");
-
+                    enableFIndMe(false);
+                    imageViewStatusIcon.setVisibility(View.GONE);
+                    textViewETA.setText("");
                     break;
                 default:
                     textViewStatus.setText("");
@@ -453,6 +451,8 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     }
 
     private void rideNotPResent() {
+        disableFindMe();
+
 
     }
 

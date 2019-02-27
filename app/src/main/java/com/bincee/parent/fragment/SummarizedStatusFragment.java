@@ -184,7 +184,6 @@ public class SummarizedStatusFragment extends Fragment {
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
 
 
-
                                 statusTextView1.selected();
                                 statusTextView2.selected();
 
