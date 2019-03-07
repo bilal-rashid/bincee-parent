@@ -36,6 +36,8 @@ import com.bincee.parent.api.model.Student;
 import com.bincee.parent.base.BA;
 import com.bincee.parent.databinding.ActivityHomeBinding;
 import com.bincee.parent.dialog.DriverInformationDialog;
+import com.bincee.parent.dialog.LocateMeDialog;
+import com.bincee.parent.dialog.LocateMeDialog.Listner;
 import com.bincee.parent.dialog.LogoutDialog;
 import com.bincee.parent.fragment.AlertsFragment;
 import com.bincee.parent.fragment.CalenderFragment;
@@ -464,7 +466,17 @@ public class HomeActivity extends BA {
                         .show();
 
             } else if (s.equalsIgnoreCase(LOCATE_ME)) {
-                MyLocationActivity.start(HomeActivity.this);
+
+                new LocateMeDialog(HomeActivity.this)
+                        .setListner(new Listner() {
+                            @Override
+                            public void ok() {
+                                MyLocationActivity.start(HomeActivity.this);
+
+                            }
+                        })
+                        .show();
+
             } else if (s.equalsIgnoreCase(LOGOUT)) {
                 logout();
             }
