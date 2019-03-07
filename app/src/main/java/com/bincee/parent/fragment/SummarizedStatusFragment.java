@@ -292,7 +292,7 @@ public class SummarizedStatusFragment extends Fragment {
 
 
         statusTextView2.textViewTitle.setText("Bus is here");
-        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and will leave in 5 minutes");
+        statusTextView2.textViewText.setText("Bus has arrived to pickup " + student.fullname + " and soon");
         statusTextView2.view.setGravity(GravityCompat.END);
         statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         statusTextView2.unSelected();
@@ -332,7 +332,7 @@ public class SummarizedStatusFragment extends Fragment {
 
 
         statusTextView3.textViewTitle.setText("Almost There");
-        statusTextView3.textViewText.setText(student.fullname + " will reach home in 5 minutes");
+        statusTextView3.textViewText.setText(student.fullname + " will reach home soon");
         statusTextView3.unSelected();
 
         statusTextView4.textViewTitle.setText("At your doorstep");
