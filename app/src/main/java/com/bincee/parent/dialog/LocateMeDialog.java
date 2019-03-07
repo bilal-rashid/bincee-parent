@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bincee.parent.R;
-import com.bincee.parent.activity.MyLocationActivity;
 import com.bincee.parent.base.BDialog;
 
 import butterknife.BindView;
@@ -27,6 +26,7 @@ public class LocateMeDialog extends BDialog {
     @BindView(R.id.imageViewCross)
     ImageView imageViewCross;
     private BroadcastReceiver broadcastReceiver;
+    private Listner listner;
 
     public LocateMeDialog(Context context) {
         super(context);
@@ -81,13 +81,23 @@ public class LocateMeDialog extends BDialog {
     @OnClick(R.id.buttonOK)
     public void onButtonOKClicked() {
 
-        MyLocationActivity.start(getContext());
-        dismiss();
+//        MyLocationActivity.start(getContext());
+//        dismiss();
+        listner.ok();
 
     }
 
     @OnClick(R.id.imageViewCross)
     public void onImageViewCrossClicked() {
         dismiss();
+    }
+
+    public LocateMeDialog setListner(Listner listner) {
+        this.listner = listner;
+        return this;
+    }
+
+    public interface Listner {
+        public void ok();
     }
 }

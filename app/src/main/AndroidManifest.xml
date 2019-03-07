@@ -25,6 +25,9 @@
         <activity android:name=".activity.ForgetPasswordActivity"></activity>
 
         <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notification_icon" />
 
