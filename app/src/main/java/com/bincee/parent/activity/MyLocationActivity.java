@@ -34,15 +34,11 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -81,7 +77,6 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
 
     private long UPDATE_INTERVAL = 1000;  /* 1 sec */
     private long FASTEST_INTERVAL = 500; /* 1/2 sec */
-    LatLng myCurrentLatlng;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, MyLocationActivity.class));
@@ -99,76 +94,70 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
 
 
         mapView.onCreate(savedInstanceState);
-        myCurrentLatlng = new LatLng(0,0);
         mapView.getMapAsync(this);
 
     }
 
+    @OnClick(R.id.btnGetLocation)
+    public void onGetLocation() {
+        enableLocationComponent();
+    }
 
     @OnClick(R.id.buttonSkyBlue)
     public void onViewClicked() {
+        LatLng myCameraLocation = new LatLng(0,0);
+        myCameraLocation.setLatitude(mapboxMap.getCameraPosition().target.getLatitude());
+        myCameraLocation.setLongitude(mapboxMap.getCameraPosition().target.getLongitude());
 
+        progressDialog = new MyProgressDialog(MyLocationActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Wait..");
+        progressDialog.show();
 
-        if (true) {
-            MyApp.showToast("ddd");
-            progressDialog = new MyProgressDialog(MyLocationActivity.this);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("Wait..");
-            progressDialog.show();
+        EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateLocation(MyApp.instance.user.getValue().id + "", myCameraLocation.getLatitude(), myCameraLocation.getLongitude())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new EndpointObserver<MyResponse>() {
+                    @Override
+                    public void onComplete() {
+                        progressDialog.dismiss();
+                    }
 
-            EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateLocation(MyApp.instance.user.getValue().id + "", myCurrentLatlng.getLatitude(), myCurrentLatlng.getLongitude())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new EndpointObserver<MyResponse>() {
-                        @Override
-                        public void onComplete() {
-                            progressDialog.dismiss();
+                    @Override
+                    public void onData(MyResponse o) throws Exception {
 
+                        if (o.status == 200) {
+                            LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
 
+                            user.parentCompleteInfo.lat = myCameraLocation.getLatitude();
+                            user.parentCompleteInfo.lng = myCameraLocation.getLongitude();
+
+                            MyPref.SAVE_USER(MyLocationActivity.this, user);
+                            MyApp.instance.user.setValue(user);
+
+                            MyApp.showToast("Location Updated");
+                            finish();
+                        } else {
+                            throw new Exception(o.message);
                         }
+                    }
 
-                        @Override
-                        public void onData(MyResponse o) throws Exception {
+                    @Override
+                    public void onHandledError(Throwable e) {
+                        progressDialog.dismiss();
+                        new AlertDialog.Builder(MyLocationActivity.this)
+                                .setMessage(e.getMessage()).setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                            if (o.status == 200) {
-                                LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+                    }
+                });
 
-                                user.parentCompleteInfo.lat = myCurrentLatlng.getLatitude();
-                                user.parentCompleteInfo.lng = myCurrentLatlng.getLongitude();
-
-                                MyPref.SAVE_USER(MyLocationActivity.this, user);
-                                MyApp.instance.user.setValue(user);
-
-                                MyApp.showToast("Location Updated");
-                                finish();
-                            } else {
-
-                                throw new Exception(o.message);
-                            }
-                        }
-
-                        @Override
-                        public void onHandledError(Throwable e) {
-                            progressDialog.dismiss();
-
-                            new AlertDialog.Builder(MyLocationActivity.this)
-                                    .setMessage(e.getMessage()).setCancelable(true)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                                            dialogInterface.dismiss();
-                                        }
-                                    });
-                        }
-                    });
-
-            compositeDisposable.add(endpointObserver);
-
-
-        } else {
-            MyApp.showToast("Location Not Found");
-        }
+        compositeDisposable.add(endpointObserver);
 
     }
 
@@ -238,9 +227,6 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
                 .tilt(0) // Set the camera tilt
                 .build();
         mapboxMap.setCameraPosition(position);
-
-        enableLocationComponent();
-
     }
 
     @Override
@@ -256,9 +242,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onPermissionResult(boolean granted) {
         if (granted) {
-
             enableLocationComponent();
-
         } else {
             Toast.makeText(this, "Failed to get Permission", Toast.LENGTH_LONG).show();
             finish();
@@ -351,7 +335,6 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
 
     public void onLocationChanged(Location location) {
         // New location has now been determined
-        MyApp.showToast(""+location.getLatitude());
         loader.setVisibility(View.GONE);
         mylocationIcon.setVisibility(View.VISIBLE);
         CameraPosition position = new CameraPosition.Builder()
@@ -361,8 +344,6 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
                 .tilt(0) // Set the camera tilt
                 .build();
         mapboxMap.setCameraPosition(position);
-        myCurrentLatlng.setLatitude(location.getLatitude());
-        myCurrentLatlng.setLongitude(location.getLongitude());
 
     }
 
