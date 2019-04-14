@@ -36,6 +36,16 @@
         mapbox:layout_constraintTop_toTopOf="@id/mapView"
         mapbox:layout_constraintEnd_toEndOf="@id/mapView"
         mapbox:layout_constraintBottom_toBottomOf="@id/mapView"/>
+    <ImageButton
+        android:id="@+id/btnGetLocation"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_gps"
+        mapbox:layout_constraintStart_toStartOf="@id/mapView"
+        mapbox:layout_constraintTop_toTopOf="@id/mapView"/>
+
     <LinearLayout
         android:id="@+id/layout_loader"
         android:layout_width="match_parent"
@@ -43,6 +53,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:visibility="gone"
+        android:clickable="true"
         android:background="@color/white_transparent"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintEnd_toEndOf="parent"
