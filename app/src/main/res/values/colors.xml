@@ -23,5 +23,6 @@
     <color name="status_selected_title">#2D3639</color>
     <color name="status_unselected_title">#99FFFFFF</color>
     <color name="status_unselected_subtext">#99FFFFFF</color>
+    <color name="white_transparent">#E2FFFFFF</color>
 
 </resources>
