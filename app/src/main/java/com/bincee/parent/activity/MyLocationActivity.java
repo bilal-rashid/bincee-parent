@@ -1,14 +1,20 @@
 package com.bincee.parent.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,10 +28,18 @@ import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.dialog.MyProgressDialog;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
 import com.mapbox.mapboxsdk.location.modes.RenderMode;
@@ -35,6 +49,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 import java.util.List;
 
+import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,14 +63,25 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
 
     @BindView(R.id.buttonSkyBlue)
     Button buttonSkyBlue;
+
     @BindView(R.id.mapView)
     MapView mapView;
+
+    @BindView(R.id.layout_loader)
+    LinearLayout loader;
+
+    @BindView(R.id.ic_myLocation)
+    ImageView mylocationIcon;
     private MapboxMap mapboxMap;
     private PermissionsManager permissionsManager;
     private CompositeDisposable compositeDisposable;
     private MyProgressDialog progressDialog;
     private LocationManager locationManager;
+    private LocationRequest mLocationRequest;
 
+    private long UPDATE_INTERVAL = 1000;  /* 1 sec */
+    private long FASTEST_INTERVAL = 500; /* 1/2 sec */
+    LatLng myCurrentLatlng;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, MyLocationActivity.class));
@@ -73,6 +99,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
 
 
         mapView.onCreate(savedInstanceState);
+        myCurrentLatlng = new LatLng(0,0);
         mapView.getMapAsync(this);
 
     }
@@ -81,17 +108,15 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
     @OnClick(R.id.buttonSkyBlue)
     public void onViewClicked() {
 
-        LocationEngine locationEngine = mapboxMap.getLocationComponent().getLocationEngine();
-        if (locationEngine == null) return;
-        @SuppressLint("MissingPermission") Location lastLocation = locationEngine.getLastLocation();
 
-        if (lastLocation != null) {
+        if (true) {
+            MyApp.showToast("ddd");
             progressDialog = new MyProgressDialog(MyLocationActivity.this);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("Wait..");
             progressDialog.show();
 
-            EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateLocation(MyApp.instance.user.getValue().id + "", lastLocation.getLatitude(), lastLocation.getLongitude())
+            EndpointObserver<MyResponse> endpointObserver = MyApp.endPoints.updateLocation(MyApp.instance.user.getValue().id + "", myCurrentLatlng.getLatitude(), myCurrentLatlng.getLongitude())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new EndpointObserver<MyResponse>() {
@@ -108,8 +133,8 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
                             if (o.status == 200) {
                                 LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
 
-                                user.parentCompleteInfo.lat = lastLocation.getLatitude();
-                                user.parentCompleteInfo.lng = lastLocation.getLongitude();
+                                user.parentCompleteInfo.lat = myCurrentLatlng.getLatitude();
+                                user.parentCompleteInfo.lng = myCurrentLatlng.getLongitude();
 
                                 MyPref.SAVE_USER(MyLocationActivity.this, user);
                                 MyApp.instance.user.setValue(user);
@@ -203,8 +228,16 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
         this.mapboxMap = mapboxMap;
         this.mapboxMap.getUiSettings().setRotateGesturesEnabled(false);
 
+        LoginResponse.User user = MyPref.GET_USER(MyLocationActivity.this);
         mapboxMap.getUiSettings().setAllGesturesEnabled(true);
         mapboxMap.getUiSettings().setCompassEnabled(true);
+        CameraPosition position = new CameraPosition.Builder()
+                .target(new LatLng(user.parentCompleteInfo.lat, user.parentCompleteInfo.lng)) // Sets the new camera position
+                .zoom(17) // Sets the zoom
+                .bearing(180) // Rotate the camera
+                .tilt(0) // Set the camera tilt
+                .build();
+        mapboxMap.setCameraPosition(position);
 
         enableLocationComponent();
 
@@ -255,27 +288,82 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
+            } else {
+                loader.setVisibility(View.VISIBLE);
+                startLocationUpdates();
             }
 
-
-// Get an instance of the component
-            LocationComponent locationComponent = mapboxMap.getLocationComponent();
-
-// Activate with options
-            locationComponent.activateLocationComponent(this);
-
-// Enable to make component visible
-            locationComponent.setLocationComponentEnabled(true);
-
-// Set the component's camera mode
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-
-// Set the component's render mode
-            locationComponent.setRenderMode(RenderMode.COMPASS);
+//
+//// Get an instance of the component
+//            LocationComponent locationComponent = mapboxMap.getLocationComponent();
+//
+//// Activate with options
+//            locationComponent.activateLocationComponent(this);
+//
+//// Enable to make component visible
+//            locationComponent.setLocationComponentEnabled(true);
+//
+//// Set the component's camera mode
+//            locationComponent.setCameraMode(CameraMode.TRACKING);
+//
+//// Set the component's render mode
+//            locationComponent.setRenderMode(RenderMode.COMPASS);
 
         } else {
             permissionsManager = new PermissionsManager(this);
             permissionsManager.requestLocationPermissions(this);
         }
     }
+
+    @SuppressLint("RestrictedApi")
+    protected void startLocationUpdates() {
+
+        // Create the location request to start receiving updates
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        // Create LocationSettingsRequest object using location request
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        final LocationSettingsRequest locationSettingsRequest = builder.build();
+
+        // Check whether location settings are satisfied
+        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+
+        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        onLocationChanged(locationResult.getLastLocation());
+                        LocationServices.getFusedLocationProviderClient(MyLocationActivity.this).removeLocationUpdates(this);
+                    }
+                },
+                Looper.myLooper());
+    }
+
+    public void onLocationChanged(Location location) {
+        // New location has now been determined
+        MyApp.showToast(""+location.getLatitude());
+        loader.setVisibility(View.GONE);
+        mylocationIcon.setVisibility(View.VISIBLE);
+        CameraPosition position = new CameraPosition.Builder()
+                .target(new LatLng(location.getLatitude(), location.getLongitude())) // Sets the new camera position
+                .zoom(17) // Sets the zoom
+                .bearing(180) // Rotate the camera
+                .tilt(0) // Set the camera tilt
+                .build();
+        mapboxMap.setCameraPosition(position);
+        myCurrentLatlng.setLatitude(location.getLatitude());
+        myCurrentLatlng.setLongitude(location.getLongitude());
+
+    }
+
 }

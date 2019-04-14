@@ -1,65 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MyLocationActivity">
+    xmlns:app="http://schemas.android.com/tools"
+    app:ignore="NamespaceTypo">
 
-    <com.mapbox.mapboxsdk.maps.MapView xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent"
-        map:mapbox_cameraZoom="12"
-        tools:context=".activity.MapsActivity" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/rectangle_white_border"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"
-            android:src="@drawable/location_dropdown_icon" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:background="#af616161" />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="25dp"
-            android:layout_weight="1"
-            android:background="#fff"
-            android:hint="Your Location" />
-
-    </LinearLayout>
-
-
+        mapbox:mapbox_cameraZoom="12" />
     <Button
         android:id="@+id/buttonSkyBlue"
         android:layout_width="match_parent"
@@ -67,8 +23,39 @@
         android:background="@color/sky_blue"
         android:text="Confirm"
         android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        mapbox:layout_constraintStart_toStartOf="@id/mapView"
+        mapbox:layout_constraintEnd_toEndOf="@id/mapView"
+        mapbox:layout_constraintBottom_toBottomOf="@id/mapView"/>
+    <ImageView
+        android:id="@+id/ic_myLocation"
+        android:src="@drawable/ic_mylocation"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        mapbox:layout_constraintStart_toStartOf="@id/mapView"
+        mapbox:layout_constraintTop_toTopOf="@id/mapView"
+        mapbox:layout_constraintEnd_toEndOf="@id/mapView"
+        mapbox:layout_constraintBottom_toBottomOf="@id/mapView"/>
+    <LinearLayout
+        android:id="@+id/layout_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/white_transparent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:layout_constraintBottom_toBottomOf="parent">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Getting Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
