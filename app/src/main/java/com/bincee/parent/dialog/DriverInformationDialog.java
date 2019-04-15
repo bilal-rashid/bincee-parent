@@ -21,10 +21,10 @@ public class DriverInformationDialog extends BDialog {
     TextView driverName;
     @BindView(R.id.driverNumber)
     TextView driverNumber;
-    @BindView(R.id.buttonLogout)
-    Button buttonLogout;
-    @BindView(R.id.buttonCancel)
-    TextView buttonCancel;
+    @BindView(R.id.button_driver_call)
+    Button buttonCall;
+    @BindView(R.id.button_driver_message)
+    TextView buttonMessage;
     @BindView(R.id.imageViewCross)
     ImageView imageViewCross;
     CompositeDisposable compositeDisposable;
@@ -48,13 +48,13 @@ public class DriverInformationDialog extends BDialog {
         driverNumber.setText(currentDriver.phoneNo.toString());
     }
 
-    @OnClick(R.id.buttonLogout)
-    public void onButtonLogoutClicked() {
+    @OnClick(R.id.button_driver_call)
+    public void onButtonCallClicked() {
         listner.call();
     }
 
-    @OnClick(R.id.buttonCancel)
-    public void onButtonCancelClicked() {
+    @OnClick(R.id.button_driver_message)
+    public void onButtonMessageClicked() {
 
         dismiss();
         listner.cancel();
