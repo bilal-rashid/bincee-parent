@@ -1,6 +1,9 @@
 package com.bincee.parent.fragment;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,7 @@ import com.bincee.parent.api.model.Ride;
 import com.bincee.parent.api.model.Student;
 import com.bincee.parent.dialog.DriverInformationDialog;
 import com.bincee.parent.helper.ImageBinder;
+import com.bincee.parent.helper.PermissionHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,6 +71,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
     Button buttonFindMe;
     @BindView(R.id.buttonCalender)
     Button buttonCalender;
+    private PermissionHelper permissionHelper;
 
 
     public ParentCompleteData.KidModel currentKid;
@@ -98,7 +103,62 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             if (currentKid == null && stackViewAdapter.getItemCount() != 0) {
                 currentKid = stackViewAdapter.getKids().get(0);
             }
-            new DriverInformationDialog(getContext(), currentKid.driver).show();
+            new DriverInformationDialog(getContext(), currentKid.driver)
+                    .setListner(new DriverInformationDialog.Listner() {
+                        @Override
+                        public void call() {
+                            permissionHelper = new PermissionHelper();
+                            permissionHelper
+                                    .permissionId(88)
+                                    .setListner(new PermissionHelper.PermissionCallback() {
+                                        @Override
+                                        public void onPermissionGranted() {
+                                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                                            intent.setData(Uri.parse("tel:" + currentKid.driver.phoneNo));
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void onPermissionFailed() {
+                                            MyApp.showToast("Permission Required");
+
+                                        }
+                                    }).requiredPermissions(new String[]{Manifest.permission.CALL_PHONE})
+                                    .with(getActivity())
+                                    .request();
+
+
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                            permissionHelper = new PermissionHelper();
+                            permissionHelper
+                                    .permissionId(89)
+                                    .setListner(new PermissionHelper.PermissionCallback() {
+                                        @Override
+                                        public void onPermissionGranted() {
+
+                                            Uri sms_uri = Uri.parse("smsto:" + currentKid.driver.phoneNo);
+                                            Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+                                            sms_intent.putExtra("sms_body", "");
+                                            startActivity(sms_intent);
+                                        }
+
+                                        @Override
+                                        public void onPermissionFailed() {
+                                            MyApp.showToast("Permission Required");
+
+                                        }
+                                    }).requiredPermissions(new String[]{Manifest.permission.SEND_SMS})
+                                    .with(getActivity())
+                                    .request();
+
+
+                        }
+                    })
+                    .show();
         } else {
             Toast.makeText(getActivity().getApplicationContext(), "No drivers present", Toast.LENGTH_SHORT).show();
         }
