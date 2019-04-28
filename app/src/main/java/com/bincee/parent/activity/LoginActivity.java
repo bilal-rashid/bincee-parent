@@ -29,6 +29,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -80,8 +83,39 @@ public class LoginActivity extends BA {
 
 
         checkBox.setTypeface(ResourcesCompat.getFont(this, R.font.gotham_book));
+        checkForUpdates();
     }
 
+    private void checkForCrashes() {
+        CrashManager.register(this);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this);
+    }
+
+    private void unregisterManagers() {
+        UpdateManager.unregister();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterManagers();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterManagers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
+    }
     @OnClick(R.id.buttonLogin)
     public void onViewClicked() {
         progressBar.setVisibility(View.VISIBLE);

@@ -54,6 +54,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -197,6 +200,7 @@ public class HomeActivity extends BA {
 
         checkNotificationForStudent(getIntent());
 
+        checkForUpdates();
 
     }
 
@@ -366,6 +370,37 @@ public class HomeActivity extends BA {
             permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         }
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this);
+    }
+
+    private void unregisterManagers() {
+        UpdateManager.unregister();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterManagers();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterManagers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
     }
 
     public class NavigationVH extends RecyclerView.ViewHolder {
