@@ -13,6 +13,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "Bincee-Parent-$versionName")
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: "fe0d56a953a94d87b88ef109f685a93f"]
 
 
     }
@@ -117,6 +118,7 @@ dependencies {
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.yinglan.shadowimageview:shadowimageview:1.0.4'
     implementation "com.google.android.gms:play-services-location:$playServicesLib"
+    implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
 
 
 //    implementation 'com.applandeo:material-calendar-view:1.5.1'
