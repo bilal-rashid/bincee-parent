@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.res.ResourcesCompat;
@@ -23,11 +24,14 @@ import com.bincee.parent.base.BA;
 import com.bincee.parent.customview.MyProgress;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -172,6 +176,14 @@ public class LoginActivity extends BA {
 
     private void saveTokenToFirebase() {
 
+
+        FirebaseMessaging.getInstance().subscribeToTopic("parent_"+MyApp.instance.user.getValue().id)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
 
         FirebaseInstanceId.getInstance()
                 .getInstanceId()
