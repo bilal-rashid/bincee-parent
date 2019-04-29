@@ -38,7 +38,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class AlertsFragment extends BFragment {
 
-    @BindView(R.id.progressBar)
     MyProgress progressBar;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
@@ -96,7 +95,6 @@ public class AlertsFragment extends BFragment {
                 }
             }
         };
-        this.callApiForAlerts();
     }
 
     public void callApiForAlerts() {
@@ -138,7 +136,7 @@ public class AlertsFragment extends BFragment {
                 .subscribeWith(new EndpointObserver<AnnouncementModel>() {
                     @Override
                     public void onComplete() {
-
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -176,8 +174,11 @@ public class AlertsFragment extends BFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_alerts, container, false);
         ButterKnife.bind(this, view);
+        progressBar = view.findViewById(R.id.progressBar);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        this.callApiForAlerts();
+        progressBar.setVisibility(View.VISIBLE);
         return view;
     }
 

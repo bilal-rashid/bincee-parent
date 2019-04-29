@@ -57,6 +57,18 @@ public class MyPref {
 
     }
 
+    public static void SAVE_NOTIFICATION_SEEN(Context context, String tag) {
+        SharedPreferences sharedPreferences = getSharedPref(context);
+        sharedPreferences.edit()
+                .putBoolean(tag, true)
+                .apply();
+    }
+
+    public static boolean GET_NOTIFICATION_SEEN(Context context, String tag) {
+        SharedPreferences sharedPreferences = getSharedPref(context);
+        return sharedPreferences.getBoolean(tag,false);
+    }
+
 
     public static String getUSER_NAME(LoginActivity loginActivity) {
         SharedPreferences sharedPreferences = getRemeberMePrefrance(loginActivity);

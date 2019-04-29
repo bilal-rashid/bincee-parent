@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.dialog.AlertDialog;
+import com.bincee.parent.helper.MyPref;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,12 +105,14 @@ public class AlertsVPFragment extends Fragment {
     private class VH extends RecyclerView.ViewHolder {
         TextView message;
         TextView alert;
+        ImageView imageView;
 
         public VH(@NonNull View itemView) {
             super(itemView);
 
             message = itemView.findViewById(R.id.textViewMessage);
             alert = itemView.findViewById(R.id.textViewAlert);
+            imageView = itemView.findViewById(R.id.imageView6);
 
         }
 
@@ -118,10 +122,21 @@ public class AlertsVPFragment extends Fragment {
 
             alert.setText(enclosingData.title);
             message.setText(enclosingData.description);
+            if(MyPref.GET_NOTIFICATION_SEEN(getContext(),enclosingData.id+""+enclosingData.title+enclosingData.description)){
+                imageView.setImageResource(R.drawable.alert_green);
+            }else {
+                imageView.setImageResource(R.drawable.alert_red);
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     new AlertDialog(getContext()).setModel(enclosingData).show();
+                    MyPref.SAVE_NOTIFICATION_SEEN(getContext(),enclosingData.id+""+enclosingData.title+enclosingData.description);
+                    if(MyPref.GET_NOTIFICATION_SEEN(getContext(),enclosingData.id+""+enclosingData.title+enclosingData.description)){
+                        imageView.setImageResource(R.drawable.alert_green);
+                    }else {
+                        imageView.setImageResource(R.drawable.alert_red);
+                    }
                 }
             });
 
