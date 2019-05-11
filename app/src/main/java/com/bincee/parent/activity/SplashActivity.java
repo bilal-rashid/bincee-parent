@@ -1,5 +1,6 @@
 package com.bincee.parent.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.api.model.LoginResponse;
+import com.bincee.parent.api.model.Student;
 import com.bincee.parent.helper.MyPref;
+import com.google.firebase.messaging.RemoteMessage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,12 +28,38 @@ public class SplashActivity extends AppCompatActivity {
     private int duration = 100;
 
 
-    @Override
+    @Override// from,student_id
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-
+        LoginResponse.User user = MyPref.GET_USER(SplashActivity.this);
+        if (user != null) {
+            Intent i = getIntent();
+            Bundle bundle = i.getExtras();
+            if(bundle!=null){
+                String  from = bundle.getString("from");
+                if(from != null) {
+                    String student_id = "";
+                    if (from.contains("school_" + user.parentCompleteInfo.schoolId)) {
+                        FCMNotification notification = new FCMNotification();
+                        notification.school = true;
+                        notification.student = null;
+                        MyPref.SaveNotification(SplashActivity.this, notification);
+                    } else if (from.contains("parent_" + user.id)) {
+                        student_id = bundle.getString("student_id");
+                        FCMNotification notification = new FCMNotification();
+                        notification.school = false;
+                        notification.student = student_id;
+                        MyPref.SaveNotification(SplashActivity.this, notification);
+                    } else {
+                        MyPref.SaveNotification(SplashActivity.this, null);
+                    }
+                }else {
+                    MyPref.SaveNotification(SplashActivity.this, null);
+                }
+            }
+        }
 
         AnimationDrawable frameAnimation = new AnimationDrawable();
         frameAnimation.addFrame(getResources().getDrawable(R.drawable._1), duration);

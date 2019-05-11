@@ -9,8 +9,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.Student;
+import com.bincee.parent.helper.MyPref;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +42,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String body = remoteMessage.getNotification().getBody();
         String title = remoteMessage.getNotification().getTitle();
         String tag = remoteMessage.getNotification().getTag();
+        String from = remoteMessage.getFrom();
+        FCMNotification notification = new FCMNotification();
+        LoginResponse.User user = MyPref.GET_USER(this);
+        if (from.contains("school_" + user.parentCompleteInfo.schoolId)) {
+            notification.school = true;
+            notification.student = null;
+        } else if (from.contains("parent_" + user.id)) {
+            notification.school = false;
+            notification.student = remoteMessage.getData().get("student_id");
+            String s = "";
+        } else {
+        }
+        MyApp.fcmNotificationrMutableLiveData.postValue(notification);
+//        MyPref.SaveNotification(this, notification);
         String bodyLocalizationKey = remoteMessage.getNotification().getBodyLocalizationKey();
         String[] bodyLocalizationArgs = remoteMessage.getNotification().getBodyLocalizationArgs();
 

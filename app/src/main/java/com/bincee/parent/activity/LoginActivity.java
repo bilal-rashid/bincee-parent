@@ -134,9 +134,6 @@ public class LoginActivity extends BA {
                 .subscribeWith(new EndpointObserver<LoginResponse>() {
                     @Override
                     public void onComplete() {
-
-                        progressBar.setVisibility(View.GONE);
-
                     }
 
                     @Override
@@ -155,8 +152,6 @@ public class LoginActivity extends BA {
                             MyApp.instance.user.setValue(response.data);
                             String parentId = String.valueOf(MyApp.instance.user.getValue().id);
                             callForParentData(parentId);
-                            saveTokenToFirebase();
-
 
                         } else {
 
@@ -178,6 +173,13 @@ public class LoginActivity extends BA {
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("parent_"+MyApp.instance.user.getValue().id)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+        FirebaseMessaging.getInstance().subscribeToTopic("school_"+MyApp.instance.user.getValue().parentCompleteInfo.schoolId)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -233,6 +235,7 @@ public class LoginActivity extends BA {
                         if (response.status == 200) {
 
                             MyApp.instance.user.getValue().parentCompleteInfo = response.data;
+                            saveTokenToFirebase();
                             HomeActivity.start(LoginActivity.this);
                             MyPref.SAVE_USER(LoginActivity.this, MyApp.instance.user.getValue());
                             if (checkBox.isChecked()) {
