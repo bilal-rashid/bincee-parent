@@ -18,9 +18,11 @@ import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.base.BFragment;
 import com.bincee.parent.customview.MyProgress;
+import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
 import com.google.android.material.tabs.TabLayout;
 
@@ -219,5 +221,13 @@ public class AlertsFragment extends BFragment {
 
             }
         });
+        FCMNotification notificationFromTray = MyPref.GetNotification(getContext());
+        if (notificationFromTray != null) {
+            if (!notificationFromTray.school && notificationFromTray.student != null) {
+                viewPager.setCurrentItem(0);
+            }else {
+                viewPager.setCurrentItem(1);
+            }
+        }
     }
 }

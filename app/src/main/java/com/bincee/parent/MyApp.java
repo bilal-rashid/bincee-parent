@@ -13,6 +13,7 @@ import com.androidnetworking.gsonparserfactory.GsonParserFactory;
 import com.bincee.parent.api.EndPoints;
 import com.bincee.parent.api.model.AlertsModel;
 import com.bincee.parent.api.model.AnnouncementModel;
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.helper.MyPref;
 import com.google.gson.Gson;
@@ -38,6 +39,7 @@ public class MyApp extends Application {
     public Gson gson;
 
     public MutableLiveData<LoginResponse.User> user = new MutableLiveData<>();
+    public static  MutableLiveData<FCMNotification> fcmNotificationrMutableLiveData = new MutableLiveData<>();
 
     public List<AnnouncementModel.SingleAnnouncement> announcementList = new ArrayList<>();
     public List<AlertsModel.EnclosingData> alertList = new ArrayList<>();

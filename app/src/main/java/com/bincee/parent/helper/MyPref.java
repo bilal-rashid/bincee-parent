@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.bincee.parent.activity.LoginActivity;
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.api.model.LoginResponse;
 import com.google.gson.Gson;
 
@@ -14,7 +15,24 @@ public class MyPref {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     private static final String REMEMBER_ME = "remember_me";
-
+    private static final String FCM_NOTIFICATION = "fcm_notification";
+    public static void SaveNotification(Context context, FCMNotification notification) {
+        SharedPreferences sharedPref = getSharedPref(context);
+        if(notification == null){
+            sharedPref.edit().putString(FCM_NOTIFICATION, null).apply();
+            return;
+        }
+        sharedPref.edit().putString(FCM_NOTIFICATION, new Gson().toJson(notification)).apply();
+    }
+    public static FCMNotification GetNotification(Context context) {
+        SharedPreferences sharedPref = getSharedPref(context);
+        String jsonNotification = sharedPref.getString(FCM_NOTIFICATION, null);
+        FCMNotification notification = null;
+        if (jsonNotification != null) {
+            notification = new Gson().fromJson(jsonNotification, FCMNotification.class);
+        }
+        return notification;
+    }
 
     public static void SAVE_USER(Context loginActivity, LoginResponse.User user) {
         SharedPreferences sharedPref = getSharedPref(loginActivity);

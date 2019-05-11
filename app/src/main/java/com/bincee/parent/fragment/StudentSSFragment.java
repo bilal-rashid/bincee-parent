@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bincee.parent.HomeActivity;
 import com.bincee.parent.MyApp;
 import com.bincee.parent.R;
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.api.model.LoginResponse;
 import com.bincee.parent.api.model.ParentCompleteData;
 import com.bincee.parent.api.model.Ride;
 import com.bincee.parent.api.model.Student;
 import com.bincee.parent.dialog.DriverInformationDialog;
 import com.bincee.parent.helper.ImageBinder;
+import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.helper.PermissionHelper;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -244,6 +247,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
         return view;
     }
 
+    private Handler handler = new Handler();
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -261,6 +265,26 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
                 }
 
+            }
+        });
+        MyApp.fcmNotificationrMutableLiveData.observe(this,new Observer<FCMNotification>() {
+            @Override
+            public void onChanged(FCMNotification notification) {
+                if(notification != null) {
+                    MyPref.SaveNotification(getContext(), notification);
+                    if (!notification.school && notification.student != null) {
+                        setCurrentStudent(Integer.parseInt(notification.student));
+                    }
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((HomeActivity) getActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
+                        }
+                    }, 1000);
+
+
+                    MyApp.fcmNotificationrMutableLiveData.postValue(null);
+                }
             }
         });
 
@@ -334,6 +358,25 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             }
         });
 
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FCMNotification notificationFromTray = MyPref.GetNotification(getContext());
+                if (notificationFromTray != null) {
+                    if (!notificationFromTray.school && notificationFromTray.student != null) {
+                        setCurrentStudent(Integer.parseInt(notificationFromTray.student));
+                    }
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ((HomeActivity) getActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
+                            }catch (Exception e){}
+                        }
+                    }, 500);
+                }
+            }
+        },500);
 
 //        showReachedFragemnt();
     }

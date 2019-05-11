@@ -2,6 +2,7 @@ package com.bincee.parent.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bincee.parent.R;
 import com.bincee.parent.api.model.AlertsModel;
+import com.bincee.parent.api.model.FCMNotification;
 import com.bincee.parent.dialog.AlertDialog;
 import com.bincee.parent.helper.MyPref;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,7 +44,22 @@ public class AlertsVPFragment extends Fragment {
 
     public AlertsVPFragment setAlerts(List<AlertsModel.EnclosingData> alertList) {
         this.alertList = alertList;
+        Collections.reverse(alertList);
         adapter.notifyDataSetChanged();
+        FCMNotification notificationFromTray = MyPref.GetNotification(getContext());
+        if (notificationFromTray != null) {
+            if (!notificationFromTray.school && notificationFromTray.student != null) {
+            }else {
+                MyPref.SaveNotification(getContext(),null);
+                final int pos = 0;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recycleView.findViewHolderForAdapterPosition(pos).itemView.performClick();
+                    }
+                },1);
+            }
+        }
 
         return this;
     }
