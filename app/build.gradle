@@ -9,8 +9,8 @@ android {
         applicationId "com.bincee.parent"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "Bincee-Parent-$versionName")
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "fe0d56a953a94d87b88ef109f685a93f"]
