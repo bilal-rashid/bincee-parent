@@ -118,7 +118,7 @@ public class LoginActivity extends BA {
     @Override
     protected void onResume() {
         super.onResume();
-        checkForCrashes();
+//        checkForCrashes();
     }
     @OnClick(R.id.buttonLogin)
     public void onViewClicked() {
@@ -154,8 +154,7 @@ public class LoginActivity extends BA {
                             callForParentData(parentId);
 
                         } else {
-
-
+                            progressBar.setVisibility(View.GONE);
                             MyApp.showToast(response.data.message);
                         }
                     }
