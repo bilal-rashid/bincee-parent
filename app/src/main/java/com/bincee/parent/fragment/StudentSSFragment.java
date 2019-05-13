@@ -267,23 +267,27 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
             }
         });
-        MyApp.fcmNotificationrMutableLiveData.observe(this,new Observer<FCMNotification>() {////ewweewerwer
+        MyApp.fcmNotificationrMutableLiveData.observe(this,new Observer<FCMNotification>() {
             @Override
             public void onChanged(FCMNotification notification) {
                 if(notification != null) {
-                    MyPref.SaveNotification(getContext(), notification);
-                    if (!notification.school && notification.student != null) {//fff
-                        setCurrentStudent(Integer.parseInt(notification.student));
-                    }
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((HomeActivity) getActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
+                    if(notification.school!=null ) {
+                        MyPref.SaveNotification(getContext(), notification);
+                        if (!notification.school && notification.student != null) {
+                            setCurrentStudent(Integer.parseInt(notification.student));
                         }
-                    }, 1000);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ((HomeActivity) getActivity()).binding.bottomNavigationView.setSelectedItemId(R.id.bottmnavigation_alerts);
+                            }
+                        }, 1000);
 
 
-                    MyApp.fcmNotificationrMutableLiveData.postValue(null);
+                        MyApp.fcmNotificationrMutableLiveData.postValue(null);
+                    }else{
+                        MyPref.SaveNotification(getContext(), null);
+                    }
                 }
             }
         });
@@ -362,7 +366,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             @Override
             public void run() {
                 FCMNotification notificationFromTray = MyPref.GetNotification(getContext());
-                if (notificationFromTray != null) {
+                if (notificationFromTray != null && notificationFromTray.school!=null) {
                     if (!notificationFromTray.school && notificationFromTray.student != null) {
                         setCurrentStudent(Integer.parseInt(notificationFromTray.student));
                     }
@@ -374,6 +378,8 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                             }catch (Exception e){}
                         }
                     }, 500);
+                }else{
+                    MyPref.SaveNotification(getContext(), null);
                 }
             }
         },500);

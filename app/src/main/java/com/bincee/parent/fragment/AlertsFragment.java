@@ -223,10 +223,14 @@ public class AlertsFragment extends BFragment {
         });
         FCMNotification notificationFromTray = MyPref.GetNotification(getContext());
         if (notificationFromTray != null) {
-            if (!notificationFromTray.school && notificationFromTray.student != null) {
-                viewPager.setCurrentItem(0);
-            }else {
-                viewPager.setCurrentItem(1);
+            if(notificationFromTray.school!=null) {
+                if (!notificationFromTray.school && notificationFromTray.student != null) {
+                    viewPager.setCurrentItem(0);
+                } else {
+                    viewPager.setCurrentItem(1);
+                }
+            }else{
+                MyPref.SaveNotification(getContext(), null);
             }
         }
     }

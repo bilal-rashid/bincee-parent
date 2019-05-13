@@ -48,16 +48,20 @@ public class AlertsVPFragment extends Fragment {
         adapter.notifyDataSetChanged();
         FCMNotification notificationFromTray = MyPref.GetNotification(getContext());
         if (notificationFromTray != null) {
-            if (!notificationFromTray.school && notificationFromTray.student != null) {
-            }else {
-                MyPref.SaveNotification(getContext(),null);
-                final int pos = 0;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recycleView.findViewHolderForAdapterPosition(pos).itemView.performClick();
-                    }
-                },1);
+            if(notificationFromTray.school!=null) {
+                if (!notificationFromTray.school && notificationFromTray.student != null) {
+                } else {
+                    MyPref.SaveNotification(getContext(), null);
+                    final int pos = 0;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recycleView.findViewHolderForAdapterPosition(pos).itemView.performClick();
+                        }
+                    }, 1);
+                }
+            }else{
+                MyPref.SaveNotification(getContext(), null);
             }
         }
 
