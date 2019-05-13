@@ -267,12 +267,12 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
             }
         });
-        MyApp.fcmNotificationrMutableLiveData.observe(this,new Observer<FCMNotification>() {
+        MyApp.fcmNotificationrMutableLiveData.observe(this,new Observer<FCMNotification>() {////ewweewerwer
             @Override
             public void onChanged(FCMNotification notification) {
                 if(notification != null) {
                     MyPref.SaveNotification(getContext(), notification);
-                    if (!notification.school && notification.student != null) {
+                    if (!notification.school && notification.student != null) {//fff
                         setCurrentStudent(Integer.parseInt(notification.student));
                     }
                     handler.postDelayed(new Runnable() {
