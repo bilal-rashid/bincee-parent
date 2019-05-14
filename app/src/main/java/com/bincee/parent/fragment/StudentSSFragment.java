@@ -49,6 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.bincee.parent.activity.MapActivity.REQUEST_CODE;
+import static com.bincee.parent.helper.BinceeConstants.THRESHOLD_ETA;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -452,8 +453,14 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
 
         imageViewStatusIcon.setVisibility(View.VISIBLE);
         if (student.duration != null && student.duration > 0) {
-            textViewETA.setText(String.format("ETA: %d min", Math.round(student.duration)));
+            if(student.duration <= THRESHOLD_ETA){
+                textViewETA.setVisibility(View.VISIBLE);
+                textViewETA.setText(String.format("ETA: %d min", Math.round(student.duration)));
+            } else {
+                textViewETA.setVisibility(View.GONE);
+            }
         } else {
+            textViewETA.setVisibility(View.GONE);
 //            textViewETA.setText(String.format("ETA: %d min", null));
 
         }

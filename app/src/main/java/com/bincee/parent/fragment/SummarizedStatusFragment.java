@@ -33,6 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bincee.parent.helper.BinceeConstants.THRESHOLD_ETA;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -193,8 +195,12 @@ public class SummarizedStatusFragment extends Fragment {
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
                                 checkBox3.setImageResource(R.drawable.checkbox_checked);
-                                textViewETA3.setVisibility(View.VISIBLE);
-                                textViewETA3.setText(DateHelper.toTime(student.duration));
+                                if(student.duration <= THRESHOLD_ETA && student.duration > 0){
+                                    textViewETA3.setVisibility(View.VISIBLE);
+                                    textViewETA3.setText(DateHelper.toTime(student.duration));
+                                } else {
+                                    textViewETA3.setVisibility(View.GONE);
+                                }
 
 
                                 statusTextView1.selected();
@@ -239,8 +245,12 @@ public class SummarizedStatusFragment extends Fragment {
                             case 2:
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
-                                textViewETA2.setVisibility(View.VISIBLE);
-                                textViewETA2.setText(DateHelper.toTime(student.duration));
+                                if(student.duration <= THRESHOLD_ETA && student.duration > 0) {
+                                    textViewETA2.setVisibility(View.VISIBLE);
+                                    textViewETA2.setText(DateHelper.toTime(student.duration));
+                                } else {
+                                    textViewETA2.setVisibility(View.GONE);
+                                }
                                 statusTextView1.selected();
                                 statusTextView2.selected();
 
@@ -287,7 +297,11 @@ public class SummarizedStatusFragment extends Fragment {
 
     public void morningStatuses(Student student) {
         statusTextView1.textViewTitle.setText("Bus is coming");
-        statusTextView1.textViewText.setText("Bus is on its way to pickup " + student.fullname + " and will be there in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        if(student.duration <= THRESHOLD_ETA && student.duration > 0) {
+            statusTextView1.textViewText.setText("Bus is on its way to pickup " + student.fullname + " and will be there in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        } else {
+            statusTextView1.textViewText.setText("Bus is on its way to pickup " + student.fullname);
+        }
         statusTextView1.unSelected();
 
 
@@ -298,7 +312,11 @@ public class SummarizedStatusFragment extends Fragment {
         statusTextView2.unSelected();
 
         statusTextView3.textViewTitle.setText("On the way");
-        statusTextView3.textViewText.setText("Bus is on the way to school and will be there in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        if(student.duration <= THRESHOLD_ETA && student.duration > 0) {
+            statusTextView3.textViewText.setText("Bus is on the way to school and will be there in " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        } else {
+            statusTextView3.textViewText.setText("Bus is on the way to school");
+        }
         statusTextView3.unSelected();
 
         statusTextView4.textViewTitle.setText("Reached");
@@ -325,7 +343,11 @@ public class SummarizedStatusFragment extends Fragment {
         statusTextView1.unSelected();
 
         statusTextView2.textViewTitle.setText("In the bus");
-        statusTextView2.textViewText.setText(student.fullname + " is in the bus and will reach in around  " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        if(student.duration <= THRESHOLD_ETA && student.duration > 0) {
+            statusTextView2.textViewText.setText(student.fullname + " is in the bus and will reach in around  " + (student.duration != null ? Math.round(student.duration) : 0) + " minutes");
+        } else {
+            statusTextView2.textViewText.setText(student.fullname + " is in the bus");
+        }
         statusTextView2.view.setGravity(GravityCompat.END);
         statusTextView2.textViewText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         statusTextView2.unSelected();

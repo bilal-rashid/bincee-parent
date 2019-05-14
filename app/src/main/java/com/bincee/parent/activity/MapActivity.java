@@ -75,6 +75,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.bincee.parent.api.model.ParentCompleteData.KidModel.KID;
+import static com.bincee.parent.helper.BinceeConstants.THRESHOLD_ETA;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
@@ -446,7 +447,11 @@ public class MapActivity extends BA implements OnMapReadyCallback {
     private void setupStudent(Ride ride, Student student) {
 
         textViewName.setText(student.fullname + "");
-        textViewTime.setText("ETA: " + (student.duration != null ? Math.round(student.duration) : 0) + " min");
+        if (student.duration <= THRESHOLD_ETA && student.duration > 0) {
+            textViewTime.setText("ETA: " + (student.duration != null ? Math.round(student.duration) : 0) + " min");
+        } else {
+            textViewTime.setText("");
+        }
         ImageBinder.roundedCornerCenterCorpKid(imageViewPic, student.photo);
 
         if (ride.shift.equalsIgnoreCase(Ride.SHIFT_MORNING)) {
