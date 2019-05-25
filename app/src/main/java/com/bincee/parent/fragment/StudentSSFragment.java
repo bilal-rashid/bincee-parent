@@ -297,6 +297,10 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
             @Override
             public void onChanged(Ride ride) {
 
+                if(currentKid.shiftEvening == null)
+                    currentKid.shiftEvening = -1;
+                if(currentKid.shiftMorning == null)
+                    currentKid.shiftMorning = -1;
                 if (ride != null && (ride.shiftId == currentKid.shiftEvening || ride.shiftId == currentKid.shiftMorning)) {
 
 
