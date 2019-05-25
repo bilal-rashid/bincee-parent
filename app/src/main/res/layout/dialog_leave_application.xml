@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/gotham_book"
-                    android:text="No Bus Ride for " />
+                    android:text="No Bus Ride for :" />
 
                 <CheckBox
 
