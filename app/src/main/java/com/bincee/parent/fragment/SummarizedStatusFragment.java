@@ -179,6 +179,7 @@ public class SummarizedStatusFragment extends Fragment {
                             case 1:
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 statusTextView1.selected();
+                                imageViewBusStauts.setImageResource(R.drawable.status1_bg);
 
                                 break;
                             case 2:
@@ -188,6 +189,7 @@ public class SummarizedStatusFragment extends Fragment {
 
                                 statusTextView1.selected();
                                 statusTextView2.selected();
+                                imageViewBusStauts.setImageResource(R.drawable.status2_bg);
 
 
                                 break;
@@ -202,6 +204,7 @@ public class SummarizedStatusFragment extends Fragment {
                                     textViewETA3.setVisibility(View.GONE);
                                 }
 
+                                imageViewBusStauts.setImageResource(R.drawable.status3_bg);
 
                                 statusTextView1.selected();
                                 statusTextView2.selected();
@@ -213,6 +216,7 @@ public class SummarizedStatusFragment extends Fragment {
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
                                 checkBox3.setImageResource(R.drawable.checkbox_checked);
                                 checkBox4.setImageResource(R.drawable.checkbox_checked);
+                                imageViewBusStauts.setImageResource(R.drawable.status4_bg);
 
                                 statusTextView1.selected();
                                 statusTextView2.selected();
@@ -238,6 +242,7 @@ public class SummarizedStatusFragment extends Fragment {
                         switch (student.status) {
                             case 1:
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
+                                imageViewBusStauts.setImageResource(R.drawable.status4_bg);
 
                                 statusTextView1.selected();
 
@@ -253,6 +258,7 @@ public class SummarizedStatusFragment extends Fragment {
                                 }
                                 statusTextView1.selected();
                                 statusTextView2.selected();
+                                imageViewBusStauts.setImageResource(R.drawable.status3_bg);
 
                                 break;
                             case 3:
@@ -264,12 +270,14 @@ public class SummarizedStatusFragment extends Fragment {
                                 statusTextView1.selected();
                                 statusTextView2.selected();
                                 statusTextView3.selected();
+                                imageViewBusStauts.setImageResource(R.drawable.status2_bg);
                                 break;
                             case 4:
                                 checkBox1.setImageResource(R.drawable.checkbox_checked);
                                 checkBox2.setImageResource(R.drawable.checkbox_checked);
                                 checkBox3.setImageResource(R.drawable.checkbox_checked);
                                 checkBox4.setImageResource(R.drawable.checkbox_checked);
+                                imageViewBusStauts.setImageResource(R.drawable.status2_bg);
 
                                 statusTextView1.selected();
                                 statusTextView2.selected();
