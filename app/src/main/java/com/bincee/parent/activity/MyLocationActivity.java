@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -28,22 +29,30 @@ import com.bincee.parent.api.model.MyResponse;
 import com.bincee.parent.dialog.MyProgressDialog;
 import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.observer.EndpointObserver;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import androidx.core.app.ActivityCompat;
 import butterknife.BindView;
@@ -68,6 +77,9 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
 
     @BindView(R.id.ic_myLocation)
     ImageView mylocationIcon;
+
+    @BindView(R.id.editTextSearchLocation)
+    EditText searchLocation;
     private MapboxMap mapboxMap;
     private PermissionsManager permissionsManager;
     private CompositeDisposable compositeDisposable;
@@ -96,13 +108,57 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+
     }
 
+    int AUTOCOMPLETE_REQUEST_CODE = 1;
     @OnClick(R.id.btnGetLocation)
     public void onGetLocation() {
         enableLocationComponent();
     }
 
+    @OnClick(R.id.editTextSearchLocation)
+    public void onSearchLocation() {
+//        enableLocationComponent();
+// Set the fields to specify which types of place data to
+// return after the user has made a selection.
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG);
+
+// Start the autocomplete intent.
+        Intent intent = new Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this);
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                double latitude = place.getLatLng().latitude;
+                double longitude = place.getLatLng().longitude;
+                searchLocation.setText(place.getName());
+                final int min = 1;
+                final int max = 180;
+                final int random = new Random().nextInt((max - min) + 1) + min;
+                CameraPosition position = new CameraPosition.Builder()
+                        .target(new LatLng(latitude, longitude)) // Sets the new camera position
+                        .zoom(17) // Sets the zoom
+                        .bearing(random) // Rotate the camera
+                        .tilt(30) // Set the camera tilt
+                        .build(); // Creates a CameraPosition from the builder
+
+                mapboxMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(position), 7000);
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
     @OnClick(R.id.buttonSkyBlue)
     public void onViewClicked() {
         LatLng myCameraLocation = new LatLng(0,0);
@@ -227,6 +283,7 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
                 .tilt(0) // Set the camera tilt
                 .build();
         mapboxMap.setCameraPosition(position);
+        enableLocationComponent();
     }
 
     @Override
@@ -337,13 +394,18 @@ public class MyLocationActivity extends AppCompatActivity implements OnMapReadyC
         // New location has now been determined
         loader.setVisibility(View.GONE);
         mylocationIcon.setVisibility(View.VISIBLE);
+        final int min = 1;
+        final int max = 180;
+        final int random = new Random().nextInt((max - min) + 1) + min;
         CameraPosition position = new CameraPosition.Builder()
                 .target(new LatLng(location.getLatitude(), location.getLongitude())) // Sets the new camera position
                 .zoom(17) // Sets the zoom
-                .bearing(180) // Rotate the camera
-                .tilt(0) // Set the camera tilt
-                .build();
-        mapboxMap.setCameraPosition(position);
+                .bearing(random) // Rotate the camera
+                .tilt(30) // Set the camera tilt
+                .build(); // Creates a CameraPosition from the builder
+
+        mapboxMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(position), 4000);
 
     }
 

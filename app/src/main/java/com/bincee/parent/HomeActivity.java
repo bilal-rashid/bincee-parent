@@ -49,6 +49,7 @@ import com.bincee.parent.helper.MyPref;
 import com.bincee.parent.helper.PermissionHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -103,6 +104,8 @@ public class HomeActivity extends BA {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
+
+        Places.initialize(getApplicationContext(), "AIzaSyCIqCUWoNBupsq4oo54hr0Qtfp3AWPA6YE");
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);

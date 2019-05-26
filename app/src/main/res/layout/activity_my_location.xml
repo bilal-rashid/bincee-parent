@@ -41,10 +41,23 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_gps"
+        android:background="#00FFFFFF"
         mapbox:layout_constraintStart_toStartOf="@id/mapView"
         mapbox:layout_constraintTop_toTopOf="@id/mapView"/>
+    <EditText
+        android:id="@+id/editTextSearchLocation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="Enter Location"
+        android:padding="15dip"
+        android:background="@drawable/rounded_white_background"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        mapbox:layout_constraintStart_toEndOf="@+id/btnGetLocation"
+        mapbox:layout_constraintTop_toTopOf="@+id/btnGetLocation"
+        mapbox:layout_constraintBottom_toBottomOf="@+id/btnGetLocation"/>
 
     <LinearLayout
         android:id="@+id/layout_loader"
