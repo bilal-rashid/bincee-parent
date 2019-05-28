@@ -491,7 +491,7 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     break;
                 case Student.STATUS_MORNING_REACHED:
                     textViewStatus.setText("Reached");
-                    enableFIndMe(false);
+
                     imageViewStatusIcon.setVisibility(View.GONE);
                     textViewETA.setText("");
                     break;
@@ -520,7 +520,6 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     break;
                 case Student.STATUS_AFTERNOON_ATYOURDOORSTEP:
                     textViewStatus.setText("At your door step");
-                    enableFIndMe(false);
                     imageViewStatusIcon.setVisibility(View.GONE);
                     textViewETA.setText("");
                     break;
