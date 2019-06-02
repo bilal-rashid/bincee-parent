@@ -111,55 +111,17 @@ public class StudentSSFragment extends Fragment implements EventListener<Documen
                     .setListner(new DriverInformationDialog.Listner() {
                         @Override
                         public void call() {
-                            permissionHelper = new PermissionHelper();
-                            permissionHelper
-                                    .permissionId(88)
-                                    .setListner(new PermissionHelper.PermissionCallback() {
-                                        @Override
-                                        public void onPermissionGranted() {
-                                            Intent intent = new Intent(Intent.ACTION_DIAL);
-                                            intent.setData(Uri.parse("tel:" + currentKid.driver.phoneNo));
-                                            startActivity(intent);
-                                        }
-
-                                        @Override
-                                        public void onPermissionFailed() {
-                                            MyApp.showToast("Permission Required");
-
-                                        }
-                                    }).requiredPermissions(new String[]{Manifest.permission.CALL_PHONE})
-                                    .with(getActivity())
-                                    .request();
-
-
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:" + currentKid.driver.phoneNo));
+                            startActivity(intent);
                         }
 
                         @Override
                         public void cancel() {
-
-                            permissionHelper = new PermissionHelper();
-                            permissionHelper
-                                    .permissionId(89)
-                                    .setListner(new PermissionHelper.PermissionCallback() {
-                                        @Override
-                                        public void onPermissionGranted() {
-
-                                            Uri sms_uri = Uri.parse("smsto:" + currentKid.driver.phoneNo);
-                                            Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
-                                            sms_intent.putExtra("sms_body", "");
-                                            startActivity(sms_intent);
-                                        }
-
-                                        @Override
-                                        public void onPermissionFailed() {
-                                            MyApp.showToast("Permission Required");
-
-                                        }
-                                    }).requiredPermissions(new String[]{Manifest.permission.SEND_SMS})
-                                    .with(getActivity())
-                                    .request();
-
-
+                            Uri sms_uri = Uri.parse("smsto:" + currentKid.driver.phoneNo);
+                            Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+                            sms_intent.putExtra("sms_body", "");
+                            startActivity(sms_intent);
                         }
                     })
                     .show();
